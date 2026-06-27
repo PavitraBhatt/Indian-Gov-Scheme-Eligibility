@@ -700,5 +700,179 @@
     "processing_days": "30-60",
     "tags": ["senior_disability", "pension", "disability", "bpl"],
     "state_specific": false
+  },
+  {
+    "id": "pm_kusum",
+    "name_en": "PM-KUSUM (Solar Pump Scheme)",
+    "name_hi": "पीएम कुसुम योजना",
+    "name_gu": "PM કુસુમ યોજna",
+    "ministry": "Ministry of New and Renewable Energy",
+    "category": "agriculture",
+    "benefit_en": "Up to 60% subsidy on solar pumps + sell surplus solar power to grid",
+    "benefit_amount": 100000,
+    "apply_link": "https://pmkusum.mnre.gov.in",
+    "eligibility": {
+      "states": "all",
+      "occupation": ["farmer"],
+      "land_min_acres": 0.1
+    },
+    "documents": ["Aadhaar card", "Land records", "Bank passbook", "Electricity bill (if grid-connected)"],
+    "steps_en": [
+      "Apply at state nodal agency or pmkusum.mnre.gov.in",
+      "Select component (standalone pump / grid pump / solar plant)",
+      "Submit land records and bank details",
+      "Pay farmer share (around 40%)",
+      "Solar pump installed by empanelled vendor"
+    ],
+    "rejection_reasons": ["No land records", "Already has subsidised pump", "Quota exhausted for the year"],
+    "scam_note": "Subsidy is credited directly. Use only empanelled vendors. Report fraud at 1800-180-3333.",
+    "processing_days": "60-120",
+    "tags": ["agriculture", "solar", "farmer", "subsidy", "irrigation"],
+    "state_specific": false
+  },
+  {
+    "id": "soil_health_card",
+    "name_en": "Soil Health Card Scheme",
+    "name_hi": "मृदा स्वास्थ्य कार्ड योजना",
+    "name_gu": "મૃદા આરોગ્ય કાર્ડ યોજna",
+    "ministry": "Ministry of Agriculture & Farmers Welfare",
+    "category": "agriculture",
+    "benefit_en": "Free soil testing + crop-wise nutrient and fertiliser recommendations",
+    "benefit_amount": 0,
+    "apply_link": "https://soilhealth.dac.gov.in",
+    "eligibility": {
+      "states": "all",
+      "occupation": ["farmer"],
+      "land_min_acres": 0.1
+    },
+    "documents": ["Aadhaar card", "Land records"],
+    "steps_en": [
+      "Contact local Krishi Vigyan Kendra or agriculture office",
+      "Provide soil sample from your field",
+      "Sample tested free at government lab",
+      "Receive Soil Health Card with recommendations",
+      "Apply fertiliser as advised to save costs"
+    ],
+    "rejection_reasons": ["No agricultural land"],
+    "scam_note": "Soil testing is completely free under this scheme. No charges.",
+    "processing_days": "30-45",
+    "tags": ["agriculture", "soil", "farmer", "free"],
+    "state_specific": false
+  },
+  {
+    "id": "enam",
+    "name_en": "eNAM (Electronic National Agriculture Market)",
+    "name_hi": "ई-नाम राष्ट्रीय कृषि बाजार",
+    "name_gu": "eNAM રાષ્ટ્રીય ક્રિષિ બજાર",
+    "ministry": "Ministry of Agriculture & Farmers Welfare",
+    "category": "agriculture",
+    "benefit_en": "Sell crops online to buyers across India for better prices, no middlemen",
+    "benefit_amount": 0,
+    "apply_link": "https://enam.gov.in",
+    "eligibility": {
+      "states": "all",
+      "occupation": ["farmer"]
+    },
+    "documents": ["Aadhaar card", "Bank passbook", "Mobile number"],
+    "steps_en": [
+      "Register at enam.gov.in or nearest eNAM mandi",
+      "Get registered with local APMC mandi",
+      "Bring produce to mandi for quality assaying",
+      "Accept best online bid from buyers",
+      "Payment credited directly to bank account"
+    ],
+    "rejection_reasons": ["Mandi not eNAM-integrated", "No bank account"],
+    "scam_note": "eNAM registration is free. Payment comes directly to your bank. No commission agents.",
+    "processing_days": "Same day trading",
+    "tags": ["agriculture", "market", "farmer", "trade"],
+    "state_specific": false
+  },
+  {
+    "id": "pm_krishi_sinchai",
+    "name_en": "PM Krishi Sinchai Yojana (Per Drop More Crop)",
+    "name_hi": "प्रधानमंत्री कृषि सिंचाई योजना",
+    "name_gu": "પ્રધાનમંત્રી ક્રિષિ સિંચાઈ યોજna",
+    "ministry": "Ministry of Agriculture & Farmers Welfare",
+    "category": "agriculture",
+    "benefit_en": "Subsidy on drip and sprinkler micro-irrigation systems (45-55%)",
+    "benefit_amount": 50000,
+    "apply_link": "https://pmksy.gov.in",
+    "eligibility": {
+      "states": "all",
+      "occupation": ["farmer"],
+      "land_min_acres": 0.1
+    },
+    "documents": ["Aadhaar card", "Land records", "Bank passbook", "Photo"],
+    "steps_en": [
+      "Apply at state agriculture/horticulture department or pmksy.gov.in",
+      "Select drip or sprinkler system",
+      "Field verification by department",
+      "Install system through approved vendor",
+      "Subsidy credited to bank after inspection"
+    ],
+    "rejection_reasons": ["No land records", "Annual subsidy quota exhausted"],
+    "scam_note": "Subsidy goes to your bank directly. Use approved vendors only.",
+    "processing_days": "45-90",
+    "tags": ["agriculture", "irrigation", "farmer", "subsidy"],
+    "state_specific": false
+  },
+  {
+    "id": "pm_kisan_maandhan",
+    "name_en": "PM Kisan Maandhan Yojana (Farmer Pension)",
+    "name_hi": "प्रधानमंत्री किसान मानधन योजना",
+    "name_gu": "પ્રધાનમંત્રી કિસાન માનધન યોજna",
+    "ministry": "Ministry of Agriculture & Farmers Welfare",
+    "category": "agriculture",
+    "benefit_en": "Rs 3,000 per month pension after age 60 for small and marginal farmers",
+    "benefit_amount": 36000,
+    "apply_link": "https://maandhan.in",
+    "eligibility": {
+      "states": "all",
+      "occupation": ["farmer"],
+      "age_min": 18,
+      "age_max": 40,
+      "land_min_acres": 0.1
+    },
+    "documents": ["Aadhaar card", "Bank passbook", "Land records"],
+    "steps_en": [
+      "Visit nearest CSC centre with Aadhaar and bank details",
+      "Enrol in PM Kisan Maandhan Yojana",
+      "Pay small monthly contribution (Rs 55-200 by age)",
+      "Government contributes equal amount",
+      "Pension of Rs 3,000/month starts at age 60"
+    ],
+    "rejection_reasons": ["Age above 40", "Large farmer (over 2 hectares)", "Income tax payer"],
+    "scam_note": "Enrol free at CSC. Contribution auto-debited. No middleman fee.",
+    "processing_days": "Immediate enrolment",
+    "tags": ["agriculture", "pension", "farmer", "social_security"],
+    "state_specific": false
+  },
+  {
+    "id": "livestock_insurance",
+    "name_en": "National Livestock Mission - Livestock Insurance",
+    "name_hi": "पशुधन बीमा योजना",
+    "name_gu": "પશુધન વીમા યોજna",
+    "ministry": "Ministry of Fisheries, Animal Husbandry and Dairying",
+    "category": "agriculture",
+    "benefit_en": "Subsidised insurance for cattle, buffalo, sheep, goat, pig against death",
+    "benefit_amount": 30000,
+    "apply_link": "https://dahd.nic.in",
+    "eligibility": {
+      "states": "all",
+      "occupation": ["farmer"]
+    },
+    "documents": ["Aadhaar card", "Animal ownership proof", "Bank passbook"],
+    "steps_en": [
+      "Contact nearest veterinary office or animal husbandry department",
+      "Get animal health checked and tagged",
+      "Pay subsidised premium (govt pays up to 50%)",
+      "Animal insured for market value",
+      "Claim on animal death with vet certificate"
+    ],
+    "rejection_reasons": ["Animal already insured", "No ear-tag identification"],
+    "scam_note": "Pay only the subsidised premium share. Government covers the rest.",
+    "processing_days": "15-30",
+    "tags": ["agriculture", "livestock", "insurance", "farmer"],
+    "state_specific": false
   }
 ]
