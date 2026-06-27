@@ -1,0 +1,13 @@
+{
+  "enabledMcpjsonServers": ["github"],
+  "permissions": {
+    "allow": [
+      "Bash(python *)",
+      "Bash(pip *)",
+      "Bash(pytest *)",
+      "Bash(uvicorn *)",
+      "Bash(git *)",
+      "Bash(gh *)"
+    ]
+  }
+}
