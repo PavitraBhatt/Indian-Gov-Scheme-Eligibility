@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Indian Gov Scheme Eligibility Checker | સરકારી યોજना ચેકર</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  .step{display:none}.step.active{display:block}
+  .scheme-card{border-left:4px solid #16a34a}
+  .scam-alert{border-left:4px solid #dc2626}
+  .lang-btn.active{background:#1d4ed8;color:white}
+</style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+<!-- HEADER -->
+<header class="bg-blue-900 text-white py-4 px-4 shadow">
+  <div class="max-w-2xl mx-auto flex justify-between items-center">
+    <div>
+      <h1 class="text-xl font-bold" id="h-title">Scheme Eligibility Checker</h1>
+      <p class="text-blue-200 text-sm" id="h-sub">Find all government schemes you qualify for</p>
+    </div>
+    <div class="flex gap-1">
+      <button onclick="setLang('en')" class="lang-btn active text-xs px-2 py-1 rounded border border-blue-300">EN</button>
+      <button onclick="setLang('hi')" class="lang-btn text-xs px-2 py-1 rounded border border-blue-300">हि</button>
+      <button onclick="setLang('gu')" class="lang-btn text-xs px-2 py-1 rounded border border-blue-300">ગુ</button>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-4 py-6">
+
+  <!-- PROGRESS BAR -->
+  <div id="progress-wrap" class="mb-6">
+    <div class="flex justify-between text-xs text-gray-500 mb-1">
+      <span id="step-label">Step 1 of 10</span>
+      <span id="pct-label">10%</span>
+    </div>
+    <div class="h-2 bg-gray-200 rounded-full">
+      <div id="progress-bar" class="h-2 bg-blue-600 rounded-full transition-all" style="width:10%"></div>
+    </div>
+  </div>
+
+  <!-- FORM STEPS -->
+  <div id="form-container">
+
+    <!-- Step 1: State -->
+    <div class="step active" id="step-1">
+      <div class="bg-white rounded-xl shadow p-6">
+        <p class="text-xs text-blue-600 font-semibold uppercase mb-1" id="q1-tag">Location</p>
+        <h2 class="text-lg font-bold text-gray-800 mb-4" id="q1">Which state do you live in?</h2>
+        <select id="f-state" class="w-full border rounded-lg p-3 text-gray-700 focus:ring-2 focus:ring-blue-500">
+          <option value="">-- Select State --</option>
+          <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option>
+          <option>Bihar</option><option>Chhattisgarh</option><option>Goa</option>
+          <option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option>
+          <option>Jharkhand</option><option>Karnataka</option><option>Kerala</option>
+          <option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option>
+          <option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option>
+          <option>Odisha</option><option>Punjab</option><option>Rajasthan</option>
+          <option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option>
+          <option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option>
+          <option>West Bengal</option><option>Delhi</option><option>Jammu and Kashmir</option>
+        </select>
+        <button onclick="nextStep()" class="mt-4 w-full bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800" id="btn-next-1">Next →</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Age -->
+    <div class="step" id="step-2">
+      <div class="bg-white rounded-xl shadow p-6">
+        <p class="text-xs text-blue-600 font-semibold uppercase mb-1" id="q2-tag">Personal</p>
+        <h2 class="text-lg font-bold text-gray-800 mb-4" id="q2">How old are you?</h2>
+        <input type="number" id="f-age" min="1" max="120" placeholder="Enter your age"
+          class="w-full border rounded-lg p-3 text-gray-700 focus:ring-2 focus:ring-blue-500"/>
+        <div class="flex gap-2 mt-4">
+          <button onclick="prevStep()" class="flex-1 border border-gray-300 text-gray-600 py-3 rounded-lg font-semibold">← Back</button>
+          <button onclick="nextStep()" class="flex-1 bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Gender -->
+    <div class="step" id="step-3">
+      <div class="bg-white rounded-xl shadow p-6">
+        <p class="text-xs text-blue-600 font-semibold uppercase mb-1">Personal</p>
+        <h2 class="text-lg font-bold text-gray-800 mb-4" id="q3">What is your gender?</h2>
+        <div class="grid grid-cols-3 gap-3">
+          <button onclick="selectOption('f-gender','Male',this)" data-val="Male"
+            class="opt-btn border-2 border-gray-200 rounded-lg p-3 text-center hover:border-blue-500 font-medium">
+            👨 <span id="g-male">Male</span>
+          </button>
+          <button onclick="selectOption('f-gender','Female',this)" data-val="Female"
+            class="opt-btn border-2 border-gray-200 rounded-lg p-3 text-center hover:border-blue-500 font-medium">
+            👩 <span id="g-female">Female</span>
+          </button>
+          <button onclick="selectOption('f-gender','Other',this)" data-val="Other"
+            class="opt-btn border-2 border-gray-200 rounded-lg p-3 text-center hover:border-blue-500 font-medium">
+            🧑 <span id="g-other">Other</span>
+          </button>
+        </div>
+        <input type="hidden" id="f-gender"/>
+        <div class="flex gap-2 mt-4">
+          <button onclick="prevStep()" class="flex-1 border border-gray-300 text-gray-600 py-3 rounded-lg font-semibold">← Back</button>
+          <button onclick="nextStep()" class="flex-1 bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Caste -->
+    <div class="step" id="step-4">
+      <div class="bg-white rounded-xl shadow p-6">
+        <p class="text-xs text-blue-600 font-semibold uppercase mb-1">Category</p>
+        <h2 class="text-lg font-bold text-gray-800 mb-4" id="q4">What is your caste category?</h2>
+        <div class="grid grid-cols-2 gap-3">
+          <button onclick="selectOption('f-caste','General',this)" class="opt-btn border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">General</button>
+          <button onclick="selectOption('f-caste','OBC',this)" class="opt-btn border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">OBC</button>
+          <button onclick="selectOption('f-caste','SC',this)" class="opt-btn border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">SC</button>
+          <button onclick="selectOption('f-caste','ST',this)" class="opt-btn border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">ST</button>
+          <button onclick="selectOption('f-caste','EWS',this)" class="opt-btn border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">EWS</button>
+          <button onclick="selectOption('f-caste','Minority',this)" class="opt-btn border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">Minority</button>
+        </div>
+        <input type="hidden" id="f-caste"/>
+        <div class="flex gap-2 mt-4">
+          <button onclick="prevStep()" class="flex-1 border border-gray-300 text-gray-600 py-3 rounded-lg font-semibold">← Back</button>
+          <button onclick="nextStep()" class="flex-1 bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5: Income -->
+    <div class="step" id="step-5">
+      <div class="bg-white rounded-xl shadow p-6">
+        <p class="text-xs text-blue-600 font-semibold uppercase mb-1">Finances</p>
+        <h2 class="text-lg font-bold text-gray-800 mb-4" id="q5">Annual household income?</h2>
+        <div class="space-y-2">
+          <button onclick="selectOption('f-income','24000',this)" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">Below Rs 24,000 / year</button>
+          <button onclick="selectOption('f-income','60000',this)" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">Rs 24,001 – 60,000</button>
+          <button onclick="selectOption('f-income','120000',this)" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">Rs 60,001 – 1,20,000</button>
+          <button onclick="selectOption('f-income','200000',this)" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">Rs 1,20,001 – 2,00,000</button>
+          <button onclick="selectOption('f-income','500000',this)" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">Rs 2,00,001 – 5,00,000</button>
+          <button onclick="selectOption('f-income','800001',this)" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">Above Rs 5,00,000</button>
+        </div>
+        <input type="hidden" id="f-income"/>
+        <div class="flex gap-2 mt-4">
+          <button onclick="prevStep()" class="flex-1 border border-gray-300 text-gray-600 py-3 rounded-lg font-semibold">← Back</button>
+          <button onclick="nextStep()" class="flex-1 bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 6: Occupation -->
+    <div class="step" id="step-6">
+      <div class="bg-white rounded-xl shadow p-6">
+        <p class="text-xs text-blue-600 font-semibold uppercase mb-1">Work</p>
+        <h2 class="text-lg font-bold text-gray-800 mb-4" id="q6">Primary occupation?</h2>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="selectOption('f-occ','farmer',this)" class="opt-btn border-2 border-gray-200 rounded-lg p-3 text-sm hover:border-blue-500">🌾 Farmer</button>
+          <button onclick="selectOption('f-occ','daily_wage',this)" class="opt-btn border-2 border-gray-200 rounded-lg p-3 text-sm hover:border-blue-500">🔨 Daily Wage</button>
+          <button onclick="selectOption('f-occ','self_employed',this)" class="opt-btn border-2 border-gray-200 rounded-lg p-3 text-sm hover:border-blue-500">🏪 Self Employed</button>
+          <button onclick="selectOption('f-occ','salaried',this)" class="opt-btn border-2 border-gray-200 rounded-lg p-3 text-sm hover:border-blue-500">💼 Salaried</button>
+          <button onclick="selectOption('f-occ','artisan',this)" class="opt-btn border-2 border-gray-200 rounded-lg p-3 text-sm hover:border-blue-500">🪡 Artisan</button>
+          <button onclick="selectOption('f-occ','student',this)" class="opt-btn border-2 border-gray-200 rounded-lg p-3 text-sm hover:border-blue-500">📚 Student</button>
+          <button onclick="selectOption('f-occ','unemployed',this)" class="opt-btn border-2 border-gray-200 rounded-lg p-3 text-sm hover:border-blue-500">Unemployed</button>
+          <button onclick="selectOption('f-occ','homemaker',this)" class="opt-btn border-2 border-gray-200 rounded-lg p-3 text-sm hover:border-blue-500">🏠 Homemaker</button>
+        </div>
+        <input type="hidden" id="f-occ"/>
+        <div class="flex gap-2 mt-4">
+          <button onclick="prevStep()" class="flex-1 border border-gray-300 text-gray-600 py-3 rounded-lg font-semibold">← Back</button>
+          <button onclick="nextStep()" class="flex-1 bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 7: Land -->
+    <div class="step" id="step-7">
+      <div class="bg-white rounded-xl shadow p-6">
+        <p class="text-xs text-blue-600 font-semibold uppercase mb-1">Agriculture</p>
+        <h2 class="text-lg font-bold text-gray-800 mb-4" id="q7">Do you own agricultural land?</h2>
+        <div class="space-y-2 mb-4">
+          <button onclick="selectOption('f-has-land','yes',this);document.getElementById('land-acres-wrap').style.display='block'" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">✅ Yes, I own land</button>
+          <button onclick="selectOption('f-has-land','no',this);document.getElementById('land-acres-wrap').style.display='none'" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">❌ No land</button>
+        </div>
+        <input type="hidden" id="f-has-land"/>
+        <div id="land-acres-wrap" style="display:none">
+          <label class="text-sm text-gray-600">How many acres?</label>
+          <input type="number" id="f-land" min="0.1" step="0.1" placeholder="e.g. 2.5"
+            class="w-full border rounded-lg p-3 mt-1 focus:ring-2 focus:ring-blue-500"/>
+        </div>
+        <div class="flex gap-2 mt-4">
+          <button onclick="prevStep()" class="flex-1 border border-gray-300 text-gray-600 py-3 rounded-lg font-semibold">← Back</button>
+          <button onclick="nextStep()" class="flex-1 bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 8: BPL -->
+    <div class="step" id="step-8">
+      <div class="bg-white rounded-xl shadow p-6">
+        <p class="text-xs text-blue-600 font-semibold uppercase mb-1">Documents</p>
+        <h2 class="text-lg font-bold text-gray-800 mb-4" id="q8">Do you have a BPL (Below Poverty Line) ration card?</h2>
+        <div class="space-y-2">
+          <button onclick="selectOption('f-bpl','yes',this)" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">✅ Yes — I have BPL / Antyodaya / yellow ration card</button>
+          <button onclick="selectOption('f-bpl','no',this)" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">❌ No BPL card</button>
+        </div>
+        <input type="hidden" id="f-bpl"/>
+        <div class="flex gap-2 mt-4">
+          <button onclick="prevStep()" class="flex-1 border border-gray-300 text-gray-600 py-3 rounded-lg font-semibold">← Back</button>
+          <button onclick="nextStep()" class="flex-1 bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 9: Disability -->
+    <div class="step" id="step-9">
+      <div class="bg-white rounded-xl shadow p-6">
+        <p class="text-xs text-blue-600 font-semibold uppercase mb-1">Health</p>
+        <h2 class="text-lg font-bold text-gray-800 mb-4" id="q9">Are you a person with disability (40%+)?</h2>
+        <div class="space-y-2">
+          <button onclick="selectOption('f-disabled','yes',this)" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">✅ Yes — I have 40%+ disability certificate</button>
+          <button onclick="selectOption('f-disabled','no',this)" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">❌ No</button>
+        </div>
+        <input type="hidden" id="f-disabled"/>
+        <div class="flex gap-2 mt-4">
+          <button onclick="prevStep()" class="flex-1 border border-gray-300 text-gray-600 py-3 rounded-lg font-semibold">← Back</button>
+          <button onclick="nextStep()" class="flex-1 bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 10: Widow -->
+    <div class="step" id="step-10">
+      <div class="bg-white rounded-xl shadow p-6">
+        <p class="text-xs text-blue-600 font-semibold uppercase mb-1">Family Status</p>
+        <h2 class="text-lg font-bold text-gray-800 mb-4" id="q10">Are you a widow?</h2>
+        <div class="space-y-2">
+          <button onclick="selectOption('f-widow','yes',this)" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">✅ Yes</button>
+          <button onclick="selectOption('f-widow','no',this)" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">❌ No</button>
+        </div>
+        <input type="hidden" id="f-widow"/>
+        <div class="flex gap-2 mt-4">
+          <button onclick="prevStep()" class="flex-1 border border-gray-300 text-gray-600 py-3 rounded-lg font-semibold">← Back</button>
+          <button onclick="submitForm()" class="flex-1 bg-green-700 text-white py-3 rounded-lg font-semibold hover:bg-green-800" id="btn-check">Check Schemes →</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /form-container -->
+
+  <!-- LOADING -->
+  <div id="loading" style="display:none" class="text-center py-12">
+    <div class="animate-spin h-10 w-10 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
+    <p class="text-gray-600" id="loading-text">Checking your eligibility...</p>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results" style="display:none">
+    <!-- Summary card -->
+    <div class="bg-green-700 text-white rounded-xl p-5 mb-6 shadow-lg">
+      <p class="text-green-200 text-sm mb-1" id="r-found-label">Schemes found for you</p>
+      <p class="text-4xl font-bold mb-1" id="r-count">0</p>
+      <p class="text-green-200 text-sm" id="r-benefit-label">Total annual benefit up to</p>
+      <p class="text-2xl font-bold" id="r-total">₹0</p>
+    </div>
+
+    <!-- Scheme cards -->
+    <div id="scheme-list" class="space-y-4"></div>
+
+    <button onclick="resetForm()" class="mt-6 w-full border-2 border-blue-700 text-blue-700 py-3 rounded-lg font-semibold hover:bg-blue-50" id="btn-recheck">Check Again</button>
+  </div>
+
+</main>
+
+<footer class="text-center text-xs text-gray-400 py-6">
+  Data updated June 2026 · All scheme information is for guidance only · Always verify at official portals
+</footer>
+
+<script>
+// ─── i18n ────────────────────────────────────────────────
+const T = {
+  en:{
+    title:"Scheme Eligibility Checker",sub:"Find all government schemes you qualify for",
+    q1:"Which state do you live in?",q2:"How old are you?",q3:"What is your gender?",
+    q4:"What is your caste category?",q5:"Annual household income?",q6:"Primary occupation?",
+    q7:"Do you own agricultural land?",q8:"Do you have a BPL ration card?",
+    q9:"Are you a person with disability (40%+)?",q10:"Are you a widow?",
+    male:"Male",female:"Female",other:"Other",
+    next:"Next →",back:"← Back",check:"Check Schemes →",recheck:"Check Again",
+    loading:"Checking your eligibility...",found:"Schemes found for you",
+    benefit:"Total annual benefit up to",applyNow:"Apply Now",
+    howTo:"How to Apply",docs:"Documents Needed",scamAlert:"⚠️ Scam Alert",
+    processDays:"Processing time"
+  },
+  hi:{
+    title:"सरकारी योजना पात्रता चेकर",sub:"आपके लिए सभी सरकारी योजनाएं खोजें",
+    q1:"आप किस राज्य में रहते हैं?",q2:"आपकी उम्र कितनी है?",q3:"आपका लिंग क्या है?",
+    q4:"आपकी जाति श्रेणी क्या है?",q5:"वार्षिक घरेलू आय?",q6:"मुख्य व्यवसाय?",
+    q7:"क्या आपके पास कृषि भूमि है?",q8:"क्या आपके पास BPL राशन कार्ड है?",
+    q9:"क्या आप दिव्यांग हैं (40%+)?",q10:"क्या आप विधवा हैं?",
+    male:"पुरुष",female:"महिला",other:"अन्य",
+    next:"आगे →",back:"← पीछे",check:"योजनाएं देखें →",recheck:"फिर से जांचें",
+    loading:"पात्रता जांच रहे हैं...",found:"आपके लिए योजनाएं मिलीं",
+    benefit:"कुल वार्षिक लाभ तक",applyNow:"अभी आवेदन करें",
+    howTo:"कैसे आवेदन करें",docs:"आवश्यक दस्तावेज",scamAlert:"⚠️ धोखाधड़ी सतर्क",
+    processDays:"प्रक्रिया का समय"
+  },
+  gu:{
+    title:"સરકારી યોજna ચekaR",sub:"તમારા માટે તમામ સchemerkai yojanaOni jaaNkaari melavO",
+    q1:"Tame kya raajyamaa rahO chhO?",q2:"Tmaari umer ketli chhe?",q3:"Tumaro jaat shu chhe?",
+    q4:"Tmaari jati shreni?",q5:"Vaarsik gharelu aavak?",q6:"Mukhya vyavasay?",
+    q7:"Tmaari paase krishi jamin chhe?",q8:"Tmaari paase BPL ration card chhe?",
+    q9:"Tame divyang chho (40%+)?",q10:"Tame vidhwa chho?",
+    male:"Purush",female:"Mahila",other:"Anya",
+    next:"Aage →",back:"← Pachi",check:"Yojana Juo →",recheck:"Fari thapaaso",
+    loading:"Patrata tapasie chhie...",found:"Tamara mate yojanaO malI",
+    benefit:"Kul vaarsik laabh sudhi",applyNow:"Ahhi apply karO",
+    howTo:"Kem apply karvu",docs:"Jaruri dastaavejo",scamAlert:"⚠️ Thaganaa savadhaan",
+    processDays:"Prakriya samay"
+  }
+};
+
+let lang = 'en';
+let currentStep = 1;
+const TOTAL_STEPS = 10;
+
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  applyLang();
+}
+
+function applyLang() {
+  const t = T[lang];
+  document.getElementById('h-title').textContent = t.title;
+  document.getElementById('h-sub').textContent = t.sub;
+  for(let i=1;i<=10;i++){
+    const el = document.getElementById('q'+i);
+    if(el) el.textContent = t['q'+i];
+  }
+  document.getElementById('g-male').textContent = t.male;
+  document.getElementById('g-female').textContent = t.female;
+  document.getElementById('g-other').textContent = t.other;
+  document.getElementById('loading-text').textContent = t.loading;
+  const r = document.getElementById('r-found-label');
+  if(r) r.textContent = t.found;
+  const rb = document.getElementById('r-benefit-label');
+  if(rb) rb.textContent = t.benefit;
+  const brc = document.getElementById('btn-recheck');
+  if(brc) brc.textContent = t.recheck;
+}
+
+// ─── Form navigation ──────────────────────────────────────
+function showStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-'+n).classList.add('active');
+  const pct = Math.round((n/TOTAL_STEPS)*100);
+  document.getElementById('progress-bar').style.width = pct+'%';
+  document.getElementById('pct-label').textContent = pct+'%';
+  document.getElementById('step-label').textContent = 'Step '+n+' of '+TOTAL_STEPS;
+}
+
+function nextStep() {
+  if(!validateStep(currentStep)) return;
+  if(currentStep < TOTAL_STEPS){ currentStep++; showStep(currentStep); }
+}
+function prevStep() {
+  if(currentStep > 1){ currentStep--; showStep(currentStep); }
+}
+
+function validateStep(n) {
+  const validators = {
+    1: () => document.getElementById('f-state').value !== '',
+    2: () => { const v=parseInt(document.getElementById('f-age').value); return v>0&&v<120; },
+    3: () => document.getElementById('f-gender').value !== '',
+    4: () => document.getElementById('f-caste').value !== '',
+    5: () => document.getElementById('f-income').value !== '',
+    6: () => document.getElementById('f-occ').value !== '',
+    7: () => document.getElementById('f-has-land').value !== '',
+    8: () => document.getElementById('f-bpl').value !== '',
+    9: () => document.getElementById('f-disabled').value !== '',
+    10: () => document.getElementById('f-widow').value !== '',
+  };
+  const ok = validators[n]();
+  if(!ok) { alert('Please answer this question before continuing.'); }
+  return ok;
+}
+
+function selectOption(fieldId, value, btn) {
+  document.getElementById(fieldId).value = value;
+  btn.closest('.step').querySelectorAll('.opt-btn').forEach(b => {
+    b.classList.remove('border-blue-500','bg-blue-50');
+    b.classList.add('border-gray-200');
+  });
+  btn.classList.remove('border-gray-200');
+  btn.classList.add('border-blue-500','bg-blue-50');
+}
+
+// ─── Submit ────────────────────────────────────────────────
+async function submitForm() {
+  if(!validateStep(10)) return;
+
+  const hasLand = document.getElementById('f-has-land').value === 'yes';
+  const landAcres = hasLand ? parseFloat(document.getElementById('f-land').value||'0') : null;
+
+  const payload = {
+    state: document.getElementById('f-state').value,
+    age: parseInt(document.getElementById('f-age').value),
+    gender: document.getElementById('f-gender').value,
+    caste: document.getElementById('f-caste').value,
+    annual_income: parseInt(document.getElementById('f-income').value),
+    occupation: document.getElementById('f-occ').value,
+    land_acres: landAcres,
+    has_bpl_card: document.getElementById('f-bpl').value === 'yes',
+    is_differently_abled: document.getElementById('f-disabled').value === 'yes',
+    is_widow: document.getElementById('f-widow').value === 'yes',
+  };
+
+  document.getElementById('form-container').style.display = 'none';
+  document.getElementById('progress-wrap').style.display = 'none';
+  document.getElementById('loading').style.display = 'block';
+
+  try {
+    const res = await fetch('/api/check', {
+      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)
+    });
+    const data = await res.json();
+    renderResults(data);
+  } catch(e) {
+    alert('Error connecting to server. Make sure the FastAPI server is running.');
+    resetForm();
+  }
+}
+
+// ─── Render results ────────────────────────────────────────
+function fmt(n) {
+  if(n >= 10000000) return '₹'+Math.round(n/100000)/10+' Cr';
+  if(n >= 100000) return '₹'+Math.round(n/100000)/10+' L';
+  if(n >= 1000) return '₹'+n.toLocaleString('en-IN');
+  return '₹'+n;
+}
+
+function renderResults(data) {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('r-count').textContent = data.count;
+  document.getElementById('r-total').textContent = fmt(data.total_annual_benefit);
+
+  const t = T[lang];
+  const list = document.getElementById('scheme-list');
+  list.innerHTML = '';
+
+  if(data.schemes.length === 0) {
+    list.innerHTML = '<p class="text-gray-500 text-center py-8">No schemes matched your profile. Try adjusting your answers.</p>';
+    return;
+  }
+
+  data.schemes.forEach(s => {
+    const name = lang==='hi' ? s.name_hi : lang==='gu' ? s.name_gu : s.name_en;
+    const catColors = {
+      agriculture:'bg-green-100 text-green-800', health:'bg-red-100 text-red-800',
+      housing:'bg-yellow-100 text-yellow-800', insurance:'bg-purple-100 text-purple-800',
+      finance:'bg-blue-100 text-blue-800', women_children:'bg-pink-100 text-pink-800',
+      education_youth:'bg-indigo-100 text-indigo-800', senior_disability:'bg-orange-100 text-orange-800',
+      energy:'bg-teal-100 text-teal-800'
+    };
+    const catColor = catColors[s.category] || 'bg-gray-100 text-gray-800';
+    const docsHtml = (s.documents||[]).map(d=>`<li class="text-sm text-gray-600">• ${d}</li>`).join('');
+    const stepsHtml = (s.steps_en||[]).map((st,i)=>`<li class="text-sm text-gray-600">${i+1}. ${st}</li>`).join('');
+
+    list.innerHTML += `
+    <div class="bg-white rounded-xl shadow scheme-card overflow-hidden">
+      <div class="p-4">
+        <div class="flex justify-between items-start mb-2">
+          <span class="text-xs px-2 py-1 rounded-full font-medium ${catColor}">${s.category.replace('_',' ')}</span>
+          ${s.benefit_amount>0?`<span class="text-green-700 font-bold text-sm">${fmt(s.benefit_amount)}</span>`:''}
+        </div>
+        <h3 class="font-bold text-gray-900 mb-1">${name}</h3>
+        <p class="text-sm text-gray-600 mb-3">${s.benefit_en}</p>
+
+        <details class="mb-2">
+          <summary class="text-sm text-blue-700 font-medium cursor-pointer">${t.howTo}</summary>
+          <ol class="mt-2 space-y-1 pl-2">${stepsHtml}</ol>
+        </details>
+
+        <details class="mb-2">
+          <summary class="text-sm text-blue-700 font-medium cursor-pointer">${t.docs}</summary>
+          <ul class="mt-2 space-y-1 pl-2">${docsHtml}</ul>
+        </details>
+
+        <details class="mb-3">
+          <summary class="text-sm text-red-600 font-medium cursor-pointer">${t.scamAlert}</summary>
+          <div class="mt-2 p-3 bg-red-50 rounded-lg scam-alert text-sm text-red-800">${s.scam_note}</div>
+        </details>
+
+        <div class="flex gap-2">
+          <a href="${s.apply_link}" target="_blank"
+            class="flex-1 text-center bg-blue-700 text-white py-2 rounded-lg text-sm font-semibold hover:bg-blue-800">
+            ${t.applyNow}
+          </a>
+          <span class="text-xs text-gray-400 self-center">${t.processDays}: ${s.processing_days}</span>
+        </div>
+      </div>
+    </div>`;
+  });
+}
+
+function resetForm() {
+  currentStep = 1;
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('form-container').style.display = 'block';
+  document.getElementById('progress-wrap').style.display = 'block';
+  showStep(1);
+  // Clear all values
+  ['f-state','f-age','f-gender','f-caste','f-income','f-occ','f-has-land','f-land','f-bpl','f-disabled','f-widow'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.value='';
+  });
+  document.querySelectorAll('.opt-btn').forEach(b => {
+    b.classList.remove('border-blue-500','bg-blue-50');
+    b.classList.add('border-gray-200');
+  });
+}
+</script>
+</body>
+</html>
