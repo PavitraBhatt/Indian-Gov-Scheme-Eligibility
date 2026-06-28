@@ -18,6 +18,7 @@ def load_schemes(states: List[str] = None) -> List[Dict[str, Any]]:
         "Gujarat": "schemes_gujarat.json",
         "Maharashtra": "schemes_maharashtra.json",
         "Rajasthan": "schemes_rajasthan.json",
+        "Uttar Pradesh": "schemes_uttar_pradesh.json",
     }
 
     if states:
@@ -33,7 +34,9 @@ def load_schemes(states: List[str] = None) -> List[Dict[str, Any]]:
 
 
 def get_scheme_by_id(scheme_id: str) -> Dict[str, Any] | None:
-    all_schemes = load_schemes(states=list({"Gujarat", "Maharashtra", "Rajasthan"}))
+    all_schemes = load_schemes(
+        states=["Gujarat", "Maharashtra", "Rajasthan", "Uttar Pradesh"]
+    )
     for scheme in all_schemes:
         if scheme.get("id") == scheme_id:
             return scheme
