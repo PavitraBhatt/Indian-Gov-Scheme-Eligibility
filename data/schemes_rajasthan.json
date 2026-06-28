@@ -1,0 +1,86 @@
+[
+  {
+    "id": "rj_chiranjeevi_health",
+    "name_en": "Mukhyamantri Chiranjeevi Swasthya Bima Yojana (Rajasthan)",
+    "name_hi": "मुख्यमंत्री चिरंजीवी स्वास्थ्य बीमा योजना",
+    "name_gu": "મુખ્યમંત્રી ચિરંજીવી સ્વાસ્થ્ય વીમા યોજna",
+    "ministry": "Government of Rajasthan - Medical and Health Department",
+    "category": "health",
+    "benefit_en": "Up to Rs 25 lakh cashless health cover per family per year",
+    "benefit_amount": 2500000,
+    "apply_link": "https://chiranjeevi.rajasthan.gov.in",
+    "eligibility": {
+      "states": ["Rajasthan"]
+    },
+    "documents": ["Jan Aadhaar card", "Aadhaar card"],
+    "steps_en": [
+      "Register with Jan Aadhaar on the Chiranjeevi portal",
+      "Free for BPL/eligible categories; others pay small premium",
+      "Receive Chiranjeevi policy card",
+      "Visit empanelled hospital for cashless treatment",
+      "Treatment covered up to Rs 25 lakh per year"
+    ],
+    "rejection_reasons": ["No Jan Aadhaar registration", "Non-Rajasthan resident"],
+    "scam_note": "Treatment is cashless. Free for eligible families. Helpline: 18001806127.",
+    "processing_days": "Immediate at hospital",
+    "tags": ["health", "rajasthan", "insurance", "family"],
+    "state_specific": true
+  },
+  {
+    "id": "rj_palanhar",
+    "name_en": "Palanhar Yojana (Rajasthan)",
+    "name_hi": "पालनहार योजना",
+    "name_gu": "પાલનહાર યોજna",
+    "ministry": "Government of Rajasthan - Social Justice Department",
+    "category": "women_children",
+    "benefit_en": "Rs 750-1,500 per month to care for orphan and vulnerable children",
+    "benefit_amount": 18000,
+    "apply_link": "https://sso.rajasthan.gov.in",
+    "eligibility": {
+      "states": ["Rajasthan"],
+      "income_max": 120000
+    },
+    "documents": ["Jan Aadhaar", "Child's documents", "Income certificate", "Bank passbook"],
+    "steps_en": [
+      "Apply via SSO Rajasthan portal or e-Mitra",
+      "Submit guardian and child documents",
+      "Verification by social justice department",
+      "Monthly amount credited to guardian's bank account",
+      "Annual renewal with school attendance proof"
+    ],
+    "rejection_reasons": ["Income above Rs 1.2 lakh", "Child not enrolled in school (age 6+)"],
+    "scam_note": "Benefit comes directly to bank. Apply free via e-Mitra. No agent needed.",
+    "processing_days": "30-60",
+    "tags": ["women_children", "rajasthan", "orphan", "child_welfare"],
+    "state_specific": true
+  },
+  {
+    "id": "rj_indira_gandhi_smartphone",
+    "name_en": "Indira Gandhi Free Smartphone Yojana (Rajasthan)",
+    "name_hi": "इंदिरा गांधी फ्री स्मार्टफोन योजना",
+    "name_gu": "ઇન્દિરા ગાંધી ફ્રી સ્માર્ટફોન યોજna",
+    "ministry": "Government of Rajasthan",
+    "category": "women_children",
+    "benefit_en": "Free smartphone with 3 years of internet data for women heads of households",
+    "benefit_amount": 9000,
+    "apply_link": "https://igsy.rajasthan.gov.in",
+    "eligibility": {
+      "states": ["Rajasthan"],
+      "gender": ["Female"],
+      "age_min": 18
+    },
+    "documents": ["Jan Aadhaar card", "Aadhaar card", "Passport photo"],
+    "steps_en": [
+      "Watch for camp announcement via Jan Aadhaar SMS",
+      "Visit designated camp with Jan Aadhaar",
+      "Choose mobile and data plan at camp",
+      "Receive smartphone with SIM and data",
+      "Benefit is free of cost"
+    ],
+    "rejection_reasons": ["Not a woman head of household in Jan Aadhaar", "Non-resident"],
+    "scam_note": "The smartphone is completely free at official camps. Never pay anyone for it.",
+    "processing_days": "Distributed at camps",
+    "tags": ["women_children", "rajasthan", "women", "digital"],
+    "state_specific": true
+  }
+]

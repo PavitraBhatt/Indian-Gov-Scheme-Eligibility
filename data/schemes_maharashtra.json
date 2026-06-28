@@ -1,0 +1,119 @@
+[
+  {
+    "id": "mh_mahatma_phule_jan_arogya",
+    "name_en": "Mahatma Jyotirao Phule Jan Arogya Yojana (Maharashtra)",
+    "name_hi": "महात्मा ज्योतिराव फुले जन आरोग्य योजना",
+    "name_gu": "મહાત્મા ફુલે જન આરોગ્ય યોજna",
+    "ministry": "Government of Maharashtra - Public Health Department",
+    "category": "health",
+    "benefit_en": "Up to Rs 5 lakh per family per year cashless treatment at empanelled hospitals",
+    "benefit_amount": 500000,
+    "apply_link": "https://www.jeevandayee.gov.in",
+    "eligibility": {
+      "states": ["Maharashtra"],
+      "income_max": 100000
+    },
+    "documents": ["Aadhaar card", "Yellow/orange ration card", "Income certificate"],
+    "steps_en": [
+      "Visit empanelled hospital's Arogya Mitra desk",
+      "Show ration card and Aadhaar",
+      "Arogya Mitra verifies eligibility",
+      "Get cashless treatment approved",
+      "Treatment provided free up to the cover limit"
+    ],
+    "rejection_reasons": ["White (APL) ration card", "Income above limit", "Non-Maharashtra resident"],
+    "scam_note": "Treatment is cashless and free. Never pay the Arogya Mitra. Helpline: 155388.",
+    "processing_days": "Immediate at hospital",
+    "tags": ["health", "maharashtra", "insurance", "family"],
+    "state_specific": true
+  },
+  {
+    "id": "mh_ladki_bahin",
+    "name_en": "Mukhyamantri Majhi Ladki Bahin Yojana (Maharashtra)",
+    "name_hi": "मुख्यमंत्री माझी लाडकी बहीण योजना",
+    "name_gu": "મુખ્યમંત્રી લાડકી બહીણ યોજna",
+    "ministry": "Government of Maharashtra - Women and Child Development",
+    "category": "women_children",
+    "benefit_en": "Rs 1,500 per month direct cash to eligible women aged 21-65",
+    "benefit_amount": 18000,
+    "apply_link": "https://ladakibahin.maharashtra.gov.in",
+    "eligibility": {
+      "states": ["Maharashtra"],
+      "gender": ["Female"],
+      "age_min": 21,
+      "age_max": 65,
+      "income_max": 250000
+    },
+    "documents": ["Aadhaar card", "Maharashtra domicile", "Bank passbook (Aadhaar-linked)", "Ration card"],
+    "steps_en": [
+      "Apply via Nari Shakti Doot app or Anganwadi/Setu centre",
+      "Submit domicile, Aadhaar and bank details",
+      "Application verified by local committee",
+      "Rs 1,500 credited monthly via DBT",
+      "Renew annually as required"
+    ],
+    "rejection_reasons": ["Family income above Rs 2.5 lakh", "Family member is income tax payer", "Owns four-wheeler"],
+    "scam_note": "Application is free via the official app or Setu centre. Money comes directly to your bank.",
+    "processing_days": "30-60",
+    "tags": ["women_children", "maharashtra", "women", "cash_transfer"],
+    "state_specific": true
+  },
+  {
+    "id": "mh_annasaheb_patil_loan",
+    "name_en": "Annasaheb Patil Economic Development Loan (Maharashtra)",
+    "name_hi": "अण्णासाहेब पाटील आर्थिक विकास कर्ज योजना",
+    "name_gu": "અણ્ણાસાહેબ પાટીલ આર્થિક વિકાસ યોજna",
+    "ministry": "Government of Maharashtra",
+    "category": "finance",
+    "benefit_en": "Interest-free loan up to Rs 15 lakh for self-employment (interest reimbursed)",
+    "benefit_amount": 1500000,
+    "apply_link": "https://udyog.mahaswayam.gov.in",
+    "eligibility": {
+      "states": ["Maharashtra"],
+      "caste": ["General", "EWS", "OBC"],
+      "age_min": 18,
+      "age_max": 60,
+      "occupation": ["self_employed", "unemployed"]
+    },
+    "documents": ["Aadhaar card", "Maharashtra domicile", "Caste certificate", "Project report", "Bank details"],
+    "steps_en": [
+      "Register on the Mahaswayam Udyog portal",
+      "Submit business project and domicile proof",
+      "Get loan eligibility certificate (LOI)",
+      "Take loan from bank for your enterprise",
+      "Interest reimbursed by corporation on timely repayment"
+    ],
+    "rejection_reasons": ["Loan default history", "Non-domicile of Maharashtra", "Income above corporation limit"],
+    "scam_note": "Apply only on the official Mahaswayam portal. No agent fee. Interest reimbursement is genuine.",
+    "processing_days": "45-90",
+    "tags": ["finance", "maharashtra", "loan", "self_employment"],
+    "state_specific": true
+  },
+  {
+    "id": "mh_shivbhojan",
+    "name_en": "Shiv Bhojan Thali Scheme (Maharashtra)",
+    "name_hi": "शिव भोजन थाळी योजना",
+    "name_gu": "શિવ ભોજન થાળી યોજna",
+    "ministry": "Government of Maharashtra",
+    "category": "finance",
+    "benefit_en": "Subsidised full meal (thali) for Rs 10 at Shiv Bhojan centres",
+    "benefit_amount": 0,
+    "apply_link": "https://mahafood.gov.in",
+    "eligibility": {
+      "states": ["Maharashtra"]
+    },
+    "documents": ["None — open to all at Shiv Bhojan centres"],
+    "steps_en": [
+      "Locate nearest Shiv Bhojan centre (often near hospitals/bus stands)",
+      "Visit during lunch hours",
+      "Pay just Rs 10 for a full thali",
+      "Meal includes roti, vegetable, rice and dal",
+      "No documents or registration needed"
+    ],
+    "rejection_reasons": ["Centre daily quota exhausted"],
+    "scam_note": "The thali costs only Rs 10. Never pay more. Report overcharging to the food department.",
+    "processing_days": "Immediate",
+    "tags": ["finance", "maharashtra", "food", "subsidised_meal"],
+    "state_specific": true
+  }
+]

@@ -78,6 +78,27 @@ def test_gujarat_schemes_only_in_gujarat():
     assert "gu_ikhedut" not in other_ids
 
 
+def test_each_supported_state_loads_its_schemes():
+    from scheme_checker import load_schemes
+    expectations = {
+        "Maharashtra": "mh_ladki_bahin",
+        "Rajasthan": "rj_chiranjeevi_health",
+        "Uttar Pradesh": "up_kanya_sumangala",
+    }
+    for state, expected_id in expectations.items():
+        ids = {s["id"] for s in load_schemes(states=[state])}
+        assert expected_id in ids, f"{state} should load {expected_id}"
+
+
+def test_central_schemes_load_without_state():
+    from scheme_checker import load_schemes
+    central = load_schemes()
+    # State-specific schemes must NOT appear when no state requested
+    ids = {s["id"] for s in central}
+    assert "mh_ladki_bahin" not in ids
+    assert "pm_kisan" in ids
+
+
 def test_results_sorted_by_benefit_amount():
     from scheme_checker import load_schemes
     schemes = load_schemes()
