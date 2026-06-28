@@ -6,7 +6,7 @@ A FastAPI + Tailwind web app that helps Indian citizens discover every governmen
 
 ## Features
 
-- 25+ central schemes + 5 Gujarat state schemes (agriculture, health, housing, finance, women, education, disability, energy)
+- 54 schemes — 49 central + 5 Gujarat state (agriculture, health, housing, finance, women, education, disability, energy, social security)
 - Eligibility matching by: state, age, gender, caste, income, occupation, land ownership, BPL card, disability, widow status
 - Multilingual UI: English / Hindi / Gujarati
 - Per-scheme: documents checklist, step-by-step guide, scam alert, processing time, direct apply link
@@ -73,7 +73,7 @@ pytest -v
 │   ├── api.py        # FastAPI app
 │   └── cli.py        # CLI tool
 ├── data/
-│   ├── schemes_central.json   # 25 central government schemes
+│   ├── schemes_central.json   # 49 central government schemes
 │   └── schemes_gujarat.json   # 5 Gujarat state schemes
 ├── frontend/
 │   └── index.html    # Multilingual 10-step form + results
