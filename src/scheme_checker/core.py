@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class UserProfile:
@@ -10,7 +10,7 @@ class UserProfile:
         caste: str,
         annual_income: int,
         occupation: str,
-        land_acres: Optional[float],
+        land_acres: float | None,
         has_bpl_card: bool,
         is_differently_abled: bool,
         is_widow: bool,
@@ -27,7 +27,7 @@ class UserProfile:
         self.is_widow = is_widow
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "UserProfile":
+    def from_dict(cls, data: dict[str, Any]) -> "UserProfile":
         return cls(
             state=data.get("state", ""),
             age=int(data.get("age", 0)),
@@ -42,7 +42,7 @@ class UserProfile:
         )
 
 
-def _check_eligibility(profile: UserProfile, scheme: Dict[str, Any]) -> bool:
+def _check_eligibility(profile: UserProfile, scheme: dict[str, Any]) -> bool:
     e = scheme.get("eligibility", {})
 
     if e.get("states") != "all":
@@ -90,7 +90,7 @@ def _check_eligibility(profile: UserProfile, scheme: Dict[str, Any]) -> bool:
     return True
 
 
-def match_schemes(profile: UserProfile, schemes: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+def match_schemes(profile: UserProfile, schemes: list[dict[str, Any]]) -> list[dict[str, Any]]:
     matched = [s for s in schemes if _check_eligibility(profile, s)]
     matched.sort(key=lambda s: s.get("benefit_amount", 0), reverse=True)
     return matched
@@ -98,13 +98,13 @@ def match_schemes(profile: UserProfile, schemes: List[Dict[str, Any]]) -> List[D
 
 # Legacy helpers kept for backward compatibility
 class EligibilityChecker:
-    def __init__(self, rules: List = None):
+    def __init__(self, rules: list = None):
         self.rules = rules or []
 
     def add_rule(self, rule):
         self.rules.append(rule)
 
-    def is_eligible(self, applicant: Dict[str, Any], scheme: Dict[str, Any]) -> bool:
+    def is_eligible(self, applicant: dict[str, Any], scheme: dict[str, Any]) -> bool:
         return all(rule(applicant, scheme) for rule in self.rules)
 
 
@@ -112,4 +112,5 @@ def age_between(min_age: int, max_age: int):
     def rule(applicant, scheme):
         age = applicant.get("age")
         return age is not None and min_age <= age <= max_age
+
     return rule

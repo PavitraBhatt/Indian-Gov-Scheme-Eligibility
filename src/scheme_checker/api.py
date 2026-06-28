@@ -1,8 +1,8 @@
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -25,7 +25,7 @@ class CheckRequest(BaseModel):
     caste: str
     annual_income: int
     occupation: str
-    land_acres: Optional[float] = None
+    land_acres: float | None = None
     has_bpl_card: bool = False
     is_differently_abled: bool = False
     is_widow: bool = False
@@ -41,11 +41,11 @@ class SchemeResult(BaseModel):
     benefit_amount: int
     apply_link: str
     ministry: str
-    documents: List[str]
-    steps_en: List[str]
+    documents: list[str]
+    steps_en: list[str]
     scam_note: str
     processing_days: str
-    tags: List[str]
+    tags: list[str]
     state_specific: bool
 
 
@@ -57,7 +57,7 @@ async def serve_frontend():
     return HTMLResponse(index.read_text(encoding="utf-8"))
 
 
-@app.post("/api/check", response_model=Dict[str, Any])
+@app.post("/api/check", response_model=dict[str, Any])
 async def check_eligibility(req: CheckRequest):
     profile = UserProfile.from_dict(req.model_dump())
     schemes = load_schemes(states=[req.state])
@@ -70,8 +70,8 @@ async def check_eligibility(req: CheckRequest):
     }
 
 
-@app.get("/api/schemes", response_model=List[Dict[str, Any]])
-async def list_schemes(state: Optional[str] = None, category: Optional[str] = None):
+@app.get("/api/schemes", response_model=list[dict[str, Any]])
+async def list_schemes(state: str | None = None, category: str | None = None):
     states = [state] if state else None
     schemes = load_schemes(states=states)
     if category:
@@ -79,7 +79,7 @@ async def list_schemes(state: Optional[str] = None, category: Optional[str] = No
     return schemes
 
 
-@app.get("/api/schemes/{scheme_id}", response_model=Dict[str, Any])
+@app.get("/api/schemes/{scheme_id}", response_model=dict[str, Any])
 async def get_scheme(scheme_id: str):
     scheme = get_scheme_by_id(scheme_id)
     if not scheme:
