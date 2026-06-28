@@ -92,6 +92,25 @@ PRs, validated by `tests/test_data.py`). At runtime, `db.py` builds an indexed
 **SQLite** database from them and auto-rebuilds whenever a JSON file changes, so
 the two never drift. Set `SCHEME_DB_PATH` to relocate the DB on read-only hosts.
 
+## Keeping schemes up to date (sync pipeline)
+
+The app can stay current with new and updated government schemes via a
+**review-gated** sync pipeline (`src/scheme_checker/sync/`):
+
+```
+myScheme (via API Setu) → fetch → Claude-normalize → validate → diff → open PR
+```
+
+- A scheduled GitHub Action (`.github/workflows/sync-schemes.yml`, weekly + manual)
+  fetches schemes, normalizes them to our schema with Claude, drops anything that
+  fails validation, diffs against the database, and **opens a pull request** with
+  new/changed schemes.
+- **Nothing auto-publishes** — a human reviews and merges the PR. This protects
+  eligibility accuracy and scam-alert integrity. On merge, SQLite rebuilds and the
+  changes go live.
+- Run locally: `scheme-sync --max 25 --last-verified 2026-06-28 --apply`
+- Secrets required in CI: `MYSCHEME_API_KEY` (API Setu key) and `ANTHROPIC_API_KEY`.
+
 ## Project Structure
 
 ```

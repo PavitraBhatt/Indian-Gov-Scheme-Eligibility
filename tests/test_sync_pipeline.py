@@ -1,7 +1,9 @@
 """Tests for the differ and the end-to-end sync orchestrator (no network/API)."""
 
+import json
+
 from scheme_checker.sync.diff import CHANGED, NEW, UNCHANGED, classify, diff_schemes, summarize
-from scheme_checker.sync.run import run_sync
+from scheme_checker.sync.run import apply_proposal, run_sync
 from scheme_checker.sync.sources import SchemeSource
 
 
@@ -130,3 +132,24 @@ def test_run_sync_drops_invalid_scheme():
     assert proposal["new"] == []
     assert len(proposal["dropped"]) == 1
     assert proposal["dropped"][0]["id"] == "bad"
+
+
+# ---- apply ----
+
+
+def test_apply_proposal_adds_and_replaces(tmp_path):
+    central = tmp_path / "schemes_central.json"
+    central.write_text(json.dumps([_scheme("a", benefit=6000)]), encoding="utf-8")
+
+    changed = _scheme("a", benefit=9000)
+    changed["_previous"] = _scheme("a", benefit=6000)
+    proposal = {"new": [_scheme("b")], "changed": [changed]}
+
+    applied = apply_proposal(proposal, central_path=central)
+    result = json.loads(central.read_text(encoding="utf-8"))
+    by_id = {s["id"]: s for s in result}
+
+    assert applied == 2
+    assert by_id["a"]["benefit_amount"] == 9000  # replaced
+    assert "_previous" not in by_id["a"]  # diff marker stripped
+    assert "b" in by_id  # new appended

@@ -24,7 +24,33 @@ from .sources import MyySchemeSource
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
-_DEFAULT_OUT = Path(__file__).parent.parent.parent.parent / "data" / "_sync_proposal.json"
+_DATA_DIR = Path(__file__).parent.parent.parent.parent / "data"
+_DEFAULT_OUT = _DATA_DIR / "_sync_proposal.json"
+_CENTRAL_PATH = _DATA_DIR / "schemes_central.json"
+
+
+def apply_proposal(proposal: dict, central_path: Path = _CENTRAL_PATH) -> int:
+    """Merge a proposal's new/changed schemes into the central JSON file.
+
+    Returns the number of schemes added or replaced. The '_previous' diff marker
+    is stripped before writing. This makes the PR diff show the real data change.
+    """
+    central = json.loads(central_path.read_text(encoding="utf-8"))
+    index = {s["id"]: i for i, s in enumerate(central)}
+    applied = 0
+
+    for entry in proposal["changed"]:
+        scheme = {k: v for k, v in entry.items() if k != "_previous"}
+        central[index[scheme["id"]]] = scheme
+        applied += 1
+    for scheme in proposal["new"]:
+        central.append(scheme)
+        applied += 1
+
+    central_path.write_text(
+        json.dumps(central, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
+    return applied
 
 
 def run_sync(
@@ -64,6 +90,11 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--max", type=int, default=None, help="Cap number of schemes fetched")
     p.add_argument("--out", default=str(_DEFAULT_OUT), help="Proposal output path")
     p.add_argument("--last-verified", default="", help="ISO date stamp for synced schemes")
+    p.add_argument(
+        "--apply",
+        action="store_true",
+        help="Merge new/changed schemes into data/schemes_central.json (for PR diff)",
+    )
     return p
 
 
@@ -81,6 +112,10 @@ def main(argv=None):
         for d in proposal["dropped"]:
             print(f"  - {d['id']}: {'; '.join(d['errors'][:2])}")
     print(f"Written to {out}")
+
+    if args.apply:
+        applied = apply_proposal(proposal)
+        print(f"Applied {applied} scheme(s) to {_CENTRAL_PATH.name}")
 
     # Exit code 0 = nothing to propose, 10 = changes await review (for CI gating)
     has_changes = bool(proposal["new"] or proposal["changed"])
