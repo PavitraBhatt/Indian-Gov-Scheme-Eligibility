@@ -1075,5 +1075,360 @@
     "processing_days": "Immediate",
     "tags": ["senior_disability", "pension", "elderly", "investment"],
     "state_specific": false
+  },
+  {
+    "id": "pm_vishwakarma",
+    "name_en": "PM Vishwakarma Yojana",
+    "name_hi": "पीएम विश्वकर्मा योजना",
+    "name_gu": "PM વિશ્વકર્મા યોજna",
+    "ministry": "Ministry of Micro, Small and Medium Enterprises",
+    "category": "finance",
+    "benefit_en": "Rs 15,000 toolkit + Rs 500/day skill stipend + collateral-free loan up to Rs 3 lakh at 5%",
+    "benefit_amount": 300000,
+    "apply_link": "https://pmvishwakarma.gov.in",
+    "eligibility": {
+      "states": "all",
+      "occupation": ["artisan", "self_employed"],
+      "age_min": 18
+    },
+    "documents": ["Aadhaar card", "Bank passbook", "Mobile number", "Caste/occupation proof"],
+    "steps_en": [
+      "Register at pmvishwakarma.gov.in via nearest CSC",
+      "Select your traditional trade (carpenter, blacksmith, potter, etc.)",
+      "Complete free skill training with Rs 500/day stipend",
+      "Receive Rs 15,000 toolkit voucher",
+      "Apply for collateral-free loan up to Rs 3 lakh"
+    ],
+    "rejection_reasons": ["Trade not in the 18 listed crafts", "Government employee in family"],
+    "scam_note": "Registration and training are free. Toolkit and loan are genuine government benefits. Apply via CSC.",
+    "processing_days": "30-60",
+    "tags": ["finance", "artisan", "skill", "loan", "self_employed"],
+    "state_specific": false
+  },
+  {
+    "id": "e_shram",
+    "name_en": "e-Shram Card (Unorganised Workers)",
+    "name_hi": "ई-श्रम कार्ड",
+    "name_gu": "e-શ્રમ કાર્ડ",
+    "ministry": "Ministry of Labour and Employment",
+    "category": "finance",
+    "benefit_en": "National database registration + Rs 2 lakh accidental insurance + access to welfare schemes",
+    "benefit_amount": 200000,
+    "apply_link": "https://eshram.gov.in",
+    "eligibility": {
+      "states": "all",
+      "occupation": ["daily_wage", "self_employed", "artisan", "farmer"],
+      "age_min": 16,
+      "age_max": 59
+    },
+    "documents": ["Aadhaar card", "Bank passbook", "Mobile linked to Aadhaar"],
+    "steps_en": [
+      "Visit eshram.gov.in or nearest CSC",
+      "Register with Aadhaar-linked mobile (free self-registration)",
+      "Enter occupation and bank details",
+      "Receive e-Shram card with unique UAN number",
+      "Get Rs 2 lakh accidental insurance automatically"
+    ],
+    "rejection_reasons": ["Income tax payer", "EPFO/ESIC member", "Age outside 16-59"],
+    "scam_note": "e-Shram registration is completely free at eshram.gov.in or CSC. Never pay for the card.",
+    "processing_days": "Same day",
+    "tags": ["finance", "unorganised_worker", "insurance", "registration"],
+    "state_specific": false
+  },
+  {
+    "id": "pm_shram_yogi_maandhan",
+    "name_en": "PM Shram Yogi Maandhan (Worker Pension)",
+    "name_hi": "प्रधानमंत्री श्रम योगी मानधन",
+    "name_gu": "પ્રધાનમંત્રી શ્રમ યોગી માનધન",
+    "ministry": "Ministry of Labour and Employment",
+    "category": "finance",
+    "benefit_en": "Rs 3,000 per month pension after age 60 for unorganised sector workers",
+    "benefit_amount": 36000,
+    "apply_link": "https://maandhan.in",
+    "eligibility": {
+      "states": "all",
+      "occupation": ["daily_wage", "self_employed", "artisan"],
+      "age_min": 18,
+      "age_max": 40,
+      "income_max": 180000
+    },
+    "documents": ["Aadhaar card", "Bank passbook (savings account)"],
+    "steps_en": [
+      "Visit nearest CSC with Aadhaar and bank passbook",
+      "Enrol in PM Shram Yogi Maandhan",
+      "Pay monthly contribution (Rs 55-200 based on age)",
+      "Government matches your contribution equally",
+      "Pension of Rs 3,000/month from age 60"
+    ],
+    "rejection_reasons": ["Monthly income above Rs 15,000", "EPFO/ESIC/NPS member", "Income tax payer"],
+    "scam_note": "Enrol free at CSC. Contribution auto-debited from bank. No agent fees.",
+    "processing_days": "Immediate enrolment",
+    "tags": ["finance", "pension", "unorganised_worker", "social_security"],
+    "state_specific": false
+  },
+  {
+    "id": "pmegp",
+    "name_en": "PM Employment Generation Programme (PMEGP)",
+    "name_hi": "प्रधानमंत्री रोजगार सृजन कार्यक्रम",
+    "name_gu": "પ્રધાનમંત્રી રોજગાર સર્જન કાર્યક્રમ",
+    "ministry": "Ministry of MSME / KVIC",
+    "category": "finance",
+    "benefit_en": "Up to 35% subsidy on bank loans up to Rs 50 lakh to set up new enterprises",
+    "benefit_amount": 5000000,
+    "apply_link": "https://www.kviconline.gov.in/pmegp",
+    "eligibility": {
+      "states": "all",
+      "occupation": ["self_employed", "unemployed", "artisan"],
+      "age_min": 18
+    },
+    "documents": ["Aadhaar card", "Project report", "Caste/category certificate", "Education proof"],
+    "steps_en": [
+      "Apply online at kviconline.gov.in/pmegp",
+      "Submit detailed project report for your business",
+      "Application reviewed by district task force",
+      "Bank sanctions loan with PMEGP margin money subsidy",
+      "Start enterprise; subsidy locked in after 3 years"
+    ],
+    "rejection_reasons": ["Existing PMEGP beneficiary", "Weak project report", "Bank loan rejected"],
+    "scam_note": "Apply only on the official KVIC portal. No agent can guarantee approval. Helpline: 1800-3000-0034.",
+    "processing_days": "60-120",
+    "tags": ["finance", "business", "subsidy", "employment", "entrepreneurship"],
+    "state_specific": false
+  },
+  {
+    "id": "day_nrlm",
+    "name_en": "DAY-NRLM Aajeevika (Rural SHG)",
+    "name_hi": "दीनदयाल अंत्योदय राष्ट्रीय ग्रामीण आजीविका मिशन",
+    "name_gu": "DAY-NRLM આજીવિકા",
+    "ministry": "Ministry of Rural Development",
+    "category": "finance",
+    "benefit_en": "SHG formation + bank linkage loans at low interest for rural women",
+    "benefit_amount": 100000,
+    "apply_link": "https://aajeevika.gov.in",
+    "eligibility": {
+      "states": "all",
+      "gender": ["Female"],
+      "requires_bpl": true
+    },
+    "documents": ["Aadhaar card", "Bank passbook", "SHG membership"],
+    "steps_en": [
+      "Join or form a Self Help Group in your village",
+      "SHG registered under NRLM via block office",
+      "Group builds savings over a few months",
+      "Get community investment fund and bank loans",
+      "Use funds for livelihood activities"
+    ],
+    "rejection_reasons": ["Not part of an SHG", "SHG not NRLM-registered"],
+    "scam_note": "Joining SHGs under NRLM is free. Loans are low-interest. Contact block development office.",
+    "processing_days": "Varies by SHG maturity",
+    "tags": ["finance", "rural", "women", "shg", "livelihood"],
+    "state_specific": false
+  },
+  {
+    "id": "day_nulm",
+    "name_en": "DAY-NULM (Urban Livelihood Mission)",
+    "name_hi": "दीनदयाल अंत्योदय राष्ट्रीय शहरी आजीविका मिशन",
+    "name_gu": "DAY-NULM શહેરી આજીવિકા",
+    "ministry": "Ministry of Housing and Urban Affairs",
+    "category": "finance",
+    "benefit_en": "Skill training, SHG support and subsidised loans for urban poor",
+    "benefit_amount": 200000,
+    "apply_link": "https://nulm.gov.in",
+    "eligibility": {
+      "states": "all",
+      "occupation": ["daily_wage", "self_employed", "unemployed"],
+      "income_max": 200000
+    },
+    "documents": ["Aadhaar card", "Urban residence proof", "Bank passbook"],
+    "steps_en": [
+      "Contact City Mission Management Unit (ULB office)",
+      "Enrol for skill training or SHG formation",
+      "Complete training with placement support",
+      "Apply for subsidised self-employment loan",
+      "Receive interest subvention on the loan"
+    ],
+    "rejection_reasons": ["Not urban poor", "Income above limit"],
+    "scam_note": "Training and SHG support are free. Apply through your urban local body office.",
+    "processing_days": "30-90",
+    "tags": ["finance", "urban", "skill", "livelihood", "loan"],
+    "state_specific": false
+  },
+  {
+    "id": "nmmss",
+    "name_en": "National Means-cum-Merit Scholarship (NMMSS)",
+    "name_hi": "राष्ट्रीय साधन-सह-मेधा छात्रवृत्ति",
+    "name_gu": "રાષ્ટ્રીય સાધન-સહ-મેધા શિષ્યવૃત્તિ",
+    "ministry": "Ministry of Education",
+    "category": "education_youth",
+    "benefit_en": "Rs 12,000 per year scholarship for meritorious students from Class 9 to 12",
+    "benefit_amount": 12000,
+    "apply_link": "https://scholarships.gov.in",
+    "eligibility": {
+      "states": "all",
+      "age_min": 13,
+      "age_max": 18,
+      "income_max": 350000,
+      "occupation": ["student"]
+    },
+    "documents": ["Aadhaar card", "Class 7/8 marksheet (55%+)", "Income certificate", "Bank passbook"],
+    "steps_en": [
+      "Clear the NMMS state-level selection exam in Class 8",
+      "Register at scholarships.gov.in (National Scholarship Portal)",
+      "Submit marks and income certificate",
+      "School verifies application",
+      "Rs 12,000/year credited to bank from Class 9 to 12"
+    ],
+    "rejection_reasons": ["Failed NMMS exam", "Income above Rs 3.5 lakh", "Private/residential school student"],
+    "scam_note": "Scholarship goes directly to bank. Apply free on NSP. No agent needed.",
+    "processing_days": "60-90",
+    "tags": ["education_youth", "scholarship", "students", "merit"],
+    "state_specific": false
+  },
+  {
+    "id": "pragati_scholarship",
+    "name_en": "Pragati Scholarship (Girls in Technical Education)",
+    "name_hi": "प्रगति छात्रवृत्ति",
+    "name_gu": "પ્રગતિ શિષ્યવૃત્તિ",
+    "ministry": "Ministry of Education / AICTE",
+    "category": "education_youth",
+    "benefit_en": "Rs 50,000 per year for girl students in AICTE-approved technical diploma/degree courses",
+    "benefit_amount": 50000,
+    "apply_link": "https://www.aicte-pragati-saksham-gov.in",
+    "eligibility": {
+      "states": "all",
+      "gender": ["Female"],
+      "age_min": 17,
+      "age_max": 25,
+      "income_max": 800000,
+      "occupation": ["student"]
+    },
+    "documents": ["Aadhaar card", "Admission proof (AICTE course)", "Income certificate", "Bank passbook"],
+    "steps_en": [
+      "Get admission to an AICTE-approved technical course",
+      "Apply at the AICTE Pragati scholarship portal",
+      "Upload admission and income documents",
+      "Institute verifies enrolment",
+      "Rs 50,000/year credited to bank account"
+    ],
+    "rejection_reasons": ["Male applicant", "Non-AICTE course", "Family income above Rs 8 lakh"],
+    "scam_note": "Apply only on the AICTE portal. Scholarship credited directly. No fees to apply.",
+    "processing_days": "60-90",
+    "tags": ["education_youth", "scholarship", "girl", "technical"],
+    "state_specific": false
+  },
+  {
+    "id": "naps",
+    "name_en": "National Apprenticeship Promotion Scheme (NAPS)",
+    "name_hi": "राष्ट्रीय शिक्षुता प्रोत्साहन योजना",
+    "name_gu": "રાષ્ટ્રીય શિક્ષુતા પ્રોત્સાહન યોજna",
+    "ministry": "Ministry of Skill Development and Entrepreneurship",
+    "category": "education_youth",
+    "benefit_en": "Paid apprenticeship with stipend + 25% (up to Rs 1,500/month) government support",
+    "benefit_amount": 18000,
+    "apply_link": "https://apprenticeshipindia.gov.in",
+    "eligibility": {
+      "states": "all",
+      "age_min": 14,
+      "age_max": 35,
+      "occupation": ["student", "unemployed"]
+    },
+    "documents": ["Aadhaar card", "Educational certificate", "Bank passbook"],
+    "steps_en": [
+      "Register at apprenticeshipindia.gov.in",
+      "Search and apply for apprenticeship openings",
+      "Get selected by an employer",
+      "Receive monthly stipend during training",
+      "Earn a national apprenticeship certificate"
+    ],
+    "rejection_reasons": ["Age above 35", "Already completed apprenticeship in same trade"],
+    "scam_note": "Registration is free. Stipend is paid by employer with government support. No placement fees.",
+    "processing_days": "Varies by employer",
+    "tags": ["education_youth", "apprenticeship", "skill", "stipend", "youth"],
+    "state_specific": false
+  },
+  {
+    "id": "nfsa_ration",
+    "name_en": "National Food Security Act (Ration / PDS)",
+    "name_hi": "राष्ट्रीय खाद्य सुरक्षा अधिनियम",
+    "name_gu": "રાષ્ટ્રીય ખાદ્ય સુરક્ષા અધિનિયમ",
+    "ministry": "Ministry of Consumer Affairs, Food and Public Distribution",
+    "category": "finance",
+    "benefit_en": "5 kg subsidised foodgrain per person per month (free under PMGKAY)",
+    "benefit_amount": 0,
+    "apply_link": "https://nfsa.gov.in",
+    "eligibility": {
+      "states": "all",
+      "requires_bpl": true
+    },
+    "documents": ["Aadhaar card", "Ration card", "Residence proof"],
+    "steps_en": [
+      "Apply for ration card at food and civil supplies office",
+      "Submit Aadhaar and residence proof",
+      "Card issued after verification",
+      "Collect monthly foodgrain from fair price shop",
+      "Use One Nation One Ration Card to collect anywhere in India"
+    ],
+    "rejection_reasons": ["Above poverty line / not eligible category", "Duplicate ration card"],
+    "scam_note": "Ration card is free. Foodgrain is subsidised/free. Report shop overcharging to the food department.",
+    "processing_days": "15-30",
+    "tags": ["finance", "food", "bpl", "ration", "pds"],
+    "state_specific": false
+  },
+  {
+    "id": "saubhagya",
+    "name_en": "Saubhagya (Free Electricity Connection)",
+    "name_hi": "सौभाग्य योजना",
+    "name_gu": "સૌભાગ્ય યોજna",
+    "ministry": "Ministry of Power",
+    "category": "energy",
+    "benefit_en": "Free electricity connection for un-electrified households",
+    "benefit_amount": 3000,
+    "apply_link": "https://saubhagya.gov.in",
+    "eligibility": {
+      "states": "all",
+      "requires_bpl": true
+    },
+    "documents": ["Aadhaar card", "BPL card / SECC inclusion", "Residence proof"],
+    "steps_en": [
+      "Contact local DISCOM office or electricity camp",
+      "Submit Aadhaar and household details",
+      "Free connection for SECC-listed poor households",
+      "Wiring and meter installed free",
+      "Start receiving electricity supply"
+    ],
+    "rejection_reasons": ["Household already electrified", "Not in SECC poor list"],
+    "scam_note": "Connection is free for eligible poor households. Never pay a bribe for a meter.",
+    "processing_days": "30-60",
+    "tags": ["energy", "electricity", "bpl", "rural"],
+    "state_specific": false
+  },
+  {
+    "id": "rashtriya_vayoshri",
+    "name_en": "Rashtriya Vayoshri Yojana (Senior Citizen Aids)",
+    "name_hi": "राष्ट्रीय वयोश्री योजना",
+    "name_gu": "રાષ્ટ્રીય વયોશ્રી યોજna",
+    "ministry": "Ministry of Social Justice and Empowerment",
+    "category": "senior_disability",
+    "benefit_en": "Free assistive devices (walking sticks, hearing aids, wheelchairs, dentures, spectacles) for poor seniors",
+    "benefit_amount": 10000,
+    "apply_link": "https://alimco.in",
+    "eligibility": {
+      "states": "all",
+      "age_min": 60,
+      "requires_bpl": true
+    },
+    "documents": ["Aadhaar card", "BPL card", "Age proof"],
+    "steps_en": [
+      "Watch for Rashtriya Vayoshri assessment camps via district office",
+      "Get assessed for required assistive devices",
+      "Submit BPL card and age proof",
+      "Devices fitted at distribution camp",
+      "Receive devices free of cost"
+    ],
+    "rejection_reasons": ["Age below 60", "Not BPL"],
+    "scam_note": "All devices are given free at camps. No payment. Contact ALIMCO or district social welfare office.",
+    "processing_days": "Distributed at camps",
+    "tags": ["senior_disability", "elderly", "assistive_device", "bpl"],
+    "state_specific": false
   }
 ]
