@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Indian Gov Scheme Eligibility Checker | સરકારી યોજना ચેકર</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   .step{display:none}.step.active{display:block}
   .scheme-card{border-left:4px solid #16a34a}
@@ -264,10 +265,48 @@
       <p class="text-2xl font-bold" id="r-total">₹0</p>
     </div>
 
+    <!-- Share card prompt -->
+    <div class="bg-white rounded-xl shadow p-5 mb-6 border-2 border-dashed border-green-300">
+      <p class="font-semibold text-gray-800 mb-1" id="share-title">📲 Share your benefit card</p>
+      <p class="text-sm text-gray-500 mb-3" id="share-sub">Download an image and forward it on WhatsApp to help others check too.</p>
+      <input type="text" id="card-name" maxlength="20" placeholder="Your name (optional)"
+        class="w-full border rounded-lg p-2 mb-3 text-sm focus:ring-2 focus:ring-green-500"/>
+      <div class="flex gap-2">
+        <button onclick="downloadCard()" class="flex-1 bg-green-700 text-white py-2 rounded-lg text-sm font-semibold hover:bg-green-800" id="btn-download-card">⬇️ Download Card</button>
+        <button onclick="shareCard()" class="flex-1 bg-[#25D366] text-white py-2 rounded-lg text-sm font-semibold hover:opacity-90" id="btn-share-card">Share on WhatsApp</button>
+      </div>
+    </div>
+
     <!-- Scheme cards -->
     <div id="scheme-list" class="space-y-4"></div>
 
     <button onclick="resetForm()" class="mt-6 w-full border-2 border-blue-700 text-blue-700 py-3 rounded-lg font-semibold hover:bg-blue-50" id="btn-recheck">Check Again</button>
+  </div>
+
+  <!-- Hidden card template (rendered to PNG by html2canvas) -->
+  <div style="position:fixed;left:-9999px;top:0;">
+    <div id="share-card" style="width:600px;height:600px;background:linear-gradient(160deg,#15803d 0%,#166534 55%,#14532d 100%);color:#fff;font-family:Arial,sans-serif;padding:48px;box-sizing:border-box;display:flex;flex-direction:column;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-size:38px;">🇮🇳</span>
+        <span style="font-size:26px;font-weight:bold;" id="card-h">My Government Benefits</span>
+      </div>
+      <div id="card-person" style="margin-top:14px;font-size:20px;color:#bbf7d0;"></div>
+      <div style="height:2px;background:rgba(255,255,255,0.25);margin:22px 0;"></div>
+
+      <div style="text-align:center;margin-top:8px;">
+        <div id="card-iq" style="font-size:18px;color:#bbf7d0;">I qualify for</div>
+        <div id="card-count" style="font-size:96px;font-weight:bold;line-height:1.05;">0</div>
+        <div id="card-sch-label" style="font-size:24px;font-weight:600;margin-top:-6px;">schemes</div>
+        <div id="card-worth" style="font-size:26px;font-weight:bold;margin-top:18px;background:rgba(255,255,255,0.15);display:inline-block;padding:10px 22px;border-radius:14px;">₹0 / year</div>
+      </div>
+
+      <div id="card-list" style="margin-top:26px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;font-size:15px;"></div>
+
+      <div style="margin-top:auto;text-align:center;">
+        <div id="card-cta" style="font-size:17px;color:#bbf7d0;">Check yours free 👇</div>
+        <div style="font-size:28px;font-weight:bold;letter-spacing:1px;">schemecheck.in</div>
+      </div>
+    </div>
   </div>
 
 </main>
@@ -290,7 +329,13 @@ const T = {
     loading:"Checking your eligibility...",found:"Schemes found for you",
     benefit:"Total annual benefit up to",applyNow:"Apply Now",
     howTo:"How to Apply",docs:"Documents Needed",scamAlert:"⚠️ Scam Alert",
-    processDays:"Processing time"
+    processDays:"Processing time",
+    shareTitle:"📲 Share your benefit card",
+    shareSub:"Download an image and forward it on WhatsApp to help others check too.",
+    downloadCard:"⬇️ Download Card",shareWa:"Share on WhatsApp",
+    cardHeading:"My Government Benefits",cardIQualify:"I qualify for",cardSchemes:"schemes",
+    cardYear:"year",cardMore:"more",cardCta:"Check yours free 👇",
+    cardShareText:"I qualify for {count} government schemes worth {worth}/year! Check which ones you can get for free:"
   },
   hi:{
     title:"सरकारी योजना पात्रता चेकर",sub:"आपके लिए सभी सरकारी योजनाएं खोजें",
@@ -303,7 +348,13 @@ const T = {
     loading:"पात्रता जांच रहे हैं...",found:"आपके लिए योजनाएं मिलीं",
     benefit:"कुल वार्षिक लाभ तक",applyNow:"अभी आवेदन करें",
     howTo:"कैसे आवेदन करें",docs:"आवश्यक दस्तावेज",scamAlert:"⚠️ धोखाधड़ी सतर्क",
-    processDays:"प्रक्रिया का समय"
+    processDays:"प्रक्रिया का समय",
+    shareTitle:"📲 अपना लाभ कार्ड साझा करें",
+    shareSub:"तस्वीर डाउनलोड करें और WhatsApp पर भेजें ताकि दूसरे भी जांच सकें।",
+    downloadCard:"⬇️ कार्ड डाउनलोड करें",shareWa:"WhatsApp पर साझा करें",
+    cardHeading:"मेरे सरकारी लाभ",cardIQualify:"मैं पात्र हूं",cardSchemes:"योजनाओं के लिए",
+    cardYear:"वर्ष",cardMore:"और",cardCta:"अपना मुफ्त जांचें 👇",
+    cardShareText:"मैं {worth}/वर्ष की {count} सरकारी योजनाओं के लिए पात्र हूं! जांचें कि आप कौन सी मुफ्त पा सकते हैं:"
   },
   gu:{
     title:"સરકારી યોજna ચekaR",sub:"તમારા માટે તમામ સchemerkai yojanaOni jaaNkaari melavO",
@@ -316,13 +367,21 @@ const T = {
     loading:"Patrata tapasie chhie...",found:"Tamara mate yojanaO malI",
     benefit:"Kul vaarsik laabh sudhi",applyNow:"Ahhi apply karO",
     howTo:"Kem apply karvu",docs:"Jaruri dastaavejo",scamAlert:"⚠️ Thaganaa savadhaan",
-    processDays:"Prakriya samay"
+    processDays:"Prakriya samay",
+    shareTitle:"📲 Tamaru laabh card share karO",
+    shareSub:"Image download karO ane WhatsApp par moklO jethi biija pan check kari sake.",
+    downloadCard:"⬇️ Card Download karO",shareWa:"WhatsApp par share karO",
+    cardHeading:"Mara Sarkari Laabh",cardIQualify:"Hu patra chhu",cardSchemes:"yojana mate",
+    cardYear:"varsh",cardMore:"vadhu",cardCta:"Tamaru muft check karO 👇",
+    cardShareText:"Hu {worth}/varsh ni {count} sarkari yojana mate patra chhu! Check karO ke tame kai muft melavi shakO:"
   }
 };
 
 let lang = 'en';
 let currentStep = 1;
 const TOTAL_STEPS = 10;
+let lastResult = null;     // {count, total_annual_benefit, schemes}
+let lastState = '';        // user's selected state, for the share card
 
 function setLang(l) {
   lang = l;
@@ -349,6 +408,11 @@ function applyLang() {
   if(rb) rb.textContent = t.benefit;
   const brc = document.getElementById('btn-recheck');
   if(brc) brc.textContent = t.recheck;
+  const setText = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+  setText('share-title', t.shareTitle);
+  setText('share-sub', t.shareSub);
+  setText('btn-download-card', t.downloadCard);
+  setText('btn-share-card', t.shareWa);
 }
 
 // ─── Form navigation ──────────────────────────────────────
@@ -442,6 +506,8 @@ function fmt(n) {
 }
 
 function renderResults(data) {
+  lastResult = data;
+  lastState = document.getElementById('f-state').value;
   document.getElementById('loading').style.display = 'none';
   document.getElementById('results').style.display = 'block';
   document.getElementById('r-count').textContent = data.count;
@@ -521,6 +587,83 @@ function resetForm() {
     b.classList.remove('border-blue-500','bg-blue-50');
     b.classList.add('border-gray-200');
   });
+}
+
+// ─── Shareable benefit card ────────────────────────────────
+function buildCard() {
+  if(!lastResult) return;
+  const t = T[lang];
+  const name = (document.getElementById('card-name').value || '').trim();
+
+  document.getElementById('card-h').textContent = t.cardHeading;
+  document.getElementById('card-iq').textContent = t.cardIQualify;
+  document.getElementById('card-sch-label').textContent = t.cardSchemes;
+  document.getElementById('card-cta').textContent = t.cardCta;
+
+  const person = [name, lastState].filter(Boolean).join(' · ');
+  document.getElementById('card-person').textContent = person || lastState || '';
+
+  document.getElementById('card-count').textContent = lastResult.count;
+  document.getElementById('card-worth').textContent = fmt(lastResult.total_annual_benefit) + ' / ' + t.cardYear;
+
+  // Show up to 4 scheme names as chips, then "+N more"
+  const schemes = lastResult.schemes || [];
+  const top = schemes.slice(0, 4);
+  const chips = top.map(s => {
+    const nm = lang==='hi' ? s.name_hi : lang==='gu' ? s.name_gu : s.name_en;
+    const short = nm.length > 26 ? nm.slice(0, 24) + '…' : nm;
+    return `<span style="background:rgba(255,255,255,0.18);padding:6px 12px;border-radius:20px;">${short}</span>`;
+  });
+  if(schemes.length > 4) {
+    chips.push(`<span style="padding:6px 12px;">+${schemes.length - 4} ${t.cardMore}</span>`);
+  }
+  document.getElementById('card-list').innerHTML = chips.join('');
+}
+
+async function renderCardCanvas() {
+  buildCard();
+  // wait a tick so DOM updates paint before capture
+  await new Promise(r => setTimeout(r, 50));
+  return html2canvas(document.getElementById('share-card'), {scale: 2, useCORS: true});
+}
+
+async function downloadCard() {
+  if(!lastResult) return;
+  const btn = document.getElementById('btn-download-card');
+  const orig = btn.textContent; btn.textContent = '…';
+  try {
+    const canvas = await renderCardCanvas();
+    const link = document.createElement('a');
+    link.download = 'my-government-benefits.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  } catch(e) {
+    alert('Could not generate the card. Please try again.');
+  } finally {
+    btn.textContent = orig;
+  }
+}
+
+async function shareCard() {
+  if(!lastResult) return;
+  const t = T[lang];
+  const text = t.cardShareText
+    .replace('{count}', lastResult.count)
+    .replace('{worth}', fmt(lastResult.total_annual_benefit));
+
+  // Try native share with the image (mobile); fall back to WhatsApp text link
+  try {
+    const canvas = await renderCardCanvas();
+    const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+    const file = new File([blob], 'my-government-benefits.png', {type: 'image/png'});
+    if(navigator.canShare && navigator.canShare({files: [file]})) {
+      await navigator.share({files: [file], text});
+      return;
+    }
+  } catch(e) { /* fall through to WhatsApp link */ }
+
+  const waUrl = 'https://wa.me/?text=' + encodeURIComponent(text + ' https://schemecheck.in');
+  window.open(waUrl, '_blank');
 }
 </script>
 </body>
