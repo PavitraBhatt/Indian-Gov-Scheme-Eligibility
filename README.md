@@ -64,22 +64,53 @@ curl -X POST http://localhost:8000/api/check \
 pytest -v
 ```
 
+## CLI
+
+```bash
+scheme-check --state Gujarat --age 35 --occupation farmer --land 2.0 --income 120000
+scheme-check --state Maharashtra --age 40 --bpl --json   # machine-readable output
+```
+
+## Deployment
+
+The app is containerised and deploys free on Render/Railway/Fly.
+
+```bash
+# Local Docker run
+docker build -t scheme-checker .
+docker run -p 8000:8000 scheme-checker
+```
+
+- **Render:** New → Blueprint → connect this repo (uses `render.yaml`).
+- **Railway/Heroku:** uses the `Procfile`.
+- Health check: `GET /api/health`.
+
+## Storage
+
+JSON files in `data/` are the **source of truth** (human-editable, reviewed in
+PRs, validated by `tests/test_data.py`). At runtime, `db.py` builds an indexed
+**SQLite** database from them and auto-rebuilds whenever a JSON file changes, so
+the two never drift. Set `SCHEME_DB_PATH` to relocate the DB on read-only hosts.
+
 ## Project Structure
 
 ```
 ├── src/scheme_checker/
 │   ├── core.py       # UserProfile + match_schemes() eligibility engine
-│   ├── schemes.py    # JSON loader (central + state schemes)
+│   ├── db.py         # SQLite runtime store built from JSON
+│   ├── schemes.py    # Access layer (load_schemes / get_scheme_by_id)
 │   ├── api.py        # FastAPI app
 │   └── cli.py        # CLI tool
 ├── data/
-│   ├── schemes_central.json   # 49 central government schemes
-│   └── schemes_gujarat.json   # 5 Gujarat state schemes
+│   ├── schemes_central.json        # 49 central schemes
+│   ├── schemes_gujarat.json        # Gujarat state schemes
+│   ├── schemes_maharashtra.json    # Maharashtra
+│   ├── schemes_rajasthan.json      # Rajasthan
+│   └── schemes_uttar_pradesh.json  # Uttar Pradesh
 ├── frontend/
-│   └── index.html    # Multilingual 10-step form + results
-├── tests/
-│   ├── test_core.py  # Eligibility engine tests
-│   └── test_api.py   # API endpoint tests
+│   └── index.html    # Multilingual 10-step form + shareable PNG card
+├── tests/            # core, api, cli, db, data-integrity (290+ tests)
+├── Dockerfile · render.yaml · Procfile   # deployment
 └── .mcp.json         # GitHub MCP server config
 ```
 
@@ -93,8 +124,9 @@ export GITHUB_PERSONAL_ACCESS_TOKEN=ghp_your_token_here
 
 ## Roadmap
 
+- [x] Shareable PNG benefit summary card
+- [x] State schemes: Maharashtra, Rajasthan, UP
+- [x] SQLite storage layer
 - [ ] WhatsApp bot integration (Twilio)
-- [ ] Shareable PNG benefit summary card
-- [ ] State schemes: Maharashtra, Rajasthan, UP
 - [ ] Application status tracker
 - [ ] Offline PWA mode
