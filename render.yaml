@@ -1,0 +1,14 @@
+# Render.com blueprint — deploy free with: New > Blueprint > connect this repo.
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: scheme-checker
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      # Render injects PORT automatically; uvicorn reads it in the Dockerfile CMD.
+      - key: PYTHONUNBUFFERED
+        value: "1"

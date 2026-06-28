@@ -1,0 +1,17 @@
+.git
+.github
+.claude
+.pytest_cache
+.ruff_cache
+__pycache__
+*.pyc
+.venv
+venv
+tests
+data/schemes.db
+blueprint_text.txt
+extract_blueprint.py
+Scheme_Checker_Project_Blueprint.docx
+*.egg-info
+.gitignore
+.gitattributes
