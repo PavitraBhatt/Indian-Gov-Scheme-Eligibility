@@ -874,5 +874,206 @@
     "processing_days": "15-30",
     "tags": ["agriculture", "livestock", "insurance", "farmer"],
     "state_specific": false
+  },
+  {
+    "id": "janani_suraksha",
+    "name_en": "Janani Suraksha Yojana (JSY)",
+    "name_hi": "जननी सुरक्षा योजना",
+    "name_gu": "જનની સુરક્ષા યોજna",
+    "ministry": "Ministry of Health and Family Welfare",
+    "category": "health",
+    "benefit_en": "Cash assistance Rs 700-1,400 for institutional delivery to pregnant women",
+    "benefit_amount": 1400,
+    "apply_link": "https://nhm.gov.in",
+    "eligibility": {
+      "states": "all",
+      "gender": ["Female"],
+      "requires_bpl": true,
+      "age_min": 19
+    },
+    "documents": ["Aadhaar card", "BPL card", "MCP card", "Bank passbook"],
+    "steps_en": [
+      "Register pregnancy with ASHA worker or at health centre",
+      "Get antenatal check-ups done",
+      "Deliver at a government or accredited hospital",
+      "ASHA worker helps process the cash benefit",
+      "Amount credited to bank account after delivery"
+    ],
+    "rejection_reasons": ["Home delivery (not institutional)", "Not registered with ASHA/PHC"],
+    "scam_note": "JSY money comes directly to your bank. ASHA worker assists free of charge.",
+    "processing_days": "After delivery",
+    "tags": ["health", "maternity", "women", "bpl", "pregnancy"],
+    "state_specific": false
+  },
+  {
+    "id": "jssk",
+    "name_en": "Janani Shishu Suraksha Karyakram (JSSK)",
+    "name_hi": "जननी शिशु सुरक्षा कार्यक्रम",
+    "name_gu": "જનની શિશુ સુરક્ષા કાર્યક્રમ",
+    "ministry": "Ministry of Health and Family Welfare",
+    "category": "health",
+    "benefit_en": "Free delivery, C-section, medicines, diagnostics and transport for mother and newborn",
+    "benefit_amount": 0,
+    "apply_link": "https://nhm.gov.in",
+    "eligibility": {
+      "states": "all",
+      "gender": ["Female"],
+      "age_min": 18
+    },
+    "documents": ["Aadhaar card", "MCP card"],
+    "steps_en": [
+      "Go to any government hospital for delivery",
+      "All services provided free — no payment at all",
+      "Free medicines and diagnostic tests included",
+      "Free transport home after delivery",
+      "Free treatment for sick newborns up to 1 year"
+    ],
+    "rejection_reasons": ["Private hospital delivery"],
+    "scam_note": "Everything under JSSK is 100% free at government hospitals. Never pay for delivery or medicines.",
+    "processing_days": "Immediate",
+    "tags": ["health", "maternity", "women", "newborn", "free"],
+    "state_specific": false
+  },
+  {
+    "id": "rbsk",
+    "name_en": "Rashtriya Bal Swasthya Karyakram (RBSK)",
+    "name_hi": "राष्ट्रीय बाल स्वास्थ्य कार्यक्रम",
+    "name_gu": "રાષ્ટ્રીય બાળ આરોગ્ય કાર્યક્રમ",
+    "ministry": "Ministry of Health and Family Welfare",
+    "category": "health",
+    "benefit_en": "Free health screening and treatment for children 0-18 years (defects, diseases, disabilities)",
+    "benefit_amount": 0,
+    "apply_link": "https://nhm.gov.in",
+    "eligibility": {
+      "states": "all",
+      "age_max": 18
+    },
+    "documents": ["Aadhaar card / birth certificate"],
+    "steps_en": [
+      "Children screened free at Anganwadi, schools and health centres",
+      "RBSK mobile teams visit villages and schools",
+      "Identified conditions referred to district hospital",
+      "Free treatment including surgeries provided",
+      "Follow-up care arranged free of cost"
+    ],
+    "rejection_reasons": ["Age above 18"],
+    "scam_note": "All screening and treatment is free. Never pay for child health services under RBSK.",
+    "processing_days": "As per screening camps",
+    "tags": ["health", "children", "free", "screening"],
+    "state_specific": false
+  },
+  {
+    "id": "beti_bachao",
+    "name_en": "Beti Bachao Beti Padhao",
+    "name_hi": "बेटी बचाओ बेटी पढ़ाओ",
+    "name_gu": "બેટી બચાવો બેટી ભણાવો",
+    "ministry": "Ministry of Women and Child Development",
+    "category": "women_children",
+    "benefit_en": "Awareness, education support and protection for the girl child",
+    "benefit_amount": 0,
+    "apply_link": "https://wcd.nic.in",
+    "eligibility": {
+      "states": "all",
+      "gender": ["Female"],
+      "age_max": 18
+    },
+    "documents": ["Birth certificate", "Aadhaar card"],
+    "steps_en": [
+      "Contact local Anganwadi or women and child development office",
+      "Enrol girl child in school",
+      "Link with Sukanya Samriddhi account for savings",
+      "Access awareness and counselling programmes",
+      "Benefit from convergence with education schemes"
+    ],
+    "rejection_reasons": ["Male child"],
+    "scam_note": "This is an awareness and convergence scheme — services are free. Beware of fake registration fees.",
+    "processing_days": "Ongoing",
+    "tags": ["women_children", "girl_child", "education", "awareness"],
+    "state_specific": false
+  },
+  {
+    "id": "national_creche",
+    "name_en": "National Creche Scheme (Palna)",
+    "name_hi": "राष्ट्रीय पालना (क्रेच) योजना",
+    "name_gu": "રાષ્ટ્રીય પાલના યોજna",
+    "ministry": "Ministry of Women and Child Development",
+    "category": "women_children",
+    "benefit_en": "Subsidised daycare, nutrition and health for children 6 months to 6 years of working mothers",
+    "benefit_amount": 0,
+    "apply_link": "https://wcd.nic.in",
+    "eligibility": {
+      "states": "all",
+      "gender": ["Female"],
+      "income_max": 300000
+    },
+    "documents": ["Aadhaar card", "Child's birth certificate", "Income proof"],
+    "steps_en": [
+      "Locate nearest Palna/creche centre via WCD office",
+      "Submit child and parent documents",
+      "Pay nominal subsidised monthly fee",
+      "Child gets daycare, meals and health check-ups",
+      "Centre open during working hours"
+    ],
+    "rejection_reasons": ["Child outside 6 months-6 years", "No creche centre nearby"],
+    "scam_note": "Fees are nominal and subsidised. Verify the centre is government-registered.",
+    "processing_days": "15-30",
+    "tags": ["women_children", "daycare", "working_mother", "nutrition"],
+    "state_specific": false
+  },
+  {
+    "id": "mahila_samman_savings",
+    "name_en": "Mahila Samman Savings Certificate",
+    "name_hi": "महिला सम्मान बचत प्रमाणपत्र",
+    "name_gu": "મહિલા સન્માન બચત પ્રમાણપત્ર",
+    "ministry": "Ministry of Finance",
+    "category": "women_children",
+    "benefit_en": "7.5% interest on savings up to Rs 2 lakh for 2 years (women and girls)",
+    "benefit_amount": 0,
+    "apply_link": "https://www.indiapost.gov.in",
+    "eligibility": {
+      "states": "all",
+      "gender": ["Female"]
+    },
+    "documents": ["Aadhaar card", "PAN card", "Deposit amount"],
+    "steps_en": [
+      "Visit post office or authorised bank",
+      "Fill Mahila Samman Savings Certificate form",
+      "Deposit between Rs 1,000 and Rs 2 lakh",
+      "Earn 7.5% fixed interest for 2 years",
+      "Partial withdrawal allowed after 1 year"
+    ],
+    "rejection_reasons": ["Male applicant", "Scheme window closed (limited period)"],
+    "scam_note": "Open only at post office or bank. No agent needed. Fixed government interest rate.",
+    "processing_days": "Same day",
+    "tags": ["women_children", "savings", "women", "investment"],
+    "state_specific": false
+  },
+  {
+    "id": "pmvvy",
+    "name_en": "Pradhan Mantri Vaya Vandana Yojana (PMVVY)",
+    "name_hi": "प्रधानमंत्री वय वंदना योजना",
+    "name_gu": "પ્રધાનમંત્રી વય વંદના યોજna",
+    "ministry": "Ministry of Finance / LIC",
+    "category": "senior_disability",
+    "benefit_en": "Guaranteed pension at ~7.4% for senior citizens, investment up to Rs 15 lakh",
+    "benefit_amount": 0,
+    "apply_link": "https://licindia.in",
+    "eligibility": {
+      "states": "all",
+      "age_min": 60
+    },
+    "documents": ["Aadhaar card", "PAN card", "Bank passbook", "Age proof"],
+    "steps_en": [
+      "Visit LIC office or licindia.in",
+      "Choose pension mode (monthly/quarterly/yearly)",
+      "Invest lump sum up to Rs 15 lakh",
+      "Receive guaranteed pension for 10 years",
+      "Principal returned to nominee on maturity/death"
+    ],
+    "rejection_reasons": ["Age below 60", "Scheme subscription window closed"],
+    "scam_note": "Buy only through LIC. No third-party agents needed. Pension credited to bank.",
+    "processing_days": "Immediate",
+    "tags": ["senior_disability", "pension", "elderly", "investment"],
+    "state_specific": false
   }
 ]
