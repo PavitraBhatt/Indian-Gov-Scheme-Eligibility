@@ -20,6 +20,9 @@ htmlcov/
 blueprint_text.txt
 extract_blueprint.py
 
+# SQLite runtime store (built from data/*.json, not source of truth)
+data/schemes.db
+
 # OS / editor
 .DS_Store
 Thumbs.db
