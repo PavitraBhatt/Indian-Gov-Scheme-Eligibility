@@ -12,17 +12,25 @@ def test_age_rule_fails():
 
 
 def _farmer_profile(**overrides):
-    defaults = dict(
-        state="Gujarat", age=35, gender="Male", caste="OBC",
-        annual_income=120000, occupation="farmer", land_acres=2.0,
-        has_bpl_card=False, is_differently_abled=False, is_widow=False,
-    )
+    defaults = {
+        "state": "Gujarat",
+        "age": 35,
+        "gender": "Male",
+        "caste": "OBC",
+        "annual_income": 120000,
+        "occupation": "farmer",
+        "land_acres": 2.0,
+        "has_bpl_card": False,
+        "is_differently_abled": False,
+        "is_widow": False,
+    }
     defaults.update(overrides)
     return UserProfile.from_dict(defaults)
 
 
 def test_match_schemes_farmer_gets_kisan():
     from scheme_checker import load_schemes
+
     schemes = load_schemes(states=["Gujarat"])
     profile = _farmer_profile()
     matched_ids = {s["id"] for s in match_schemes(profile, schemes)}
@@ -31,6 +39,7 @@ def test_match_schemes_farmer_gets_kisan():
 
 def test_match_schemes_income_filter():
     from scheme_checker import load_schemes
+
     schemes = load_schemes()
     # High income — should NOT get pm_kisan (income_max=200000)
     profile = _farmer_profile(annual_income=500000)
@@ -40,6 +49,7 @@ def test_match_schemes_income_filter():
 
 def test_match_schemes_bpl_required():
     from scheme_checker import load_schemes
+
     schemes = load_schemes()
     # Without BPL card
     profile_no_bpl = _farmer_profile(has_bpl_card=False)
@@ -54,6 +64,7 @@ def test_match_schemes_bpl_required():
 
 def test_match_schemes_gender_filter():
     from scheme_checker import load_schemes
+
     schemes = load_schemes()
     # pm_ujjwala requires Female + BPL
     male_profile = _farmer_profile(gender="Male", has_bpl_card=True)
@@ -68,6 +79,7 @@ def test_match_schemes_gender_filter():
 
 def test_gujarat_schemes_only_in_gujarat():
     from scheme_checker import load_schemes
+
     gujarat_schemes = load_schemes(states=["Gujarat"])
     other_schemes = load_schemes(states=["Maharashtra"])
 
@@ -80,6 +92,7 @@ def test_gujarat_schemes_only_in_gujarat():
 
 def test_each_supported_state_loads_its_schemes():
     from scheme_checker import load_schemes
+
     expectations = {
         "Maharashtra": "mh_ladki_bahin",
         "Rajasthan": "rj_chiranjeevi_health",
@@ -92,6 +105,7 @@ def test_each_supported_state_loads_its_schemes():
 
 def test_central_schemes_load_without_state():
     from scheme_checker import load_schemes
+
     central = load_schemes()
     # State-specific schemes must NOT appear when no state requested
     ids = {s["id"] for s in central}
@@ -101,6 +115,7 @@ def test_central_schemes_load_without_state():
 
 def test_results_sorted_by_benefit_amount():
     from scheme_checker import load_schemes
+
     schemes = load_schemes()
     profile = _farmer_profile(has_bpl_card=True, annual_income=50000)
     matched = match_schemes(profile, schemes)

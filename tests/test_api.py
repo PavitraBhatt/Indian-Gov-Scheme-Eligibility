@@ -1,16 +1,23 @@
-import pytest
 from fastapi.testclient import TestClient
+
 from scheme_checker.api import app
 
 client = TestClient(app)
 
 
 def _payload(**overrides):
-    base = dict(
-        state="Gujarat", age=35, gender="Male", caste="OBC",
-        annual_income=120000, occupation="farmer", land_acres=2.0,
-        has_bpl_card=False, is_differently_abled=False, is_widow=False,
-    )
+    base = {
+        "state": "Gujarat",
+        "age": 35,
+        "gender": "Male",
+        "caste": "OBC",
+        "annual_income": 120000,
+        "occupation": "farmer",
+        "land_acres": 2.0,
+        "has_bpl_card": False,
+        "is_differently_abled": False,
+        "is_widow": False,
+    }
     base.update(overrides)
     return base
 
