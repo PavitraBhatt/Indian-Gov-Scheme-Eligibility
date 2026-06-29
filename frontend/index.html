@@ -6,6 +6,7 @@
 <title>Indian Gov Scheme Eligibility Checker | સરકારી યોજના ચેકર</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   .step{display:none}.step.active{display:block}
   .scheme-card{border-left:4px solid #16a34a}
@@ -274,7 +275,7 @@
       <input type="text" id="card-name" maxlength="20" placeholder="Your name (optional)"
         class="w-full border rounded-lg p-2 mb-3 text-sm focus:ring-2 focus:ring-green-500"/>
       <div class="flex gap-2">
-        <button onclick="downloadCard()" class="flex-1 bg-green-700 text-white py-2 rounded-lg text-sm font-semibold hover:bg-green-800" id="btn-download-card">⬇️ Download Card</button>
+        <button onclick="downloadCard()" class="flex-1 bg-green-700 text-white py-2 rounded-lg text-sm font-semibold hover:bg-green-800" id="btn-download-card">⬇️ Download PDF</button>
         <button onclick="shareCard()" class="flex-1 bg-[#25D366] text-white py-2 rounded-lg text-sm font-semibold hover:opacity-90" id="btn-share-card">Share on WhatsApp</button>
       </div>
     </div>
@@ -297,9 +298,9 @@
 
       <div style="text-align:center;margin-top:8px;">
         <div id="card-iq" style="font-size:18px;color:#bbf7d0;">I qualify for</div>
-        <div id="card-count" style="font-size:96px;font-weight:bold;line-height:1.05;">0</div>
-        <div id="card-sch-label" style="font-size:24px;font-weight:600;margin-top:-6px;">schemes</div>
-        <div id="card-worth" style="font-size:26px;font-weight:bold;margin-top:18px;background:rgba(255,255,255,0.15);display:inline-block;padding:10px 22px;border-radius:14px;">₹0 / year</div>
+        <div id="card-count" style="font-size:88px;font-weight:bold;line-height:1.1;margin:4px 0;">0</div>
+        <div id="card-sch-label" style="font-size:24px;font-weight:600;margin-top:4px;">schemes</div>
+        <div id="card-worth" style="font-size:24px;font-weight:bold;margin-top:20px;background:rgba(255,255,255,0.15);display:inline-block;padding:10px 22px;border-radius:14px;">₹0 / year</div>
       </div>
 
       <div id="card-list" style="margin-top:26px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;font-size:15px;"></div>
@@ -337,7 +338,7 @@ const T = {
     processDays:"Processing time",
     shareTitle:"📲 Share your benefit card",
     shareSub:"Download an image and forward it on WhatsApp to help others check too.",
-    downloadCard:"⬇️ Download Card",shareWa:"Share on WhatsApp",
+    downloadCard:"⬇️ Download PDF",shareWa:"Share on WhatsApp",
     cardHeading:"My Government Benefits",cardIQualify:"I qualify for",cardSchemes:"schemes",
     cardYear:"year",cardMore:"more",cardCta:"Check yours free 👇",
     cardShareText:"I qualify for {count} government schemes worth {worth}/year! Check which ones you can get for free:"
@@ -359,7 +360,7 @@ const T = {
     processDays:"प्रक्रिया का समय",
     shareTitle:"📲 अपना लाभ कार्ड साझा करें",
     shareSub:"तस्वीर डाउनलोड करें और WhatsApp पर भेजें ताकि दूसरे भी जांच सकें।",
-    downloadCard:"⬇️ कार्ड डाउनलोड करें",shareWa:"WhatsApp पर साझा करें",
+    downloadCard:"⬇️ PDF डाउनलोड करें",shareWa:"WhatsApp पर साझा करें",
     cardHeading:"मेरे सरकारी लाभ",cardIQualify:"मैं पात्र हूं",cardSchemes:"योजनाओं के लिए",
     cardYear:"वर्ष",cardMore:"और",cardCta:"अपना मुफ्त जांचें 👇",
     cardShareText:"मैं {worth}/वर्ष की {count} सरकारी योजनाओं के लिए पात्र हूं! जांचें कि आप कौन सी मुफ्त पा सकते हैं:"
@@ -381,7 +382,7 @@ const T = {
     processDays:"પ્રક્રિયા સમય",
     shareTitle:"📲 તમારું લાભ કાર્ડ શેર કરો",
     shareSub:"ચિત્ર ડાઉનલોડ કરો અને WhatsApp પર મોકલો જેથી બીજા પણ તપાસી શકે.",
-    downloadCard:"⬇️ કાર્ડ ડાઉનલોડ કરો",shareWa:"WhatsApp પર શેર કરો",
+    downloadCard:"⬇️ PDF ડાઉનલોડ કરો",shareWa:"WhatsApp પર શેર કરો",
     cardHeading:"મારા સરકારી લાભ",cardIQualify:"હું પાત્ર છું",cardSchemes:"યોજનાઓ માટે",
     cardYear:"વર્ષ",cardMore:"વધુ",cardCta:"તમારું મફત તપાસો 👇",
     cardShareText:"હું {worth}/વર્ષની {count} સરકારી યોજનાઓ માટે પાત્ર છું! તપાસો કે તમે કઈ મફત મેળવી શકો છો:"
@@ -660,12 +661,22 @@ async function downloadCard() {
   const orig = btn.textContent; btn.textContent = '…';
   try {
     const canvas = await renderCardCanvas();
-    const link = document.createElement('a');
-    link.download = 'my-government-benefits.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
+    const img = canvas.toDataURL('image/png');
+    // Build a single-page A4 PDF with the card centred
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({orientation:'portrait', unit:'pt', format:'a4'});
+    const pageW = pdf.internal.pageSize.getWidth();
+    const pageH = pdf.internal.pageSize.getHeight();
+    const size = Math.min(pageW - 80, 460);      // square card, with margins
+    const x = (pageW - size) / 2, y = 60;
+    pdf.addImage(img, 'PNG', x, y, size, size);
+    pdf.setFontSize(10); pdf.setTextColor(120);
+    pdf.text('Generated by ' + (window.location.host || 'schemecheck.in') +
+             ' — government scheme eligibility checker', pageW/2, y + size + 28,
+             {align:'center'});
+    pdf.save('my-government-benefits.pdf');
   } catch(e) {
-    alert('Could not generate the card. Please try again.');
+    alert('Could not generate the PDF. Please try again.');
   } finally {
     btn.textContent = orig;
   }
