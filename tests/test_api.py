@@ -28,6 +28,30 @@ def test_health():
     assert r.json()["status"] == "ok"
 
 
+def test_check_rejects_negative_age():
+    assert client.post("/api/check", json=_payload(age=-5)).status_code == 422
+
+
+def test_check_rejects_absurd_age():
+    assert client.post("/api/check", json=_payload(age=999)).status_code == 422
+
+
+def test_check_rejects_negative_income():
+    assert client.post("/api/check", json=_payload(annual_income=-1)).status_code == 422
+
+
+def test_check_rejects_empty_state():
+    assert client.post("/api/check", json=_payload(state="")).status_code == 422
+
+
+def test_check_rejects_negative_land():
+    assert client.post("/api/check", json=_payload(land_acres=-2)).status_code == 422
+
+
+def test_check_accepts_age_120():
+    assert client.post("/api/check", json=_payload(age=120)).status_code == 200
+
+
 def test_check_returns_schemes():
     r = client.post("/api/check", json=_payload())
     assert r.status_code == 200

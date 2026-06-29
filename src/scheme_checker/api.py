@@ -1,15 +1,28 @@
+import os
 from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from .core import UserProfile, match_schemes
 from .schemes import get_scheme_by_id, load_schemes
 
-app = FastAPI(title="Indian Gov Scheme Eligibility API", version="0.2.0")
+app = FastAPI(title="Indian Gov Scheme Eligibility API", version="0.3.0")
+
+# CORS — the form is same-origin, but /api is documented for integrations.
+# Default to same-origin only; set SCHEME_CORS_ORIGINS (comma-separated) to open up.
+_origins = [o for o in os.environ.get("SCHEME_CORS_ORIGINS", "").split(",") if o]
+if _origins:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=_origins,
+        allow_methods=["GET", "POST"],
+        allow_headers=["*"],
+    )
 
 _FRONTEND_DIR = Path(__file__).parent.parent.parent / "frontend"
 _STATIC_DIR = _FRONTEND_DIR / "static"
@@ -19,34 +32,18 @@ if _STATIC_DIR.exists():
 
 
 class CheckRequest(BaseModel):
-    state: str
-    age: int
-    gender: str
-    caste: str
-    annual_income: int
-    occupation: str
-    land_acres: float | None = None
+    """Validated applicant profile. Bad inputs (negative age, etc.) get a 422."""
+
+    state: str = Field(min_length=1, max_length=60)
+    age: int = Field(ge=0, le=120)
+    gender: str = Field(min_length=1, max_length=20)
+    caste: str = Field(min_length=1, max_length=20)
+    annual_income: int = Field(ge=0, le=1_000_000_000)
+    occupation: str = Field(min_length=1, max_length=30)
+    land_acres: float | None = Field(default=None, ge=0, le=100_000)
     has_bpl_card: bool = False
     is_differently_abled: bool = False
     is_widow: bool = False
-
-
-class SchemeResult(BaseModel):
-    id: str
-    name_en: str
-    name_hi: str
-    name_gu: str
-    category: str
-    benefit_en: str
-    benefit_amount: int
-    apply_link: str
-    ministry: str
-    documents: list[str]
-    steps_en: list[str]
-    scam_note: str
-    processing_days: str
-    tags: list[str]
-    state_specific: bool
 
 
 @app.get("/", response_class=HTMLResponse)
