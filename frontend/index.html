@@ -136,15 +136,21 @@
       <div class="bg-white rounded-xl shadow p-6">
         <p class="text-xs text-blue-600 font-semibold uppercase mb-1">Finances</p>
         <h2 class="text-lg font-bold text-gray-800 mb-4" id="q5">Annual household income?</h2>
-        <div class="space-y-2">
-          <button onclick="selectOption('f-income','24000',this)" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">Below Rs 24,000 / year</button>
-          <button onclick="selectOption('f-income','60000',this)" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">Rs 24,001 – 60,000</button>
-          <button onclick="selectOption('f-income','120000',this)" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">Rs 60,001 – 1,20,000</button>
-          <button onclick="selectOption('f-income','200000',this)" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">Rs 1,20,001 – 2,00,000</button>
-          <button onclick="selectOption('f-income','500000',this)" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">Rs 2,00,001 – 5,00,000</button>
-          <button onclick="selectOption('f-income','800001',this)" class="opt-btn w-full border-2 border-gray-200 rounded-lg p-3 text-left hover:border-blue-500">Above Rs 5,00,000</button>
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₹</span>
+          <input type="number" id="f-income" min="0" step="1000" inputmode="numeric"
+            placeholder="e.g. 150000"
+            oninput="document.getElementById('income-hint').textContent = fmtIncomeHint(this.value)"
+            class="w-full border rounded-lg p-3 pl-7 text-gray-700 focus:ring-2 focus:ring-blue-500"/>
         </div>
-        <input type="hidden" id="f-income"/>
+        <p id="income-hint" class="text-sm text-gray-500 mt-1">Enter your total yearly household income in rupees.</p>
+        <div class="flex flex-wrap gap-2 mt-3">
+          <button type="button" onclick="setIncome(60000)" class="text-xs border rounded-full px-3 py-1 hover:border-blue-500">₹60K</button>
+          <button type="button" onclick="setIncome(120000)" class="text-xs border rounded-full px-3 py-1 hover:border-blue-500">₹1.2L</button>
+          <button type="button" onclick="setIncome(250000)" class="text-xs border rounded-full px-3 py-1 hover:border-blue-500">₹2.5L</button>
+          <button type="button" onclick="setIncome(500000)" class="text-xs border rounded-full px-3 py-1 hover:border-blue-500">₹5L</button>
+          <button type="button" onclick="setIncome(1000000)" class="text-xs border rounded-full px-3 py-1 hover:border-blue-500">₹10L</button>
+        </div>
         <div class="flex gap-2 mt-4">
           <button onclick="prevStep()" class="flex-1 border border-gray-300 text-gray-600 py-3 rounded-lg font-semibold">← Back</button>
           <button onclick="nextStep()" class="flex-1 bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800">Next →</button>
@@ -451,7 +457,7 @@ function validateStep(n) {
     2: () => { const v=parseInt(document.getElementById('f-age').value); return v>0&&v<=120; },
     3: () => document.getElementById('f-gender').value !== '',
     4: () => document.getElementById('f-caste').value !== '',
-    5: () => document.getElementById('f-income').value !== '',
+    5: () => { const v=document.getElementById('f-income').value; return v!=='' && parseInt(v)>=0; },
     6: () => document.getElementById('f-occ').value !== '',
     7: () => {
       const has = document.getElementById('f-has-land').value;
@@ -521,6 +527,18 @@ function fmt(n) {
   if(n >= 100000) return '₹'+Math.round(n/10000)/10+' L';
   if(n >= 1000) return '₹'+n.toLocaleString('en-IN');
   return '₹'+n;
+}
+
+// Quick-fill chip + live hint for the income field
+function setIncome(v) {
+  const el = document.getElementById('f-income');
+  el.value = v;
+  document.getElementById('income-hint').textContent = fmtIncomeHint(v);
+}
+function fmtIncomeHint(v) {
+  const n = parseInt(v);
+  if(!v || isNaN(n) || n < 0) return 'Enter your total yearly household income in rupees.';
+  return 'That is ' + fmt(n) + ' per year.';
 }
 
 function renderResults(data) {
