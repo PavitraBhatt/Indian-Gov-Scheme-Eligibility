@@ -8,13 +8,24 @@
     "category": "women_children",
     "benefit_en": "Up to Rs 25,000 in stages from birth to graduation for girl children",
     "benefit_amount": 25000,
+    "benefit_type": "one_time",
     "apply_link": "https://mksy.up.gov.in",
     "eligibility": {
-      "states": ["Uttar Pradesh"],
-      "gender": ["Female"],
+      "states": [
+        "Uttar Pradesh"
+      ],
+      "gender": [
+        "Female"
+      ],
       "income_max": 300000
     },
-    "documents": ["Aadhaar card", "UP residence proof", "Birth certificate", "Income certificate", "Bank passbook"],
+    "documents": [
+      "Aadhaar card",
+      "UP residence proof",
+      "Birth certificate",
+      "Income certificate",
+      "Bank passbook"
+    ],
     "steps_en": [
       "Apply at mksy.up.gov.in",
       "Register girl child with birth certificate",
@@ -22,10 +33,19 @@
       "Benefit paid in 6 stages (birth, vaccination, school classes, graduation)",
       "Amount credited to bank at each stage"
     ],
-    "rejection_reasons": ["Family income above Rs 3 lakh", "More than two girl children", "Non-UP resident"],
+    "rejection_reasons": [
+      "Family income above Rs 3 lakh",
+      "More than two girl children",
+      "Non-UP resident"
+    ],
     "scam_note": "Apply free at the official portal. Money comes directly to bank. No middleman.",
     "processing_days": "30-60 per stage",
-    "tags": ["women_children", "uttar_pradesh", "girl_child", "education"],
+    "tags": [
+      "women_children",
+      "uttar_pradesh",
+      "girl_child",
+      "education"
+    ],
     "state_specific": true
   },
   {
@@ -37,12 +57,21 @@
     "category": "senior_disability",
     "benefit_en": "Rs 1,000 per month pension for eligible seniors, widows and divyangjan",
     "benefit_amount": 12000,
+    "benefit_type": "cash_yearly",
     "apply_link": "https://sspy-up.gov.in",
     "eligibility": {
-      "states": ["Uttar Pradesh"],
+      "states": [
+        "Uttar Pradesh"
+      ],
       "income_max": 56460
     },
-    "documents": ["Aadhaar card", "UP residence proof", "Income certificate", "Bank passbook", "Age/widow/disability proof"],
+    "documents": [
+      "Aadhaar card",
+      "UP residence proof",
+      "Income certificate",
+      "Bank passbook",
+      "Age/widow/disability proof"
+    ],
     "steps_en": [
       "Apply at sspy-up.gov.in (choose pension type)",
       "Submit Aadhaar, income and category proof",
@@ -50,10 +79,20 @@
       "Pension sanctioned and credited quarterly",
       "Renew via annual verification"
     ],
-    "rejection_reasons": ["Income above limit", "Already receiving another pension", "Non-UP resident"],
+    "rejection_reasons": [
+      "Income above limit",
+      "Already receiving another pension",
+      "Non-UP resident"
+    ],
     "scam_note": "Pension comes directly to bank. Apply free online or at Jan Seva Kendra.",
     "processing_days": "30-90",
-    "tags": ["senior_disability", "uttar_pradesh", "pension", "widow", "disability"],
+    "tags": [
+      "senior_disability",
+      "uttar_pradesh",
+      "pension",
+      "widow",
+      "disability"
+    ],
     "state_specific": true
   },
   {
@@ -65,13 +104,23 @@
     "category": "agriculture",
     "benefit_en": "Crop loan waiver up to Rs 1 lakh for small and marginal farmers",
     "benefit_amount": 100000,
+    "benefit_type": "one_time",
     "apply_link": "https://upkisankarjrahat.upsdc.gov.in",
     "eligibility": {
-      "states": ["Uttar Pradesh"],
-      "occupation": ["farmer"],
+      "states": [
+        "Uttar Pradesh"
+      ],
+      "occupation": [
+        "farmer"
+      ],
       "land_min_acres": 0.1
     },
-    "documents": ["Aadhaar card", "UP land records", "Loan account details", "Bank passbook"],
+    "documents": [
+      "Aadhaar card",
+      "UP land records",
+      "Loan account details",
+      "Bank passbook"
+    ],
     "steps_en": [
       "Check eligibility on the Karj Rahat portal with Aadhaar",
       "Verify your crop loan account is listed",
@@ -79,10 +128,19 @@
       "Eligible loan amount waived by the government",
       "Confirmation reflected in loan account"
     ],
-    "rejection_reasons": ["Loan taken after cutoff date", "Large farmer", "Non-crop loan"],
+    "rejection_reasons": [
+      "Loan taken after cutoff date",
+      "Large farmer",
+      "Non-crop loan"
+    ],
     "scam_note": "Loan waiver is processed by the government. Never pay anyone to get your name added.",
     "processing_days": "Varies by verification",
-    "tags": ["agriculture", "uttar_pradesh", "farmer", "loan_waiver"],
+    "tags": [
+      "agriculture",
+      "uttar_pradesh",
+      "farmer",
+      "loan_waiver"
+    ],
     "state_specific": true
   }
 ]

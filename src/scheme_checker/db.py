@@ -39,6 +39,7 @@ _SCALAR_FIELDS = (
     "category",
     "benefit_en",
     "benefit_amount",
+    "benefit_type",
     "apply_link",
     "scam_note",
     "processing_days",
@@ -79,6 +80,7 @@ def build_db(db_path: Path = DB_PATH, force: bool = False) -> int:
                 category      TEXT NOT NULL,
                 benefit_en    TEXT NOT NULL,
                 benefit_amount INTEGER NOT NULL,
+                benefit_type  TEXT NOT NULL,
                 apply_link    TEXT NOT NULL,
                 scam_note     TEXT NOT NULL,
                 processing_days TEXT NOT NULL,
@@ -112,6 +114,7 @@ def build_db(db_path: Path = DB_PATH, force: bool = False) -> int:
                             s["category"],
                             s["benefit_en"],
                             s["benefit_amount"],
+                            s["benefit_type"],
                             s["apply_link"],
                             s["scam_note"],
                             s["processing_days"],
@@ -128,10 +131,10 @@ def build_db(db_path: Path = DB_PATH, force: bool = False) -> int:
             """
             INSERT INTO schemes (
                 id, name_en, name_hi, name_gu, ministry, category, benefit_en,
-                benefit_amount, apply_link, scam_note, processing_days,
+                benefit_amount, benefit_type, apply_link, scam_note, processing_days,
                 state_specific, source_state, eligibility, documents, steps_en,
                 rejection_reasons, tags
-            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
             """,
             rows,
         )

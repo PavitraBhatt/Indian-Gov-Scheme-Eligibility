@@ -8,12 +8,22 @@
     "category": "agriculture",
     "benefit_en": "Agricultural tools, seeds, irrigation subsidies via single-window portal",
     "benefit_amount": 50000,
+    "benefit_type": "one_time",
     "apply_link": "https://ikhedut.gujarat.gov.in",
     "eligibility": {
-      "states": ["Gujarat"],
-      "occupation": ["farmer"]
+      "states": [
+        "Gujarat"
+      ],
+      "occupation": [
+        "farmer"
+      ]
     },
-    "documents": ["Aadhaar card", "Land records (7/12 Utara)", "Bank passbook", "Photo"],
+    "documents": [
+      "Aadhaar card",
+      "Land records (7/12 Utara)",
+      "Bank passbook",
+      "Photo"
+    ],
     "steps_en": [
       "Visit ikhedut.gujarat.gov.in",
       "Select applicable scheme from list",
@@ -21,10 +31,18 @@
       "Fill application form and submit",
       "Track status online with reference number"
     ],
-    "rejection_reasons": ["7/12 Utara not updated", "Scheme quota exhausted"],
+    "rejection_reasons": [
+      "7/12 Utara not updated",
+      "Scheme quota exhausted"
+    ],
     "scam_note": "iKhedut applications are completely free online. No agent needed.",
     "processing_days": "30-90",
-    "tags": ["agriculture", "gujarat", "farmer", "tools"],
+    "tags": [
+      "agriculture",
+      "gujarat",
+      "farmer",
+      "tools"
+    ],
     "state_specific": true
   },
   {
@@ -36,14 +54,29 @@
     "category": "finance",
     "benefit_en": "Rs 4,000 toolkit for SC artisans to start self-employment",
     "benefit_amount": 4000,
+    "benefit_type": "one_time",
     "apply_link": "https://esamajkalyan.gujarat.gov.in",
     "eligibility": {
-      "states": ["Gujarat"],
-      "caste": ["SC"],
+      "states": [
+        "Gujarat"
+      ],
+      "caste": [
+        "SC"
+      ],
       "income_max": 47000,
-      "occupation": ["artisan", "self_employed", "daily_wage"]
+      "occupation": [
+        "artisan",
+        "self_employed",
+        "daily_wage"
+      ]
     },
-    "documents": ["Aadhaar card", "SC caste certificate", "Income certificate", "Photo", "7/12 or ration card"],
+    "documents": [
+      "Aadhaar card",
+      "SC caste certificate",
+      "Income certificate",
+      "Photo",
+      "7/12 or ration card"
+    ],
     "steps_en": [
       "Apply at esamajkalyan.gujarat.gov.in",
       "Select Manav Garima Yojana",
@@ -51,10 +84,20 @@
       "Toolkit worth Rs 4,000 provided at district office",
       "Includes tools based on chosen occupation"
     ],
-    "rejection_reasons": ["Income above Rs 47,000/year", "Not SC category", "Not Gujarat resident"],
+    "rejection_reasons": [
+      "Income above Rs 47,000/year",
+      "Not SC category",
+      "Not Gujarat resident"
+    ],
     "scam_note": "Toolkit given free. No payment. Contact Social Justice office for queries.",
     "processing_days": "30-60",
-    "tags": ["finance", "gujarat", "sc", "artisan", "toolkit"],
+    "tags": [
+      "finance",
+      "gujarat",
+      "sc",
+      "artisan",
+      "toolkit"
+    ],
     "state_specific": true
   },
   {
@@ -66,14 +109,24 @@
     "category": "women_children",
     "benefit_en": "Rs 1 lakh interest-free group loan for women SHG members",
     "benefit_amount": 100000,
+    "benefit_type": "loan",
     "apply_link": "https://mmuy.gujarat.gov.in",
     "eligibility": {
-      "states": ["Gujarat"],
-      "gender": ["Female"],
+      "states": [
+        "Gujarat"
+      ],
+      "gender": [
+        "Female"
+      ],
       "income_max": 300000,
       "age_min": 18
     },
-    "documents": ["Aadhaar card", "SHG membership certificate", "Bank account", "Residence proof"],
+    "documents": [
+      "Aadhaar card",
+      "SHG membership certificate",
+      "Bank account",
+      "Residence proof"
+    ],
     "steps_en": [
       "Join a registered Self Help Group (SHG) in your area",
       "Apply through SHG at bank or MMUY portal",
@@ -81,10 +134,20 @@
       "Rs 1 lakh per member disbursed interest-free",
       "Repay in 4 years with no interest"
     ],
-    "rejection_reasons": ["Not a registered SHG member", "SHG not active for 6 months", "Income above limit"],
+    "rejection_reasons": [
+      "Not a registered SHG member",
+      "SHG not active for 6 months",
+      "Income above limit"
+    ],
     "scam_note": "Apply only through registered SHG. No individual agents. Contact Gram Panchayat for nearest SHG.",
     "processing_days": "30-45",
-    "tags": ["women_children", "gujarat", "shg", "loan", "women"],
+    "tags": [
+      "women_children",
+      "gujarat",
+      "shg",
+      "loan",
+      "women"
+    ],
     "state_specific": true
   },
   {
@@ -96,15 +159,25 @@
     "category": "education_youth",
     "benefit_en": "Rs 10,000-15,000 annual scholarship for Science stream girl students in Std 11-12",
     "benefit_amount": 15000,
+    "benefit_type": "cash_yearly",
     "apply_link": "https://namo-saraswati.in",
     "eligibility": {
-      "states": ["Gujarat"],
-      "gender": ["Female"],
+      "states": [
+        "Gujarat"
+      ],
+      "gender": [
+        "Female"
+      ],
       "age_min": 15,
       "age_max": 20,
       "income_max": 600000
     },
-    "documents": ["Aadhaar card", "Std 10 marksheet (60%+ required)", "Income certificate", "Bank passbook"],
+    "documents": [
+      "Aadhaar card",
+      "Std 10 marksheet (60%+ required)",
+      "Income certificate",
+      "Bank passbook"
+    ],
     "steps_en": [
       "Apply at namo-saraswati.in during admissions",
       "Select Science stream in Std 11",
@@ -112,10 +185,21 @@
       "Scholarship disbursed annually to bank account",
       "Continue in Science stream to receive Std 12 installment"
     ],
-    "rejection_reasons": ["Marks below 60% in Std 10", "Non-Science stream", "Male students ineligible", "Income above Rs 6 lakh"],
+    "rejection_reasons": [
+      "Marks below 60% in Std 10",
+      "Non-Science stream",
+      "Male students ineligible",
+      "Income above Rs 6 lakh"
+    ],
     "scam_note": "Scholarship directly to bank. Apply free at official portal. No agent needed.",
     "processing_days": "60-90",
-    "tags": ["education_youth", "gujarat", "scholarship", "girl", "science"],
+    "tags": [
+      "education_youth",
+      "gujarat",
+      "scholarship",
+      "girl",
+      "science"
+    ],
     "state_specific": true
   },
   {
@@ -127,12 +211,21 @@
     "category": "agriculture",
     "benefit_en": "3-phase electricity supply to farmers from 5 AM to 9 PM (16 hours/day)",
     "benefit_amount": 0,
+    "benefit_type": "service",
     "apply_link": "https://gseb.org",
     "eligibility": {
-      "states": ["Gujarat"],
-      "occupation": ["farmer"]
+      "states": [
+        "Gujarat"
+      ],
+      "occupation": [
+        "farmer"
+      ]
     },
-    "documents": ["Aadhaar card", "7/12 Utara", "Agricultural connection application"],
+    "documents": [
+      "Aadhaar card",
+      "7/12 Utara",
+      "Agricultural connection application"
+    ],
     "steps_en": [
       "Apply at nearest PGVCL/MGVCL/UGVCL/DGVCL office",
       "Submit 7/12 Utara and Aadhaar",
@@ -140,10 +233,19 @@
       "New feeder commissioned with 16-hour supply",
       "Pumps run during daylight hours for irrigation"
     ],
-    "rejection_reasons": ["Urban electricity connection", "Non-agricultural purpose"],
+    "rejection_reasons": [
+      "Urban electricity connection",
+      "Non-agricultural purpose"
+    ],
     "scam_note": "Normal connection charges apply. No additional fees. Contact DISCOM for details.",
     "processing_days": "30-90 (depends on feeder work)",
-    "tags": ["agriculture", "gujarat", "electricity", "farmer", "irrigation"],
+    "tags": [
+      "agriculture",
+      "gujarat",
+      "electricity",
+      "farmer",
+      "irrigation"
+    ],
     "state_specific": true
   }
 ]

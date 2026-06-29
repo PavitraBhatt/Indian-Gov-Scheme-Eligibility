@@ -8,14 +8,21 @@
     "category": "agriculture",
     "benefit_en": "Rs 6,000 per year direct cash transfer in 3 instalments of Rs 2,000",
     "benefit_amount": 6000,
+    "benefit_type": "cash_yearly",
     "apply_link": "https://pmkisan.gov.in",
     "eligibility": {
       "states": "all",
-      "occupation": ["farmer"],
+      "occupation": [
+        "farmer"
+      ],
       "land_min_acres": 0.1,
       "income_max": 200000
     },
-    "documents": ["Aadhaar card", "Bank passbook", "Land records (Khasra/Khatauni)"],
+    "documents": [
+      "Aadhaar card",
+      "Bank passbook",
+      "Land records (Khasra/Khatauni)"
+    ],
     "steps_en": [
       "Visit pmkisan.gov.in or nearest CSC centre",
       "Click 'New Farmer Registration'",
@@ -23,10 +30,19 @@
       "Fill land details and bank account",
       "Submit and note registration number"
     ],
-    "rejection_reasons": ["Aadhaar not linked to bank", "Land record name mismatch", "Income tax payer"],
+    "rejection_reasons": [
+      "Aadhaar not linked to bank",
+      "Land record name mismatch",
+      "Income tax payer"
+    ],
     "scam_note": "PM Kisan is 100% free. No agent or middleman needed. Report fraud to 155261.",
     "processing_days": "60-90",
-    "tags": ["agriculture", "income_support", "farmer", "direct_benefit"],
+    "tags": [
+      "agriculture",
+      "income_support",
+      "farmer",
+      "direct_benefit"
+    ],
     "state_specific": false
   },
   {
@@ -38,13 +54,21 @@
     "category": "agriculture",
     "benefit_en": "Short-term credit up to Rs 3 lakh at 4% interest rate per annum",
     "benefit_amount": 300000,
+    "benefit_type": "loan",
     "apply_link": "https://agricoop.nic.in",
     "eligibility": {
       "states": "all",
-      "occupation": ["farmer"],
+      "occupation": [
+        "farmer"
+      ],
       "land_min_acres": 0.1
     },
-    "documents": ["Aadhaar card", "Land records", "Passport size photo", "Bank account details"],
+    "documents": [
+      "Aadhaar card",
+      "Land records",
+      "Passport size photo",
+      "Bank account details"
+    ],
     "steps_en": [
       "Visit nearest bank branch or cooperative bank",
       "Ask for Kisan Credit Card application form",
@@ -52,10 +76,18 @@
       "Bank verifies land records and processes KCC",
       "Collect KCC card within 15 days"
     ],
-    "rejection_reasons": ["No land records", "Existing loan default", "Land ownership dispute"],
+    "rejection_reasons": [
+      "No land records",
+      "Existing loan default",
+      "Land ownership dispute"
+    ],
     "scam_note": "KCC is issued free by banks. No processing fee for loans up to Rs 3 lakh. Report fraud to 1930.",
     "processing_days": "7-15",
-    "tags": ["agriculture", "credit", "farmer"],
+    "tags": [
+      "agriculture",
+      "credit",
+      "farmer"
+    ],
     "state_specific": false
   },
   {
@@ -67,13 +99,21 @@
     "category": "agriculture",
     "benefit_en": "Crop insurance at 2% premium for Kharif, 1.5% for Rabi crops",
     "benefit_amount": 50000,
+    "benefit_type": "insurance",
     "apply_link": "https://pmfby.gov.in",
     "eligibility": {
       "states": "all",
-      "occupation": ["farmer"],
+      "occupation": [
+        "farmer"
+      ],
       "land_min_acres": 0.1
     },
-    "documents": ["Aadhaar card", "Bank passbook", "Land records", "Sowing certificate"],
+    "documents": [
+      "Aadhaar card",
+      "Bank passbook",
+      "Land records",
+      "Sowing certificate"
+    ],
     "steps_en": [
       "Register at pmfby.gov.in or CSC or bank",
       "Select crop and insured area",
@@ -81,10 +121,18 @@
       "Get policy document",
       "Report crop loss within 72 hours to bank/insurer"
     ],
-    "rejection_reasons": ["Late registration after deadline", "Sowing certificate not submitted", "Wrong crop declared"],
+    "rejection_reasons": [
+      "Late registration after deadline",
+      "Sowing certificate not submitted",
+      "Wrong crop declared"
+    ],
     "scam_note": "Only pay the 2% farmer premium. Government pays the rest. Don't pay anyone else. Call 1800-180-1551 to report fraud.",
     "processing_days": "30-45 after claim",
-    "tags": ["agriculture", "insurance", "farmer"],
+    "tags": [
+      "agriculture",
+      "insurance",
+      "farmer"
+    ],
     "state_specific": false
   },
   {
@@ -96,12 +144,17 @@
     "category": "health",
     "benefit_en": "Rs 5 lakh per family per year free health insurance at empanelled hospitals",
     "benefit_amount": 500000,
+    "benefit_type": "insurance",
     "apply_link": "https://pmjay.gov.in",
     "eligibility": {
       "states": "all",
       "requires_bpl": true
     },
-    "documents": ["Aadhaar card", "Ration card", "SECC 2011 inclusion letter (if available)"],
+    "documents": [
+      "Aadhaar card",
+      "Ration card",
+      "SECC 2011 inclusion letter (if available)"
+    ],
     "steps_en": [
       "Check eligibility at pmjay.gov.in or call 14555",
       "Visit nearest Common Service Centre or hospital help desk",
@@ -109,10 +162,18 @@
       "Get Ayushman card issued on the spot",
       "Use card at any empanelled hospital for cashless treatment"
     ],
-    "rejection_reasons": ["Name not in SECC 2011 list", "Aadhaar not matching family record"],
+    "rejection_reasons": [
+      "Name not in SECC 2011 list",
+      "Aadhaar not matching family record"
+    ],
     "scam_note": "Ayushman card is issued FREE. No payment needed. Report fraud at 14555.",
     "processing_days": "Immediate at hospital",
-    "tags": ["health", "insurance", "bpl", "family"],
+    "tags": [
+      "health",
+      "insurance",
+      "bpl",
+      "family"
+    ],
     "state_specific": false
   },
   {
@@ -124,14 +185,22 @@
     "category": "energy",
     "benefit_en": "Free LPG connection with stove and first refill cylinder",
     "benefit_amount": 3200,
+    "benefit_type": "one_time",
     "apply_link": "https://pmuy.gov.in",
     "eligibility": {
       "states": "all",
-      "gender": ["Female"],
+      "gender": [
+        "Female"
+      ],
       "requires_bpl": true,
       "age_min": 18
     },
-    "documents": ["Aadhaar card", "BPL ration card", "Bank passbook", "Passport photo"],
+    "documents": [
+      "Aadhaar card",
+      "BPL ration card",
+      "Bank passbook",
+      "Passport photo"
+    ],
     "steps_en": [
       "Visit nearest LPG distributor (HP/Bharat/Indane)",
       "Ask for Ujjwala application form",
@@ -139,10 +208,19 @@
       "Connection approved within 7 days",
       "Collect cylinder and stove free of cost"
     ],
-    "rejection_reasons": ["Already has LPG connection", "Not BPL", "Male applicant"],
+    "rejection_reasons": [
+      "Already has LPG connection",
+      "Not BPL",
+      "Male applicant"
+    ],
     "scam_note": "Connection is 100% free. No deposit. Report fraud at 1800-233-3555.",
     "processing_days": "7-15",
-    "tags": ["energy", "women", "bpl", "lpg"],
+    "tags": [
+      "energy",
+      "women",
+      "bpl",
+      "lpg"
+    ],
     "state_specific": false
   },
   {
@@ -154,13 +232,23 @@
     "category": "housing",
     "benefit_en": "Free house worth Rs 1.2-1.3 lakh for rural BPL families",
     "benefit_amount": 120000,
+    "benefit_type": "one_time",
     "apply_link": "https://pmayg.nic.in",
     "eligibility": {
       "states": "all",
       "requires_bpl": true,
-      "occupation": ["farmer", "daily_wage", "artisan"]
+      "occupation": [
+        "farmer",
+        "daily_wage",
+        "artisan"
+      ]
     },
-    "documents": ["Aadhaar card", "BPL ration card", "Bank passbook", "Land record for house plot"],
+    "documents": [
+      "Aadhaar card",
+      "BPL ration card",
+      "Bank passbook",
+      "Land record for house plot"
+    ],
     "steps_en": [
       "Check name in PMAY-G beneficiary list at village panchayat",
       "Submit application at Gram Panchayat office",
@@ -168,10 +256,18 @@
       "Amount transferred in 3 instalments via DBT",
       "Construct house as per approved plan"
     ],
-    "rejection_reasons": ["Name not in SECC 2011 priority list", "Already owns pucca house", "Income above BPL"],
+    "rejection_reasons": [
+      "Name not in SECC 2011 priority list",
+      "Already owns pucca house",
+      "Income above BPL"
+    ],
     "scam_note": "PMAY-G is completely free. No agent fee. Fraud helpline: 1800-11-6446.",
     "processing_days": "90-180",
-    "tags": ["housing", "rural", "bpl"],
+    "tags": [
+      "housing",
+      "rural",
+      "bpl"
+    ],
     "state_specific": false
   },
   {
@@ -183,13 +279,24 @@
     "category": "housing",
     "benefit_en": "Home loan interest subsidy up to Rs 2.67 lakh for EWS/LIG/MIG",
     "benefit_amount": 267000,
+    "benefit_type": "one_time",
     "apply_link": "https://pmaymis.gov.in",
     "eligibility": {
       "states": "all",
       "income_max": 1800000,
-      "occupation": ["salaried", "self_employed", "daily_wage", "artisan"]
+      "occupation": [
+        "salaried",
+        "self_employed",
+        "daily_wage",
+        "artisan"
+      ]
     },
-    "documents": ["Aadhaar card", "Income proof", "Bank passbook", "Property documents"],
+    "documents": [
+      "Aadhaar card",
+      "Income proof",
+      "Bank passbook",
+      "Property documents"
+    ],
     "steps_en": [
       "Apply at pmaymis.gov.in or through bank",
       "Select applicable component (CLSS/BLC/AHP)",
@@ -197,10 +304,18 @@
       "Subsidy credited to home loan account",
       "Reduce EMI immediately"
     ],
-    "rejection_reasons": ["Already owns house in any city", "Income above Rs 18 lakh", "Not first-time buyer"],
+    "rejection_reasons": [
+      "Already owns house in any city",
+      "Income above Rs 18 lakh",
+      "Not first-time buyer"
+    ],
     "scam_note": "Apply only through official bank or government portal. No agent needed.",
     "processing_days": "30-60",
-    "tags": ["housing", "urban", "home_loan"],
+    "tags": [
+      "housing",
+      "urban",
+      "home_loan"
+    ],
     "state_specific": false
   },
   {
@@ -212,13 +327,17 @@
     "category": "insurance",
     "benefit_en": "Rs 2 lakh accidental death/disability cover at just Rs 20 per year",
     "benefit_amount": 200000,
+    "benefit_type": "insurance",
     "apply_link": "https://jansuraksha.gov.in",
     "eligibility": {
       "states": "all",
       "age_min": 18,
       "age_max": 70
     },
-    "documents": ["Aadhaar card", "Bank account (auto-debit Rs 20/year)"],
+    "documents": [
+      "Aadhaar card",
+      "Bank account (auto-debit Rs 20/year)"
+    ],
     "steps_en": [
       "Visit bank or use net banking",
       "Enrol in PM Suraksha Bima Yojana",
@@ -226,10 +345,17 @@
       "Keep auto-debit active for continuous coverage",
       "File claim through bank in case of accident"
     ],
-    "rejection_reasons": ["Age outside 18-70", "Auto-debit failed due to insufficient balance"],
+    "rejection_reasons": [
+      "Age outside 18-70",
+      "Auto-debit failed due to insufficient balance"
+    ],
     "scam_note": "Only Rs 20/year. No agent commission. Enrol directly at your bank.",
     "processing_days": "30 after claim filing",
-    "tags": ["insurance", "accident", "affordable"],
+    "tags": [
+      "insurance",
+      "accident",
+      "affordable"
+    ],
     "state_specific": false
   },
   {
@@ -241,13 +367,17 @@
     "category": "insurance",
     "benefit_en": "Rs 2 lakh life insurance cover at Rs 436 per year",
     "benefit_amount": 200000,
+    "benefit_type": "insurance",
     "apply_link": "https://jansuraksha.gov.in",
     "eligibility": {
       "states": "all",
       "age_min": 18,
       "age_max": 50
     },
-    "documents": ["Aadhaar card", "Bank account (auto-debit Rs 436/year)"],
+    "documents": [
+      "Aadhaar card",
+      "Bank account (auto-debit Rs 436/year)"
+    ],
     "steps_en": [
       "Visit bank or use net banking/mobile banking",
       "Enrol in PMJJBY scheme",
@@ -255,10 +385,17 @@
       "Nominee gets Rs 2 lakh on policyholder death",
       "File claim within 30 days at bank"
     ],
-    "rejection_reasons": ["Age above 50", "Multiple enrolments in different banks"],
+    "rejection_reasons": [
+      "Age above 50",
+      "Multiple enrolments in different banks"
+    ],
     "scam_note": "Only Rs 436/year. Enrol directly at bank. No middleman needed.",
     "processing_days": "30 after claim filing",
-    "tags": ["insurance", "life", "affordable"],
+    "tags": [
+      "insurance",
+      "life",
+      "affordable"
+    ],
     "state_specific": false
   },
   {
@@ -270,13 +407,23 @@
     "category": "finance",
     "benefit_en": "Collateral-free business loan: Shishu (Rs 50K), Kishore (Rs 5L), Tarun (Rs 10L)",
     "benefit_amount": 1000000,
+    "benefit_type": "loan",
     "apply_link": "https://mudra.org.in",
     "eligibility": {
       "states": "all",
-      "occupation": ["self_employed", "artisan", "daily_wage"],
+      "occupation": [
+        "self_employed",
+        "artisan",
+        "daily_wage"
+      ],
       "age_min": 18
     },
-    "documents": ["Aadhaar card", "PAN card", "Business plan or proof", "Bank statements"],
+    "documents": [
+      "Aadhaar card",
+      "PAN card",
+      "Business plan or proof",
+      "Bank statements"
+    ],
     "steps_en": [
       "Visit nearest bank, MFI or NBFC",
       "Fill Mudra loan application",
@@ -284,10 +431,19 @@
       "Bank appraises and sanctions loan",
       "Get Mudra card (RuPay) for withdrawals"
     ],
-    "rejection_reasons": ["Poor credit history (CIBIL score)", "No viable business plan", "Existing loan default"],
+    "rejection_reasons": [
+      "Poor credit history (CIBIL score)",
+      "No viable business plan",
+      "Existing loan default"
+    ],
     "scam_note": "Mudra loans are free to apply. Report any demand for fees at 1800-180-1111.",
     "processing_days": "7-30",
-    "tags": ["finance", "business", "entrepreneurship", "self_employed"],
+    "tags": [
+      "finance",
+      "business",
+      "entrepreneurship",
+      "self_employed"
+    ],
     "state_specific": false
   },
   {
@@ -299,12 +455,15 @@
     "category": "finance",
     "benefit_en": "Zero-balance savings account with Rs 10,000 overdraft and Rs 2 lakh accidental cover",
     "benefit_amount": 10000,
+    "benefit_type": "service",
     "apply_link": "https://pmjdy.gov.in",
     "eligibility": {
       "states": "all",
       "age_min": 10
     },
-    "documents": ["Aadhaar card (or any one official document)"],
+    "documents": [
+      "Aadhaar card (or any one official document)"
+    ],
     "steps_en": [
       "Visit nearest bank or BC (Banking Correspondent) point",
       "Fill PMJDY account opening form",
@@ -312,10 +471,16 @@
       "Account opened same day",
       "Get RuPay debit card free"
     ],
-    "rejection_reasons": ["Already has bank account (can still apply if no-frills account)"],
+    "rejection_reasons": [
+      "Already has bank account (can still apply if no-frills account)"
+    ],
     "scam_note": "Account opening is completely free. Never pay anyone to open a Jan Dhan account.",
     "processing_days": "Same day",
-    "tags": ["finance", "banking", "inclusion"],
+    "tags": [
+      "finance",
+      "banking",
+      "inclusion"
+    ],
     "state_specific": false
   },
   {
@@ -327,13 +492,20 @@
     "category": "women_children",
     "benefit_en": "8.2% tax-free interest on savings for girl child education and marriage",
     "benefit_amount": 0,
+    "benefit_type": "service",
     "apply_link": "https://www.indiapost.gov.in",
     "eligibility": {
       "states": "all",
-      "gender": ["Female"],
+      "gender": [
+        "Female"
+      ],
       "age_max": 10
     },
-    "documents": ["Girl child's birth certificate", "Parent's Aadhaar", "Parent's address proof"],
+    "documents": [
+      "Girl child's birth certificate",
+      "Parent's Aadhaar",
+      "Parent's address proof"
+    ],
     "steps_en": [
       "Visit post office or authorised bank",
       "Fill SSY account opening form",
@@ -341,10 +513,18 @@
       "Deposit between Rs 250 to Rs 1.5 lakh per year",
       "Account matures when girl turns 21"
     ],
-    "rejection_reasons": ["Girl above 10 years", "More than 2 girl children (only 2 accounts per family)"],
+    "rejection_reasons": [
+      "Girl above 10 years",
+      "More than 2 girl children (only 2 accounts per family)"
+    ],
     "scam_note": "Open only at post office or bank. No agent needed. Interest rate announced by government quarterly.",
     "processing_days": "Same day",
-    "tags": ["women_children", "savings", "girl_child", "education"],
+    "tags": [
+      "women_children",
+      "savings",
+      "girl_child",
+      "education"
+    ],
     "state_specific": false
   },
   {
@@ -356,13 +536,20 @@
     "category": "women_children",
     "benefit_en": "Rs 6,000 maternity benefit in 3 instalments for first live birth",
     "benefit_amount": 6000,
+    "benefit_type": "one_time",
     "apply_link": "https://pmmvy.wcd.gov.in",
     "eligibility": {
       "states": "all",
-      "gender": ["Female"],
+      "gender": [
+        "Female"
+      ],
       "age_min": 19
     },
-    "documents": ["Aadhaar card", "MCP card (Mother and Child Protection)", "Bank passbook"],
+    "documents": [
+      "Aadhaar card",
+      "MCP card (Mother and Child Protection)",
+      "Bank passbook"
+    ],
     "steps_en": [
       "Register pregnancy at nearest Anganwadi centre or health sub-centre",
       "Fill PMMVY form (Form 1A) at Anganwadi",
@@ -370,10 +557,17 @@
       "Get Rs 3,000 first instalment",
       "Get Rs 2,000 after delivery and Rs 1,000 after first vaccination"
     ],
-    "rejection_reasons": ["Second or subsequent child", "Registration after 150 days of pregnancy"],
+    "rejection_reasons": [
+      "Second or subsequent child",
+      "Registration after 150 days of pregnancy"
+    ],
     "scam_note": "PMMVY benefits come directly to your bank account. No middleman. Report issues to 7998799804.",
     "processing_days": "30-45 per instalment",
-    "tags": ["women_children", "maternity", "pregnancy"],
+    "tags": [
+      "women_children",
+      "maternity",
+      "pregnancy"
+    ],
     "state_specific": false
   },
   {
@@ -385,13 +579,18 @@
     "category": "education_youth",
     "benefit_en": "Free skill training + Rs 8,000 stipend + placement support + certificate",
     "benefit_amount": 8000,
+    "benefit_type": "one_time",
     "apply_link": "https://pmkvyofficial.org",
     "eligibility": {
       "states": "all",
       "age_min": 15,
       "age_max": 45
     },
-    "documents": ["Aadhaar card", "Bank passbook", "Class 8/10 marksheet (if available)"],
+    "documents": [
+      "Aadhaar card",
+      "Bank passbook",
+      "Class 8/10 marksheet (if available)"
+    ],
     "steps_en": [
       "Visit pmkvyofficial.org or nearest PMKVY training centre",
       "Select skill course (IT, construction, healthcare, etc.)",
@@ -399,10 +598,18 @@
       "Complete free 3-6 month training",
       "Appear for assessment and get NSQF certificate"
     ],
-    "rejection_reasons": ["Age outside 15-45", "Already holds similar skill certificate"],
+    "rejection_reasons": [
+      "Age outside 15-45",
+      "Already holds similar skill certificate"
+    ],
     "scam_note": "PMKVY training is completely free. Never pay any fee to training centres. Call 1800-123-9626.",
     "processing_days": "Training: 3-6 months",
-    "tags": ["education_youth", "skill", "employment", "youth"],
+    "tags": [
+      "education_youth",
+      "skill",
+      "employment",
+      "youth"
+    ],
     "state_specific": false
   },
   {
@@ -414,13 +621,18 @@
     "category": "finance",
     "benefit_en": "Guaranteed pension of Rs 1,000 to Rs 5,000 per month after age 60",
     "benefit_amount": 60000,
+    "benefit_type": "cash_yearly",
     "apply_link": "https://npscra.nsdl.co.in",
     "eligibility": {
       "states": "all",
       "age_min": 18,
       "age_max": 40
     },
-    "documents": ["Aadhaar card", "Mobile number", "Bank account"],
+    "documents": [
+      "Aadhaar card",
+      "Mobile number",
+      "Bank account"
+    ],
     "steps_en": [
       "Visit bank or use net banking",
       "Fill APY registration form",
@@ -428,10 +640,18 @@
       "Auto-debit set up based on age and chosen pension",
       "Pension starts from age 60"
     ],
-    "rejection_reasons": ["Age above 40", "Income tax payer (not eligible after Oct 2022)", "Already enrolled"],
+    "rejection_reasons": [
+      "Age above 40",
+      "Income tax payer (not eligible after Oct 2022)",
+      "Already enrolled"
+    ],
     "scam_note": "Enrol only through bank. No middleman. Check contributions at nps.proteantech.in.",
     "processing_days": "Immediate activation",
-    "tags": ["finance", "pension", "retirement"],
+    "tags": [
+      "finance",
+      "pension",
+      "retirement"
+    ],
     "state_specific": false
   },
   {
@@ -443,13 +663,20 @@
     "category": "finance",
     "benefit_en": "Collateral-free working capital loan: Rs 10,000 (1st), Rs 20,000 (2nd), Rs 50,000 (3rd)",
     "benefit_amount": 10000,
+    "benefit_type": "loan",
     "apply_link": "https://pmsvanidhi.mohua.gov.in",
     "eligibility": {
       "states": "all",
-      "occupation": ["daily_wage", "self_employed"],
+      "occupation": [
+        "daily_wage",
+        "self_employed"
+      ],
       "age_min": 18
     },
-    "documents": ["Aadhaar card", "Vending certificate or letter of recommendation from ULB"],
+    "documents": [
+      "Aadhaar card",
+      "Vending certificate or letter of recommendation from ULB"
+    ],
     "steps_en": [
       "Apply at pmsvanidhi.mohua.gov.in or nearest bank",
       "Get vending certificate from urban local body if needed",
@@ -457,10 +684,17 @@
       "Rs 10,000 credited to account in 7 days",
       "Repay in 12 monthly instalments to get higher loan"
     ],
-    "rejection_reasons": ["Not a street vendor", "No vending certificate/ULB letter"],
+    "rejection_reasons": [
+      "Not a street vendor",
+      "No vending certificate/ULB letter"
+    ],
     "scam_note": "SVANidhi loan is free to apply. No processing fee for first loan. Report fraud at 1800-11-1979.",
     "processing_days": "7-15",
-    "tags": ["finance", "street_vendor", "microfinance"],
+    "tags": [
+      "finance",
+      "street_vendor",
+      "microfinance"
+    ],
     "state_specific": false
   },
   {
@@ -472,13 +706,19 @@
     "category": "senior_disability",
     "benefit_en": "Rs 200-500 per month pension for BPL senior citizens",
     "benefit_amount": 2400,
+    "benefit_type": "cash_yearly",
     "apply_link": "https://nsap.nic.in",
     "eligibility": {
       "states": "all",
       "age_min": 60,
       "requires_bpl": true
     },
-    "documents": ["Aadhaar card", "BPL ration card", "Age proof", "Bank passbook"],
+    "documents": [
+      "Aadhaar card",
+      "BPL ration card",
+      "Age proof",
+      "Bank passbook"
+    ],
     "steps_en": [
       "Apply at Gram Panchayat (rural) or Urban Local Body office",
       "Submit age proof, BPL card and Aadhaar",
@@ -486,10 +726,19 @@
       "Pension sanctioned within 60 days",
       "Amount credited directly to bank account monthly"
     ],
-    "rejection_reasons": ["Age below 60", "Not in BPL list", "Already receiving other state pension"],
+    "rejection_reasons": [
+      "Age below 60",
+      "Not in BPL list",
+      "Already receiving other state pension"
+    ],
     "scam_note": "Pension comes directly to bank. No agent needed. Report fraud at 1800-11-0001.",
     "processing_days": "30-60",
-    "tags": ["senior_disability", "pension", "elderly", "bpl"],
+    "tags": [
+      "senior_disability",
+      "pension",
+      "elderly",
+      "bpl"
+    ],
     "state_specific": false
   },
   {
@@ -501,13 +750,19 @@
     "category": "senior_disability",
     "benefit_en": "Free assistive devices (tricycle, hearing aid, crutches, wheelchair, etc.)",
     "benefit_amount": 20000,
+    "benefit_type": "one_time",
     "apply_link": "https://alimco.in",
     "eligibility": {
       "states": "all",
       "requires_disability": true,
       "income_max": 200000
     },
-    "documents": ["Disability certificate (40%+ disability)", "Aadhaar card", "Income certificate", "Photo"],
+    "documents": [
+      "Disability certificate (40%+ disability)",
+      "Aadhaar card",
+      "Income certificate",
+      "Photo"
+    ],
     "steps_en": [
       "Get disability certificate from government hospital (40%+ disability required)",
       "Apply at nearest ALIMCO camp or district disability office",
@@ -515,10 +770,17 @@
       "Attend assessment camp for device fitting",
       "Receive device free at camp"
     ],
-    "rejection_reasons": ["Disability below 40%", "Income above Rs 2 lakh/year"],
+    "rejection_reasons": [
+      "Disability below 40%",
+      "Income above Rs 2 lakh/year"
+    ],
     "scam_note": "ADIP devices are given absolutely free. No payment needed. Contact ALIMCO at 0512-2770873.",
     "processing_days": "Distributed at camps",
-    "tags": ["senior_disability", "disability", "assistive_device"],
+    "tags": [
+      "senior_disability",
+      "disability",
+      "assistive_device"
+    ],
     "state_specific": false
   },
   {
@@ -530,14 +792,26 @@
     "category": "education_youth",
     "benefit_en": "Rs 500-25,000 per year scholarships for pre-matric, post-matric and merit students",
     "benefit_amount": 25000,
+    "benefit_type": "cash_yearly",
     "apply_link": "https://scholarships.gov.in",
     "eligibility": {
       "states": "all",
       "age_max": 30,
-      "caste": ["OBC", "SC", "ST", "Minority"],
+      "caste": [
+        "OBC",
+        "SC",
+        "ST",
+        "Minority"
+      ],
       "income_max": 250000
     },
-    "documents": ["Aadhaar card", "Marksheet of previous class", "Income certificate", "Caste certificate", "Bank passbook"],
+    "documents": [
+      "Aadhaar card",
+      "Marksheet of previous class",
+      "Income certificate",
+      "Caste certificate",
+      "Bank passbook"
+    ],
     "steps_en": [
       "Register at scholarships.gov.in",
       "Select applicable scholarship scheme",
@@ -545,10 +819,21 @@
       "Upload documents",
       "Institute verifies and scholarship credited"
     ],
-    "rejection_reasons": ["Income above limit", "Marks below cutoff", "Duplicate application", "Wrong institute selected"],
+    "rejection_reasons": [
+      "Income above limit",
+      "Marks below cutoff",
+      "Duplicate application",
+      "Wrong institute selected"
+    ],
     "scam_note": "NSP scholarships go directly to bank. Never pay anyone to apply. Helpline: 0120-6619540.",
     "processing_days": "60-90",
-    "tags": ["education_youth", "scholarship", "students", "obc", "sc_st"],
+    "tags": [
+      "education_youth",
+      "scholarship",
+      "students",
+      "obc",
+      "sc_st"
+    ],
     "state_specific": false
   },
   {
@@ -560,13 +845,23 @@
     "category": "finance",
     "benefit_en": "Bank loans Rs 10 lakh to Rs 1 crore for SC/ST/Women entrepreneurs",
     "benefit_amount": 10000000,
+    "benefit_type": "loan",
     "apply_link": "https://standupmitra.in",
     "eligibility": {
       "states": "all",
-      "caste": ["SC", "ST"],
+      "caste": [
+        "SC",
+        "ST"
+      ],
       "age_min": 18
     },
-    "documents": ["Aadhaar card", "PAN card", "Caste certificate", "Business plan", "No-existing-default certificate"],
+    "documents": [
+      "Aadhaar card",
+      "PAN card",
+      "Caste certificate",
+      "Business plan",
+      "No-existing-default certificate"
+    ],
     "steps_en": [
       "Apply at standupmitra.in or nearest bank branch",
       "Submit business plan and caste/gender documents",
@@ -574,10 +869,19 @@
       "Composite loan (working capital + term) sanctioned",
       "Repay over 7 years with moratorium of 18 months"
     ],
-    "rejection_reasons": ["Existing loan default", "Weak business plan", "Non-SC/ST and non-woman applicant"],
+    "rejection_reasons": [
+      "Existing loan default",
+      "Weak business plan",
+      "Non-SC/ST and non-woman applicant"
+    ],
     "scam_note": "Apply directly at bank or standupmitra.in. No middleman fee. Helpline: 1800-180-1111.",
     "processing_days": "30-60",
-    "tags": ["finance", "entrepreneurship", "sc_st", "women"],
+    "tags": [
+      "finance",
+      "entrepreneurship",
+      "sc_st",
+      "women"
+    ],
     "state_specific": false
   },
   {
@@ -589,12 +893,18 @@
     "category": "energy",
     "benefit_en": "Subsidy Rs 30,000-78,000 on solar rooftop + 300 free electricity units/month",
     "benefit_amount": 78000,
+    "benefit_type": "one_time",
     "apply_link": "https://pmsuryaghar.gov.in",
     "eligibility": {
       "states": "all",
       "age_min": 18
     },
-    "documents": ["Aadhaar card", "Electricity bill", "House ownership proof", "Bank passbook"],
+    "documents": [
+      "Aadhaar card",
+      "Electricity bill",
+      "House ownership proof",
+      "Bank passbook"
+    ],
     "steps_en": [
       "Register at pmsuryaghar.gov.in",
       "Select empanelled vendor from portal",
@@ -602,10 +912,19 @@
       "Apply for net metering from DISCOM",
       "Subsidy credited to bank after inspection"
     ],
-    "rejection_reasons": ["Rented property", "Electricity connection not in applicant's name", "No suitable rooftop"],
+    "rejection_reasons": [
+      "Rented property",
+      "Electricity connection not in applicant's name",
+      "No suitable rooftop"
+    ],
     "scam_note": "Use only empanelled vendors from portal. Subsidy comes to bank directly. Helpline: 1800-180-3333.",
     "processing_days": "30-60 after installation",
-    "tags": ["energy", "solar", "renewable", "subsidy"],
+    "tags": [
+      "energy",
+      "solar",
+      "renewable",
+      "subsidy"
+    ],
     "state_specific": false
   },
   {
@@ -617,14 +936,22 @@
     "category": "education_youth",
     "benefit_en": "Free skill training + placement in formal jobs for rural youth (18-35)",
     "benefit_amount": 0,
+    "benefit_type": "service",
     "apply_link": "https://ddugky.gov.in",
     "eligibility": {
       "states": "all",
       "age_min": 18,
       "age_max": 35,
-      "occupation": ["daily_wage", "unemployed"]
+      "occupation": [
+        "daily_wage",
+        "unemployed"
+      ]
     },
-    "documents": ["Aadhaar card", "Educational certificate", "Caste certificate (for priority)"],
+    "documents": [
+      "Aadhaar card",
+      "Educational certificate",
+      "Caste certificate (for priority)"
+    ],
     "steps_en": [
       "Register at ddugky.gov.in or visit nearest RSETI/DDU-GKY centre",
       "Select trade and location",
@@ -632,10 +959,19 @@
       "Assessment and certification",
       "Placement assistance in formal sector jobs"
     ],
-    "rejection_reasons": ["Age above 35", "Not a rural resident", "Urban resident"],
+    "rejection_reasons": [
+      "Age above 35",
+      "Not a rural resident",
+      "Urban resident"
+    ],
     "scam_note": "DDU-GKY training is free. You also get post-placement support for 12 months.",
     "processing_days": "Training: 2-12 months",
-    "tags": ["education_youth", "skill", "rural_youth", "placement"],
+    "tags": [
+      "education_youth",
+      "skill",
+      "rural_youth",
+      "placement"
+    ],
     "state_specific": false
   },
   {
@@ -647,16 +983,25 @@
     "category": "women_children",
     "benefit_en": "Rs 300-500 per month pension for BPL widows aged 40-79",
     "benefit_amount": 3600,
+    "benefit_type": "cash_yearly",
     "apply_link": "https://nsap.nic.in",
     "eligibility": {
       "states": "all",
-      "gender": ["Female"],
+      "gender": [
+        "Female"
+      ],
       "age_min": 40,
       "age_max": 79,
       "requires_bpl": true,
       "requires_widow": true
     },
-    "documents": ["Aadhaar card", "Husband's death certificate", "BPL card", "Age proof", "Bank passbook"],
+    "documents": [
+      "Aadhaar card",
+      "Husband's death certificate",
+      "BPL card",
+      "Age proof",
+      "Bank passbook"
+    ],
     "steps_en": [
       "Apply at Gram Panchayat or Urban Local Body",
       "Submit death certificate, BPL card and Aadhaar",
@@ -664,10 +1009,19 @@
       "Pension sanctioned and credited monthly",
       "Widow certified as such by Gram Panchayat"
     ],
-    "rejection_reasons": ["Age below 40 or above 79", "Not BPL", "Husband alive or married again"],
+    "rejection_reasons": [
+      "Age below 40 or above 79",
+      "Not BPL",
+      "Husband alive or married again"
+    ],
     "scam_note": "Pension credited directly to bank. No agent needed. Helpline: 1800-11-0001.",
     "processing_days": "30-60",
-    "tags": ["women_children", "pension", "widow", "bpl"],
+    "tags": [
+      "women_children",
+      "pension",
+      "widow",
+      "bpl"
+    ],
     "state_specific": false
   },
   {
@@ -679,6 +1033,7 @@
     "category": "senior_disability",
     "benefit_en": "Rs 300-500 per month pension for BPL persons with 80%+ disability",
     "benefit_amount": 3600,
+    "benefit_type": "cash_yearly",
     "apply_link": "https://nsap.nic.in",
     "eligibility": {
       "states": "all",
@@ -687,7 +1042,12 @@
       "requires_bpl": true,
       "requires_disability": true
     },
-    "documents": ["Aadhaar card", "Disability certificate (80%+)", "BPL card", "Bank passbook"],
+    "documents": [
+      "Aadhaar card",
+      "Disability certificate (80%+)",
+      "BPL card",
+      "Bank passbook"
+    ],
     "steps_en": [
       "Get 80%+ disability certificate from civil surgeon",
       "Apply at Gram Panchayat or ULB",
@@ -695,10 +1055,19 @@
       "Application verified and forwarded",
       "Pension credited monthly to bank account"
     ],
-    "rejection_reasons": ["Disability below 80%", "Not BPL", "Age outside 18-79"],
+    "rejection_reasons": [
+      "Disability below 80%",
+      "Not BPL",
+      "Age outside 18-79"
+    ],
     "scam_note": "Pension directly to bank. Report fraud at 1800-11-0001.",
     "processing_days": "30-60",
-    "tags": ["senior_disability", "pension", "disability", "bpl"],
+    "tags": [
+      "senior_disability",
+      "pension",
+      "disability",
+      "bpl"
+    ],
     "state_specific": false
   },
   {
@@ -710,13 +1079,21 @@
     "category": "agriculture",
     "benefit_en": "Up to 60% subsidy on solar pumps + sell surplus solar power to grid",
     "benefit_amount": 100000,
+    "benefit_type": "one_time",
     "apply_link": "https://pmkusum.mnre.gov.in",
     "eligibility": {
       "states": "all",
-      "occupation": ["farmer"],
+      "occupation": [
+        "farmer"
+      ],
       "land_min_acres": 0.1
     },
-    "documents": ["Aadhaar card", "Land records", "Bank passbook", "Electricity bill (if grid-connected)"],
+    "documents": [
+      "Aadhaar card",
+      "Land records",
+      "Bank passbook",
+      "Electricity bill (if grid-connected)"
+    ],
     "steps_en": [
       "Apply at state nodal agency or pmkusum.mnre.gov.in",
       "Select component (standalone pump / grid pump / solar plant)",
@@ -724,10 +1101,20 @@
       "Pay farmer share (around 40%)",
       "Solar pump installed by empanelled vendor"
     ],
-    "rejection_reasons": ["No land records", "Already has subsidised pump", "Quota exhausted for the year"],
+    "rejection_reasons": [
+      "No land records",
+      "Already has subsidised pump",
+      "Quota exhausted for the year"
+    ],
     "scam_note": "Subsidy is credited directly. Use only empanelled vendors. Report fraud at 1800-180-3333.",
     "processing_days": "60-120",
-    "tags": ["agriculture", "solar", "farmer", "subsidy", "irrigation"],
+    "tags": [
+      "agriculture",
+      "solar",
+      "farmer",
+      "subsidy",
+      "irrigation"
+    ],
     "state_specific": false
   },
   {
@@ -739,13 +1126,19 @@
     "category": "agriculture",
     "benefit_en": "Free soil testing + crop-wise nutrient and fertiliser recommendations",
     "benefit_amount": 0,
+    "benefit_type": "service",
     "apply_link": "https://soilhealth.dac.gov.in",
     "eligibility": {
       "states": "all",
-      "occupation": ["farmer"],
+      "occupation": [
+        "farmer"
+      ],
       "land_min_acres": 0.1
     },
-    "documents": ["Aadhaar card", "Land records"],
+    "documents": [
+      "Aadhaar card",
+      "Land records"
+    ],
     "steps_en": [
       "Contact local Krishi Vigyan Kendra or agriculture office",
       "Provide soil sample from your field",
@@ -753,10 +1146,17 @@
       "Receive Soil Health Card with recommendations",
       "Apply fertiliser as advised to save costs"
     ],
-    "rejection_reasons": ["No agricultural land"],
+    "rejection_reasons": [
+      "No agricultural land"
+    ],
     "scam_note": "Soil testing is completely free under this scheme. No charges.",
     "processing_days": "30-45",
-    "tags": ["agriculture", "soil", "farmer", "free"],
+    "tags": [
+      "agriculture",
+      "soil",
+      "farmer",
+      "free"
+    ],
     "state_specific": false
   },
   {
@@ -768,12 +1168,19 @@
     "category": "agriculture",
     "benefit_en": "Sell crops online to buyers across India for better prices, no middlemen",
     "benefit_amount": 0,
+    "benefit_type": "service",
     "apply_link": "https://enam.gov.in",
     "eligibility": {
       "states": "all",
-      "occupation": ["farmer"]
+      "occupation": [
+        "farmer"
+      ]
     },
-    "documents": ["Aadhaar card", "Bank passbook", "Mobile number"],
+    "documents": [
+      "Aadhaar card",
+      "Bank passbook",
+      "Mobile number"
+    ],
     "steps_en": [
       "Register at enam.gov.in or nearest eNAM mandi",
       "Get registered with local APMC mandi",
@@ -781,10 +1188,18 @@
       "Accept best online bid from buyers",
       "Payment credited directly to bank account"
     ],
-    "rejection_reasons": ["Mandi not eNAM-integrated", "No bank account"],
+    "rejection_reasons": [
+      "Mandi not eNAM-integrated",
+      "No bank account"
+    ],
     "scam_note": "eNAM registration is free. Payment comes directly to your bank. No commission agents.",
     "processing_days": "Same day trading",
-    "tags": ["agriculture", "market", "farmer", "trade"],
+    "tags": [
+      "agriculture",
+      "market",
+      "farmer",
+      "trade"
+    ],
     "state_specific": false
   },
   {
@@ -796,13 +1211,21 @@
     "category": "agriculture",
     "benefit_en": "Subsidy on drip and sprinkler micro-irrigation systems (45-55%)",
     "benefit_amount": 50000,
+    "benefit_type": "one_time",
     "apply_link": "https://pmksy.gov.in",
     "eligibility": {
       "states": "all",
-      "occupation": ["farmer"],
+      "occupation": [
+        "farmer"
+      ],
       "land_min_acres": 0.1
     },
-    "documents": ["Aadhaar card", "Land records", "Bank passbook", "Photo"],
+    "documents": [
+      "Aadhaar card",
+      "Land records",
+      "Bank passbook",
+      "Photo"
+    ],
     "steps_en": [
       "Apply at state agriculture/horticulture department or pmksy.gov.in",
       "Select drip or sprinkler system",
@@ -810,10 +1233,18 @@
       "Install system through approved vendor",
       "Subsidy credited to bank after inspection"
     ],
-    "rejection_reasons": ["No land records", "Annual subsidy quota exhausted"],
+    "rejection_reasons": [
+      "No land records",
+      "Annual subsidy quota exhausted"
+    ],
     "scam_note": "Subsidy goes to your bank directly. Use approved vendors only.",
     "processing_days": "45-90",
-    "tags": ["agriculture", "irrigation", "farmer", "subsidy"],
+    "tags": [
+      "agriculture",
+      "irrigation",
+      "farmer",
+      "subsidy"
+    ],
     "state_specific": false
   },
   {
@@ -825,15 +1256,22 @@
     "category": "agriculture",
     "benefit_en": "Rs 3,000 per month pension after age 60 for small and marginal farmers",
     "benefit_amount": 36000,
+    "benefit_type": "cash_yearly",
     "apply_link": "https://maandhan.in",
     "eligibility": {
       "states": "all",
-      "occupation": ["farmer"],
+      "occupation": [
+        "farmer"
+      ],
       "age_min": 18,
       "age_max": 40,
       "land_min_acres": 0.1
     },
-    "documents": ["Aadhaar card", "Bank passbook", "Land records"],
+    "documents": [
+      "Aadhaar card",
+      "Bank passbook",
+      "Land records"
+    ],
     "steps_en": [
       "Visit nearest CSC centre with Aadhaar and bank details",
       "Enrol in PM Kisan Maandhan Yojana",
@@ -841,10 +1279,19 @@
       "Government contributes equal amount",
       "Pension of Rs 3,000/month starts at age 60"
     ],
-    "rejection_reasons": ["Age above 40", "Large farmer (over 2 hectares)", "Income tax payer"],
+    "rejection_reasons": [
+      "Age above 40",
+      "Large farmer (over 2 hectares)",
+      "Income tax payer"
+    ],
     "scam_note": "Enrol free at CSC. Contribution auto-debited. No middleman fee.",
     "processing_days": "Immediate enrolment",
-    "tags": ["agriculture", "pension", "farmer", "social_security"],
+    "tags": [
+      "agriculture",
+      "pension",
+      "farmer",
+      "social_security"
+    ],
     "state_specific": false
   },
   {
@@ -856,12 +1303,19 @@
     "category": "agriculture",
     "benefit_en": "Subsidised insurance for cattle, buffalo, sheep, goat, pig against death",
     "benefit_amount": 30000,
+    "benefit_type": "insurance",
     "apply_link": "https://dahd.nic.in",
     "eligibility": {
       "states": "all",
-      "occupation": ["farmer"]
+      "occupation": [
+        "farmer"
+      ]
     },
-    "documents": ["Aadhaar card", "Animal ownership proof", "Bank passbook"],
+    "documents": [
+      "Aadhaar card",
+      "Animal ownership proof",
+      "Bank passbook"
+    ],
     "steps_en": [
       "Contact nearest veterinary office or animal husbandry department",
       "Get animal health checked and tagged",
@@ -869,10 +1323,18 @@
       "Animal insured for market value",
       "Claim on animal death with vet certificate"
     ],
-    "rejection_reasons": ["Animal already insured", "No ear-tag identification"],
+    "rejection_reasons": [
+      "Animal already insured",
+      "No ear-tag identification"
+    ],
     "scam_note": "Pay only the subsidised premium share. Government covers the rest.",
     "processing_days": "15-30",
-    "tags": ["agriculture", "livestock", "insurance", "farmer"],
+    "tags": [
+      "agriculture",
+      "livestock",
+      "insurance",
+      "farmer"
+    ],
     "state_specific": false
   },
   {
@@ -884,14 +1346,22 @@
     "category": "health",
     "benefit_en": "Cash assistance Rs 700-1,400 for institutional delivery to pregnant women",
     "benefit_amount": 1400,
+    "benefit_type": "one_time",
     "apply_link": "https://nhm.gov.in",
     "eligibility": {
       "states": "all",
-      "gender": ["Female"],
+      "gender": [
+        "Female"
+      ],
       "requires_bpl": true,
       "age_min": 19
     },
-    "documents": ["Aadhaar card", "BPL card", "MCP card", "Bank passbook"],
+    "documents": [
+      "Aadhaar card",
+      "BPL card",
+      "MCP card",
+      "Bank passbook"
+    ],
     "steps_en": [
       "Register pregnancy with ASHA worker or at health centre",
       "Get antenatal check-ups done",
@@ -899,10 +1369,19 @@
       "ASHA worker helps process the cash benefit",
       "Amount credited to bank account after delivery"
     ],
-    "rejection_reasons": ["Home delivery (not institutional)", "Not registered with ASHA/PHC"],
+    "rejection_reasons": [
+      "Home delivery (not institutional)",
+      "Not registered with ASHA/PHC"
+    ],
     "scam_note": "JSY money comes directly to your bank. ASHA worker assists free of charge.",
     "processing_days": "After delivery",
-    "tags": ["health", "maternity", "women", "bpl", "pregnancy"],
+    "tags": [
+      "health",
+      "maternity",
+      "women",
+      "bpl",
+      "pregnancy"
+    ],
     "state_specific": false
   },
   {
@@ -914,13 +1393,19 @@
     "category": "health",
     "benefit_en": "Free delivery, C-section, medicines, diagnostics and transport for mother and newborn",
     "benefit_amount": 0,
+    "benefit_type": "service",
     "apply_link": "https://nhm.gov.in",
     "eligibility": {
       "states": "all",
-      "gender": ["Female"],
+      "gender": [
+        "Female"
+      ],
       "age_min": 18
     },
-    "documents": ["Aadhaar card", "MCP card"],
+    "documents": [
+      "Aadhaar card",
+      "MCP card"
+    ],
     "steps_en": [
       "Go to any government hospital for delivery",
       "All services provided free — no payment at all",
@@ -928,10 +1413,18 @@
       "Free transport home after delivery",
       "Free treatment for sick newborns up to 1 year"
     ],
-    "rejection_reasons": ["Private hospital delivery"],
+    "rejection_reasons": [
+      "Private hospital delivery"
+    ],
     "scam_note": "Everything under JSSK is 100% free at government hospitals. Never pay for delivery or medicines.",
     "processing_days": "Immediate",
-    "tags": ["health", "maternity", "women", "newborn", "free"],
+    "tags": [
+      "health",
+      "maternity",
+      "women",
+      "newborn",
+      "free"
+    ],
     "state_specific": false
   },
   {
@@ -943,12 +1436,15 @@
     "category": "health",
     "benefit_en": "Free health screening and treatment for children 0-18 years (defects, diseases, disabilities)",
     "benefit_amount": 0,
+    "benefit_type": "service",
     "apply_link": "https://nhm.gov.in",
     "eligibility": {
       "states": "all",
       "age_max": 18
     },
-    "documents": ["Aadhaar card / birth certificate"],
+    "documents": [
+      "Aadhaar card / birth certificate"
+    ],
     "steps_en": [
       "Children screened free at Anganwadi, schools and health centres",
       "RBSK mobile teams visit villages and schools",
@@ -956,10 +1452,17 @@
       "Free treatment including surgeries provided",
       "Follow-up care arranged free of cost"
     ],
-    "rejection_reasons": ["Age above 18"],
+    "rejection_reasons": [
+      "Age above 18"
+    ],
     "scam_note": "All screening and treatment is free. Never pay for child health services under RBSK.",
     "processing_days": "As per screening camps",
-    "tags": ["health", "children", "free", "screening"],
+    "tags": [
+      "health",
+      "children",
+      "free",
+      "screening"
+    ],
     "state_specific": false
   },
   {
@@ -971,13 +1474,19 @@
     "category": "women_children",
     "benefit_en": "Awareness, education support and protection for the girl child",
     "benefit_amount": 0,
+    "benefit_type": "service",
     "apply_link": "https://wcd.nic.in",
     "eligibility": {
       "states": "all",
-      "gender": ["Female"],
+      "gender": [
+        "Female"
+      ],
       "age_max": 18
     },
-    "documents": ["Birth certificate", "Aadhaar card"],
+    "documents": [
+      "Birth certificate",
+      "Aadhaar card"
+    ],
     "steps_en": [
       "Contact local Anganwadi or women and child development office",
       "Enrol girl child in school",
@@ -985,10 +1494,17 @@
       "Access awareness and counselling programmes",
       "Benefit from convergence with education schemes"
     ],
-    "rejection_reasons": ["Male child"],
+    "rejection_reasons": [
+      "Male child"
+    ],
     "scam_note": "This is an awareness and convergence scheme — services are free. Beware of fake registration fees.",
     "processing_days": "Ongoing",
-    "tags": ["women_children", "girl_child", "education", "awareness"],
+    "tags": [
+      "women_children",
+      "girl_child",
+      "education",
+      "awareness"
+    ],
     "state_specific": false
   },
   {
@@ -1000,13 +1516,20 @@
     "category": "women_children",
     "benefit_en": "Subsidised daycare, nutrition and health for children 6 months to 6 years of working mothers",
     "benefit_amount": 0,
+    "benefit_type": "service",
     "apply_link": "https://wcd.nic.in",
     "eligibility": {
       "states": "all",
-      "gender": ["Female"],
+      "gender": [
+        "Female"
+      ],
       "income_max": 300000
     },
-    "documents": ["Aadhaar card", "Child's birth certificate", "Income proof"],
+    "documents": [
+      "Aadhaar card",
+      "Child's birth certificate",
+      "Income proof"
+    ],
     "steps_en": [
       "Locate nearest Palna/creche centre via WCD office",
       "Submit child and parent documents",
@@ -1014,10 +1537,18 @@
       "Child gets daycare, meals and health check-ups",
       "Centre open during working hours"
     ],
-    "rejection_reasons": ["Child outside 6 months-6 years", "No creche centre nearby"],
+    "rejection_reasons": [
+      "Child outside 6 months-6 years",
+      "No creche centre nearby"
+    ],
     "scam_note": "Fees are nominal and subsidised. Verify the centre is government-registered.",
     "processing_days": "15-30",
-    "tags": ["women_children", "daycare", "working_mother", "nutrition"],
+    "tags": [
+      "women_children",
+      "daycare",
+      "working_mother",
+      "nutrition"
+    ],
     "state_specific": false
   },
   {
@@ -1029,12 +1560,19 @@
     "category": "women_children",
     "benefit_en": "7.5% interest on savings up to Rs 2 lakh for 2 years (women and girls)",
     "benefit_amount": 0,
+    "benefit_type": "service",
     "apply_link": "https://www.indiapost.gov.in",
     "eligibility": {
       "states": "all",
-      "gender": ["Female"]
+      "gender": [
+        "Female"
+      ]
     },
-    "documents": ["Aadhaar card", "PAN card", "Deposit amount"],
+    "documents": [
+      "Aadhaar card",
+      "PAN card",
+      "Deposit amount"
+    ],
     "steps_en": [
       "Visit post office or authorised bank",
       "Fill Mahila Samman Savings Certificate form",
@@ -1042,10 +1580,18 @@
       "Earn 7.5% fixed interest for 2 years",
       "Partial withdrawal allowed after 1 year"
     ],
-    "rejection_reasons": ["Male applicant", "Scheme window closed (limited period)"],
+    "rejection_reasons": [
+      "Male applicant",
+      "Scheme window closed (limited period)"
+    ],
     "scam_note": "Open only at post office or bank. No agent needed. Fixed government interest rate.",
     "processing_days": "Same day",
-    "tags": ["women_children", "savings", "women", "investment"],
+    "tags": [
+      "women_children",
+      "savings",
+      "women",
+      "investment"
+    ],
     "state_specific": false
   },
   {
@@ -1057,12 +1603,18 @@
     "category": "senior_disability",
     "benefit_en": "Guaranteed pension at ~7.4% for senior citizens, investment up to Rs 15 lakh",
     "benefit_amount": 0,
+    "benefit_type": "cash_yearly",
     "apply_link": "https://licindia.in",
     "eligibility": {
       "states": "all",
       "age_min": 60
     },
-    "documents": ["Aadhaar card", "PAN card", "Bank passbook", "Age proof"],
+    "documents": [
+      "Aadhaar card",
+      "PAN card",
+      "Bank passbook",
+      "Age proof"
+    ],
     "steps_en": [
       "Visit LIC office or licindia.in",
       "Choose pension mode (monthly/quarterly/yearly)",
@@ -1070,10 +1622,18 @@
       "Receive guaranteed pension for 10 years",
       "Principal returned to nominee on maturity/death"
     ],
-    "rejection_reasons": ["Age below 60", "Scheme subscription window closed"],
+    "rejection_reasons": [
+      "Age below 60",
+      "Scheme subscription window closed"
+    ],
     "scam_note": "Buy only through LIC. No third-party agents needed. Pension credited to bank.",
     "processing_days": "Immediate",
-    "tags": ["senior_disability", "pension", "elderly", "investment"],
+    "tags": [
+      "senior_disability",
+      "pension",
+      "elderly",
+      "investment"
+    ],
     "state_specific": false
   },
   {
@@ -1085,13 +1645,22 @@
     "category": "finance",
     "benefit_en": "Rs 15,000 toolkit + Rs 500/day skill stipend + collateral-free loan up to Rs 3 lakh at 5%",
     "benefit_amount": 300000,
+    "benefit_type": "loan",
     "apply_link": "https://pmvishwakarma.gov.in",
     "eligibility": {
       "states": "all",
-      "occupation": ["artisan", "self_employed"],
+      "occupation": [
+        "artisan",
+        "self_employed"
+      ],
       "age_min": 18
     },
-    "documents": ["Aadhaar card", "Bank passbook", "Mobile number", "Caste/occupation proof"],
+    "documents": [
+      "Aadhaar card",
+      "Bank passbook",
+      "Mobile number",
+      "Caste/occupation proof"
+    ],
     "steps_en": [
       "Register at pmvishwakarma.gov.in via nearest CSC",
       "Select your traditional trade (carpenter, blacksmith, potter, etc.)",
@@ -1099,10 +1668,19 @@
       "Receive Rs 15,000 toolkit voucher",
       "Apply for collateral-free loan up to Rs 3 lakh"
     ],
-    "rejection_reasons": ["Trade not in the 18 listed crafts", "Government employee in family"],
+    "rejection_reasons": [
+      "Trade not in the 18 listed crafts",
+      "Government employee in family"
+    ],
     "scam_note": "Registration and training are free. Toolkit and loan are genuine government benefits. Apply via CSC.",
     "processing_days": "30-60",
-    "tags": ["finance", "artisan", "skill", "loan", "self_employed"],
+    "tags": [
+      "finance",
+      "artisan",
+      "skill",
+      "loan",
+      "self_employed"
+    ],
     "state_specific": false
   },
   {
@@ -1114,14 +1692,24 @@
     "category": "finance",
     "benefit_en": "National database registration + Rs 2 lakh accidental insurance + access to welfare schemes",
     "benefit_amount": 200000,
+    "benefit_type": "insurance",
     "apply_link": "https://eshram.gov.in",
     "eligibility": {
       "states": "all",
-      "occupation": ["daily_wage", "self_employed", "artisan", "farmer"],
+      "occupation": [
+        "daily_wage",
+        "self_employed",
+        "artisan",
+        "farmer"
+      ],
       "age_min": 16,
       "age_max": 59
     },
-    "documents": ["Aadhaar card", "Bank passbook", "Mobile linked to Aadhaar"],
+    "documents": [
+      "Aadhaar card",
+      "Bank passbook",
+      "Mobile linked to Aadhaar"
+    ],
     "steps_en": [
       "Visit eshram.gov.in or nearest CSC",
       "Register with Aadhaar-linked mobile (free self-registration)",
@@ -1129,10 +1717,19 @@
       "Receive e-Shram card with unique UAN number",
       "Get Rs 2 lakh accidental insurance automatically"
     ],
-    "rejection_reasons": ["Income tax payer", "EPFO/ESIC member", "Age outside 16-59"],
+    "rejection_reasons": [
+      "Income tax payer",
+      "EPFO/ESIC member",
+      "Age outside 16-59"
+    ],
     "scam_note": "e-Shram registration is completely free at eshram.gov.in or CSC. Never pay for the card.",
     "processing_days": "Same day",
-    "tags": ["finance", "unorganised_worker", "insurance", "registration"],
+    "tags": [
+      "finance",
+      "unorganised_worker",
+      "insurance",
+      "registration"
+    ],
     "state_specific": false
   },
   {
@@ -1144,15 +1741,23 @@
     "category": "finance",
     "benefit_en": "Rs 3,000 per month pension after age 60 for unorganised sector workers",
     "benefit_amount": 36000,
+    "benefit_type": "cash_yearly",
     "apply_link": "https://maandhan.in",
     "eligibility": {
       "states": "all",
-      "occupation": ["daily_wage", "self_employed", "artisan"],
+      "occupation": [
+        "daily_wage",
+        "self_employed",
+        "artisan"
+      ],
       "age_min": 18,
       "age_max": 40,
       "income_max": 180000
     },
-    "documents": ["Aadhaar card", "Bank passbook (savings account)"],
+    "documents": [
+      "Aadhaar card",
+      "Bank passbook (savings account)"
+    ],
     "steps_en": [
       "Visit nearest CSC with Aadhaar and bank passbook",
       "Enrol in PM Shram Yogi Maandhan",
@@ -1160,10 +1765,19 @@
       "Government matches your contribution equally",
       "Pension of Rs 3,000/month from age 60"
     ],
-    "rejection_reasons": ["Monthly income above Rs 15,000", "EPFO/ESIC/NPS member", "Income tax payer"],
+    "rejection_reasons": [
+      "Monthly income above Rs 15,000",
+      "EPFO/ESIC/NPS member",
+      "Income tax payer"
+    ],
     "scam_note": "Enrol free at CSC. Contribution auto-debited from bank. No agent fees.",
     "processing_days": "Immediate enrolment",
-    "tags": ["finance", "pension", "unorganised_worker", "social_security"],
+    "tags": [
+      "finance",
+      "pension",
+      "unorganised_worker",
+      "social_security"
+    ],
     "state_specific": false
   },
   {
@@ -1175,13 +1789,23 @@
     "category": "finance",
     "benefit_en": "Up to 35% subsidy on bank loans up to Rs 50 lakh to set up new enterprises",
     "benefit_amount": 5000000,
+    "benefit_type": "loan",
     "apply_link": "https://www.kviconline.gov.in/pmegp",
     "eligibility": {
       "states": "all",
-      "occupation": ["self_employed", "unemployed", "artisan"],
+      "occupation": [
+        "self_employed",
+        "unemployed",
+        "artisan"
+      ],
       "age_min": 18
     },
-    "documents": ["Aadhaar card", "Project report", "Caste/category certificate", "Education proof"],
+    "documents": [
+      "Aadhaar card",
+      "Project report",
+      "Caste/category certificate",
+      "Education proof"
+    ],
     "steps_en": [
       "Apply online at kviconline.gov.in/pmegp",
       "Submit detailed project report for your business",
@@ -1189,10 +1813,20 @@
       "Bank sanctions loan with PMEGP margin money subsidy",
       "Start enterprise; subsidy locked in after 3 years"
     ],
-    "rejection_reasons": ["Existing PMEGP beneficiary", "Weak project report", "Bank loan rejected"],
+    "rejection_reasons": [
+      "Existing PMEGP beneficiary",
+      "Weak project report",
+      "Bank loan rejected"
+    ],
     "scam_note": "Apply only on the official KVIC portal. No agent can guarantee approval. Helpline: 1800-3000-0034.",
     "processing_days": "60-120",
-    "tags": ["finance", "business", "subsidy", "employment", "entrepreneurship"],
+    "tags": [
+      "finance",
+      "business",
+      "subsidy",
+      "employment",
+      "entrepreneurship"
+    ],
     "state_specific": false
   },
   {
@@ -1204,13 +1838,20 @@
     "category": "finance",
     "benefit_en": "SHG formation + bank linkage loans at low interest for rural women",
     "benefit_amount": 100000,
+    "benefit_type": "loan",
     "apply_link": "https://aajeevika.gov.in",
     "eligibility": {
       "states": "all",
-      "gender": ["Female"],
+      "gender": [
+        "Female"
+      ],
       "requires_bpl": true
     },
-    "documents": ["Aadhaar card", "Bank passbook", "SHG membership"],
+    "documents": [
+      "Aadhaar card",
+      "Bank passbook",
+      "SHG membership"
+    ],
     "steps_en": [
       "Join or form a Self Help Group in your village",
       "SHG registered under NRLM via block office",
@@ -1218,10 +1859,19 @@
       "Get community investment fund and bank loans",
       "Use funds for livelihood activities"
     ],
-    "rejection_reasons": ["Not part of an SHG", "SHG not NRLM-registered"],
+    "rejection_reasons": [
+      "Not part of an SHG",
+      "SHG not NRLM-registered"
+    ],
     "scam_note": "Joining SHGs under NRLM is free. Loans are low-interest. Contact block development office.",
     "processing_days": "Varies by SHG maturity",
-    "tags": ["finance", "rural", "women", "shg", "livelihood"],
+    "tags": [
+      "finance",
+      "rural",
+      "women",
+      "shg",
+      "livelihood"
+    ],
     "state_specific": false
   },
   {
@@ -1233,13 +1883,22 @@
     "category": "finance",
     "benefit_en": "Skill training, SHG support and subsidised loans for urban poor",
     "benefit_amount": 200000,
+    "benefit_type": "loan",
     "apply_link": "https://nulm.gov.in",
     "eligibility": {
       "states": "all",
-      "occupation": ["daily_wage", "self_employed", "unemployed"],
+      "occupation": [
+        "daily_wage",
+        "self_employed",
+        "unemployed"
+      ],
       "income_max": 200000
     },
-    "documents": ["Aadhaar card", "Urban residence proof", "Bank passbook"],
+    "documents": [
+      "Aadhaar card",
+      "Urban residence proof",
+      "Bank passbook"
+    ],
     "steps_en": [
       "Contact City Mission Management Unit (ULB office)",
       "Enrol for skill training or SHG formation",
@@ -1247,10 +1906,19 @@
       "Apply for subsidised self-employment loan",
       "Receive interest subvention on the loan"
     ],
-    "rejection_reasons": ["Not urban poor", "Income above limit"],
+    "rejection_reasons": [
+      "Not urban poor",
+      "Income above limit"
+    ],
     "scam_note": "Training and SHG support are free. Apply through your urban local body office.",
     "processing_days": "30-90",
-    "tags": ["finance", "urban", "skill", "livelihood", "loan"],
+    "tags": [
+      "finance",
+      "urban",
+      "skill",
+      "livelihood",
+      "loan"
+    ],
     "state_specific": false
   },
   {
@@ -1262,15 +1930,23 @@
     "category": "education_youth",
     "benefit_en": "Rs 12,000 per year scholarship for meritorious students from Class 9 to 12",
     "benefit_amount": 12000,
+    "benefit_type": "cash_yearly",
     "apply_link": "https://scholarships.gov.in",
     "eligibility": {
       "states": "all",
       "age_min": 13,
       "age_max": 18,
       "income_max": 350000,
-      "occupation": ["student"]
+      "occupation": [
+        "student"
+      ]
     },
-    "documents": ["Aadhaar card", "Class 7/8 marksheet (55%+)", "Income certificate", "Bank passbook"],
+    "documents": [
+      "Aadhaar card",
+      "Class 7/8 marksheet (55%+)",
+      "Income certificate",
+      "Bank passbook"
+    ],
     "steps_en": [
       "Clear the NMMS state-level selection exam in Class 8",
       "Register at scholarships.gov.in (National Scholarship Portal)",
@@ -1278,10 +1954,19 @@
       "School verifies application",
       "Rs 12,000/year credited to bank from Class 9 to 12"
     ],
-    "rejection_reasons": ["Failed NMMS exam", "Income above Rs 3.5 lakh", "Private/residential school student"],
+    "rejection_reasons": [
+      "Failed NMMS exam",
+      "Income above Rs 3.5 lakh",
+      "Private/residential school student"
+    ],
     "scam_note": "Scholarship goes directly to bank. Apply free on NSP. No agent needed.",
     "processing_days": "60-90",
-    "tags": ["education_youth", "scholarship", "students", "merit"],
+    "tags": [
+      "education_youth",
+      "scholarship",
+      "students",
+      "merit"
+    ],
     "state_specific": false
   },
   {
@@ -1293,16 +1978,26 @@
     "category": "education_youth",
     "benefit_en": "Rs 50,000 per year for girl students in AICTE-approved technical diploma/degree courses",
     "benefit_amount": 50000,
+    "benefit_type": "cash_yearly",
     "apply_link": "https://www.aicte-pragati-saksham-gov.in",
     "eligibility": {
       "states": "all",
-      "gender": ["Female"],
+      "gender": [
+        "Female"
+      ],
       "age_min": 17,
       "age_max": 25,
       "income_max": 800000,
-      "occupation": ["student"]
+      "occupation": [
+        "student"
+      ]
     },
-    "documents": ["Aadhaar card", "Admission proof (AICTE course)", "Income certificate", "Bank passbook"],
+    "documents": [
+      "Aadhaar card",
+      "Admission proof (AICTE course)",
+      "Income certificate",
+      "Bank passbook"
+    ],
     "steps_en": [
       "Get admission to an AICTE-approved technical course",
       "Apply at the AICTE Pragati scholarship portal",
@@ -1310,10 +2005,19 @@
       "Institute verifies enrolment",
       "Rs 50,000/year credited to bank account"
     ],
-    "rejection_reasons": ["Male applicant", "Non-AICTE course", "Family income above Rs 8 lakh"],
+    "rejection_reasons": [
+      "Male applicant",
+      "Non-AICTE course",
+      "Family income above Rs 8 lakh"
+    ],
     "scam_note": "Apply only on the AICTE portal. Scholarship credited directly. No fees to apply.",
     "processing_days": "60-90",
-    "tags": ["education_youth", "scholarship", "girl", "technical"],
+    "tags": [
+      "education_youth",
+      "scholarship",
+      "girl",
+      "technical"
+    ],
     "state_specific": false
   },
   {
@@ -1325,14 +2029,22 @@
     "category": "education_youth",
     "benefit_en": "Paid apprenticeship with stipend + 25% (up to Rs 1,500/month) government support",
     "benefit_amount": 18000,
+    "benefit_type": "one_time",
     "apply_link": "https://apprenticeshipindia.gov.in",
     "eligibility": {
       "states": "all",
       "age_min": 14,
       "age_max": 35,
-      "occupation": ["student", "unemployed"]
+      "occupation": [
+        "student",
+        "unemployed"
+      ]
     },
-    "documents": ["Aadhaar card", "Educational certificate", "Bank passbook"],
+    "documents": [
+      "Aadhaar card",
+      "Educational certificate",
+      "Bank passbook"
+    ],
     "steps_en": [
       "Register at apprenticeshipindia.gov.in",
       "Search and apply for apprenticeship openings",
@@ -1340,10 +2052,19 @@
       "Receive monthly stipend during training",
       "Earn a national apprenticeship certificate"
     ],
-    "rejection_reasons": ["Age above 35", "Already completed apprenticeship in same trade"],
+    "rejection_reasons": [
+      "Age above 35",
+      "Already completed apprenticeship in same trade"
+    ],
     "scam_note": "Registration is free. Stipend is paid by employer with government support. No placement fees.",
     "processing_days": "Varies by employer",
-    "tags": ["education_youth", "apprenticeship", "skill", "stipend", "youth"],
+    "tags": [
+      "education_youth",
+      "apprenticeship",
+      "skill",
+      "stipend",
+      "youth"
+    ],
     "state_specific": false
   },
   {
@@ -1355,12 +2076,17 @@
     "category": "finance",
     "benefit_en": "5 kg subsidised foodgrain per person per month (free under PMGKAY)",
     "benefit_amount": 0,
+    "benefit_type": "service",
     "apply_link": "https://nfsa.gov.in",
     "eligibility": {
       "states": "all",
       "requires_bpl": true
     },
-    "documents": ["Aadhaar card", "Ration card", "Residence proof"],
+    "documents": [
+      "Aadhaar card",
+      "Ration card",
+      "Residence proof"
+    ],
     "steps_en": [
       "Apply for ration card at food and civil supplies office",
       "Submit Aadhaar and residence proof",
@@ -1368,10 +2094,19 @@
       "Collect monthly foodgrain from fair price shop",
       "Use One Nation One Ration Card to collect anywhere in India"
     ],
-    "rejection_reasons": ["Above poverty line / not eligible category", "Duplicate ration card"],
+    "rejection_reasons": [
+      "Above poverty line / not eligible category",
+      "Duplicate ration card"
+    ],
     "scam_note": "Ration card is free. Foodgrain is subsidised/free. Report shop overcharging to the food department.",
     "processing_days": "15-30",
-    "tags": ["finance", "food", "bpl", "ration", "pds"],
+    "tags": [
+      "finance",
+      "food",
+      "bpl",
+      "ration",
+      "pds"
+    ],
     "state_specific": false
   },
   {
@@ -1383,12 +2118,17 @@
     "category": "energy",
     "benefit_en": "Free electricity connection for un-electrified households",
     "benefit_amount": 3000,
+    "benefit_type": "one_time",
     "apply_link": "https://saubhagya.gov.in",
     "eligibility": {
       "states": "all",
       "requires_bpl": true
     },
-    "documents": ["Aadhaar card", "BPL card / SECC inclusion", "Residence proof"],
+    "documents": [
+      "Aadhaar card",
+      "BPL card / SECC inclusion",
+      "Residence proof"
+    ],
     "steps_en": [
       "Contact local DISCOM office or electricity camp",
       "Submit Aadhaar and household details",
@@ -1396,10 +2136,18 @@
       "Wiring and meter installed free",
       "Start receiving electricity supply"
     ],
-    "rejection_reasons": ["Household already electrified", "Not in SECC poor list"],
+    "rejection_reasons": [
+      "Household already electrified",
+      "Not in SECC poor list"
+    ],
     "scam_note": "Connection is free for eligible poor households. Never pay a bribe for a meter.",
     "processing_days": "30-60",
-    "tags": ["energy", "electricity", "bpl", "rural"],
+    "tags": [
+      "energy",
+      "electricity",
+      "bpl",
+      "rural"
+    ],
     "state_specific": false
   },
   {
@@ -1411,13 +2159,18 @@
     "category": "senior_disability",
     "benefit_en": "Free assistive devices (walking sticks, hearing aids, wheelchairs, dentures, spectacles) for poor seniors",
     "benefit_amount": 10000,
+    "benefit_type": "one_time",
     "apply_link": "https://alimco.in",
     "eligibility": {
       "states": "all",
       "age_min": 60,
       "requires_bpl": true
     },
-    "documents": ["Aadhaar card", "BPL card", "Age proof"],
+    "documents": [
+      "Aadhaar card",
+      "BPL card",
+      "Age proof"
+    ],
     "steps_en": [
       "Watch for Rashtriya Vayoshri assessment camps via district office",
       "Get assessed for required assistive devices",
@@ -1425,10 +2178,18 @@
       "Devices fitted at distribution camp",
       "Receive devices free of cost"
     ],
-    "rejection_reasons": ["Age below 60", "Not BPL"],
+    "rejection_reasons": [
+      "Age below 60",
+      "Not BPL"
+    ],
     "scam_note": "All devices are given free at camps. No payment. Contact ALIMCO or district social welfare office.",
     "processing_days": "Distributed at camps",
-    "tags": ["senior_disability", "elderly", "assistive_device", "bpl"],
+    "tags": [
+      "senior_disability",
+      "elderly",
+      "assistive_device",
+      "bpl"
+    ],
     "state_specific": false
   }
 ]

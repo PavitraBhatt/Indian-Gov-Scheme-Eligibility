@@ -37,6 +37,20 @@ def test_check_returns_schemes():
     assert data["count"] == len(data["schemes"])
 
 
+def test_check_returns_type_aware_totals():
+    """Honest aggregates: loans/insurance must not be summed as cash."""
+    data = client.post("/api/check", json=_payload()).json()
+    for key in ("annual_cash_benefit", "one_time_benefit", "loan_access", "insurance_cover"):
+        assert key in data
+    assert "total_annual_benefit" not in data  # the old misleading field is gone
+
+    # annual_cash must only reflect cash_yearly schemes, never loans/insurance
+    cash = sum(s["benefit_amount"] for s in data["schemes"] if s["benefit_type"] == "cash_yearly")
+    assert data["annual_cash_benefit"] == cash
+    loans = sum(s["benefit_amount"] for s in data["schemes"] if s["benefit_type"] == "loan")
+    assert data["loan_access"] == loans
+
+
 def test_check_farmer_gets_kisan():
     r = client.post("/api/check", json=_payload())
     ids = {s["id"] for s in r.json()["schemes"]}

@@ -8,12 +8,19 @@
     "category": "health",
     "benefit_en": "Up to Rs 5 lakh per family per year cashless treatment at empanelled hospitals",
     "benefit_amount": 500000,
+    "benefit_type": "insurance",
     "apply_link": "https://www.jeevandayee.gov.in",
     "eligibility": {
-      "states": ["Maharashtra"],
+      "states": [
+        "Maharashtra"
+      ],
       "income_max": 100000
     },
-    "documents": ["Aadhaar card", "Yellow/orange ration card", "Income certificate"],
+    "documents": [
+      "Aadhaar card",
+      "Yellow/orange ration card",
+      "Income certificate"
+    ],
     "steps_en": [
       "Visit empanelled hospital's Arogya Mitra desk",
       "Show ration card and Aadhaar",
@@ -21,10 +28,19 @@
       "Get cashless treatment approved",
       "Treatment provided free up to the cover limit"
     ],
-    "rejection_reasons": ["White (APL) ration card", "Income above limit", "Non-Maharashtra resident"],
+    "rejection_reasons": [
+      "White (APL) ration card",
+      "Income above limit",
+      "Non-Maharashtra resident"
+    ],
     "scam_note": "Treatment is cashless and free. Never pay the Arogya Mitra. Helpline: 155388.",
     "processing_days": "Immediate at hospital",
-    "tags": ["health", "maharashtra", "insurance", "family"],
+    "tags": [
+      "health",
+      "maharashtra",
+      "insurance",
+      "family"
+    ],
     "state_specific": true
   },
   {
@@ -36,15 +52,25 @@
     "category": "women_children",
     "benefit_en": "Rs 1,500 per month direct cash to eligible women aged 21-65",
     "benefit_amount": 18000,
+    "benefit_type": "cash_yearly",
     "apply_link": "https://ladakibahin.maharashtra.gov.in",
     "eligibility": {
-      "states": ["Maharashtra"],
-      "gender": ["Female"],
+      "states": [
+        "Maharashtra"
+      ],
+      "gender": [
+        "Female"
+      ],
       "age_min": 21,
       "age_max": 65,
       "income_max": 250000
     },
-    "documents": ["Aadhaar card", "Maharashtra domicile", "Bank passbook (Aadhaar-linked)", "Ration card"],
+    "documents": [
+      "Aadhaar card",
+      "Maharashtra domicile",
+      "Bank passbook (Aadhaar-linked)",
+      "Ration card"
+    ],
     "steps_en": [
       "Apply via Nari Shakti Doot app or Anganwadi/Setu centre",
       "Submit domicile, Aadhaar and bank details",
@@ -52,10 +78,19 @@
       "Rs 1,500 credited monthly via DBT",
       "Renew annually as required"
     ],
-    "rejection_reasons": ["Family income above Rs 2.5 lakh", "Family member is income tax payer", "Owns four-wheeler"],
+    "rejection_reasons": [
+      "Family income above Rs 2.5 lakh",
+      "Family member is income tax payer",
+      "Owns four-wheeler"
+    ],
     "scam_note": "Application is free via the official app or Setu centre. Money comes directly to your bank.",
     "processing_days": "30-60",
-    "tags": ["women_children", "maharashtra", "women", "cash_transfer"],
+    "tags": [
+      "women_children",
+      "maharashtra",
+      "women",
+      "cash_transfer"
+    ],
     "state_specific": true
   },
   {
@@ -67,15 +102,31 @@
     "category": "finance",
     "benefit_en": "Interest-free loan up to Rs 15 lakh for self-employment (interest reimbursed)",
     "benefit_amount": 1500000,
+    "benefit_type": "loan",
     "apply_link": "https://udyog.mahaswayam.gov.in",
     "eligibility": {
-      "states": ["Maharashtra"],
-      "caste": ["General", "EWS", "OBC"],
+      "states": [
+        "Maharashtra"
+      ],
+      "caste": [
+        "General",
+        "EWS",
+        "OBC"
+      ],
       "age_min": 18,
       "age_max": 60,
-      "occupation": ["self_employed", "unemployed"]
+      "occupation": [
+        "self_employed",
+        "unemployed"
+      ]
     },
-    "documents": ["Aadhaar card", "Maharashtra domicile", "Caste certificate", "Project report", "Bank details"],
+    "documents": [
+      "Aadhaar card",
+      "Maharashtra domicile",
+      "Caste certificate",
+      "Project report",
+      "Bank details"
+    ],
     "steps_en": [
       "Register on the Mahaswayam Udyog portal",
       "Submit business project and domicile proof",
@@ -83,10 +134,19 @@
       "Take loan from bank for your enterprise",
       "Interest reimbursed by corporation on timely repayment"
     ],
-    "rejection_reasons": ["Loan default history", "Non-domicile of Maharashtra", "Income above corporation limit"],
+    "rejection_reasons": [
+      "Loan default history",
+      "Non-domicile of Maharashtra",
+      "Income above corporation limit"
+    ],
     "scam_note": "Apply only on the official Mahaswayam portal. No agent fee. Interest reimbursement is genuine.",
     "processing_days": "45-90",
-    "tags": ["finance", "maharashtra", "loan", "self_employment"],
+    "tags": [
+      "finance",
+      "maharashtra",
+      "loan",
+      "self_employment"
+    ],
     "state_specific": true
   },
   {
@@ -98,11 +158,16 @@
     "category": "finance",
     "benefit_en": "Subsidised full meal (thali) for Rs 10 at Shiv Bhojan centres",
     "benefit_amount": 0,
+    "benefit_type": "service",
     "apply_link": "https://mahafood.gov.in",
     "eligibility": {
-      "states": ["Maharashtra"]
+      "states": [
+        "Maharashtra"
+      ]
     },
-    "documents": ["None — open to all at Shiv Bhojan centres"],
+    "documents": [
+      "None — open to all at Shiv Bhojan centres"
+    ],
     "steps_en": [
       "Locate nearest Shiv Bhojan centre (often near hospitals/bus stands)",
       "Visit during lunch hours",
@@ -110,10 +175,17 @@
       "Meal includes roti, vegetable, rice and dal",
       "No documents or registration needed"
     ],
-    "rejection_reasons": ["Centre daily quota exhausted"],
+    "rejection_reasons": [
+      "Centre daily quota exhausted"
+    ],
     "scam_note": "The thali costs only Rs 10. Never pay more. Report overcharging to the food department.",
     "processing_days": "Immediate",
-    "tags": ["finance", "maharashtra", "food", "subsidised_meal"],
+    "tags": [
+      "finance",
+      "maharashtra",
+      "food",
+      "subsidised_meal"
+    ],
     "state_specific": true
   }
 ]

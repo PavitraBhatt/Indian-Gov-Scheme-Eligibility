@@ -260,9 +260,11 @@
     <!-- Summary card -->
     <div class="bg-green-700 text-white rounded-xl p-5 mb-6 shadow-lg">
       <p class="text-green-200 text-sm mb-1" id="r-found-label">Schemes found for you</p>
-      <p class="text-4xl font-bold mb-1" id="r-count">0</p>
-      <p class="text-green-200 text-sm" id="r-benefit-label">Total annual benefit up to</p>
-      <p class="text-2xl font-bold" id="r-total">₹0</p>
+      <p class="text-4xl font-bold mb-2" id="r-count">0</p>
+      <p class="text-green-200 text-sm" id="r-cash-label">Direct cash you can receive each year</p>
+      <p class="text-3xl font-bold mb-3" id="r-cash">₹0</p>
+      <!-- secondary, honestly-labelled values; hidden when zero -->
+      <div id="r-extra" class="grid grid-cols-1 gap-1 text-sm text-green-100"></div>
     </div>
 
     <!-- Share card prompt -->
@@ -328,6 +330,9 @@ const T = {
     next:"Next →",back:"← Back",check:"Check Schemes →",recheck:"Check Again",
     loading:"Checking your eligibility...",found:"Schemes found for you",
     benefit:"Total annual benefit up to",applyNow:"Apply Now",
+    cashLabel:"Direct cash you can receive each year",
+    oneTime:"One-time benefits",loanAccess:"Loan access (to repay)",insuranceCover:"Insurance cover (if needed)",
+    cardCash:"cash",
     howTo:"How to Apply",docs:"Documents Needed",scamAlert:"⚠️ Scam Alert",
     processDays:"Processing time",
     shareTitle:"📲 Share your benefit card",
@@ -347,6 +352,9 @@ const T = {
     next:"आगे →",back:"← पीछे",check:"योजनाएं देखें →",recheck:"फिर से जांचें",
     loading:"पात्रता जांच रहे हैं...",found:"आपके लिए योजनाएं मिलीं",
     benefit:"कुल वार्षिक लाभ तक",applyNow:"अभी आवेदन करें",
+    cashLabel:"हर साल मिलने वाली सीधी नकद राशि",
+    oneTime:"एक बार मिलने वाले लाभ",loanAccess:"ऋण सुविधा (चुकाना होगा)",insuranceCover:"बीमा कवर (जरूरत पड़ने पर)",
+    cardCash:"नकद",
     howTo:"कैसे आवेदन करें",docs:"आवश्यक दस्तावेज",scamAlert:"⚠️ धोखाधड़ी सतर्क",
     processDays:"प्रक्रिया का समय",
     shareTitle:"📲 अपना लाभ कार्ड साझा करें",
@@ -366,6 +374,9 @@ const T = {
     next:"Aage →",back:"← Pachi",check:"Yojana Juo →",recheck:"Fari thapaaso",
     loading:"Patrata tapasie chhie...",found:"Tamara mate yojanaO malI",
     benefit:"Kul vaarsik laabh sudhi",applyNow:"Ahhi apply karO",
+    cashLabel:"દર વર્ષે મળતી સીધી રોકડ રકમ",
+    oneTime:"એક વખતના લાભ",loanAccess:"લોન સુવિધા (પરત ભરવાની)",insuranceCover:"વીમા કવર (જરૂર પડ્યે)",
+    cardCash:"રોકડ",
     howTo:"Kem apply karvu",docs:"Jaruri dastaavejo",scamAlert:"⚠️ Thaganaa savadhaan",
     processDays:"Prakriya samay",
     shareTitle:"📲 Tamaru laabh card share karO",
@@ -404,8 +415,8 @@ function applyLang() {
   document.getElementById('loading-text').textContent = t.loading;
   const r = document.getElementById('r-found-label');
   if(r) r.textContent = t.found;
-  const rb = document.getElementById('r-benefit-label');
-  if(rb) rb.textContent = t.benefit;
+  const rb = document.getElementById('r-cash-label');
+  if(rb) rb.textContent = t.cashLabel;
   const brc = document.getElementById('btn-recheck');
   if(brc) brc.textContent = t.recheck;
   const setText = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
@@ -517,9 +528,17 @@ function renderResults(data) {
   document.getElementById('loading').style.display = 'none';
   document.getElementById('results').style.display = 'block';
   document.getElementById('r-count').textContent = data.count;
-  document.getElementById('r-total').textContent = fmt(data.total_annual_benefit);
+  document.getElementById('r-cash').textContent = fmt(data.annual_cash_benefit || 0);
 
   const t = T[lang];
+  // Secondary values, only shown when non-zero — honestly distinguished from cash
+  const extra = document.getElementById('r-extra');
+  const rows = [];
+  if(data.one_time_benefit)   rows.push(`💰 ${t.oneTime}: ${fmt(data.one_time_benefit)}`);
+  if(data.loan_access)        rows.push(`🏦 ${t.loanAccess}: ${fmt(data.loan_access)}`);
+  if(data.insurance_cover)    rows.push(`🛡️ ${t.insuranceCover}: ${fmt(data.insurance_cover)}`);
+  extra.innerHTML = rows.map(r => `<p>${r}</p>`).join('');
+
   const list = document.getElementById('scheme-list');
   list.innerHTML = '';
 
@@ -611,7 +630,8 @@ function buildCard() {
   document.getElementById('card-url').textContent = window.location.host || 'schemecheck.in';
 
   document.getElementById('card-count').textContent = lastResult.count;
-  document.getElementById('card-worth').textContent = fmt(lastResult.total_annual_benefit) + ' / ' + t.cardYear;
+  document.getElementById('card-worth').textContent =
+    fmt(lastResult.annual_cash_benefit || 0) + ' ' + t.cardCash + ' / ' + t.cardYear;
 
   // Show up to 4 scheme names as chips, then "+N more"
   const schemes = lastResult.schemes || [];
