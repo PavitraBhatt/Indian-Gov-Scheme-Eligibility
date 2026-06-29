@@ -23,9 +23,9 @@
       <p class="text-blue-200 text-sm" id="h-sub">Find all government schemes you qualify for</p>
     </div>
     <div class="flex gap-1">
-      <button onclick="setLang('en')" class="lang-btn active text-xs px-2 py-1 rounded border border-blue-300">EN</button>
-      <button onclick="setLang('hi')" class="lang-btn text-xs px-2 py-1 rounded border border-blue-300">हि</button>
-      <button onclick="setLang('gu')" class="lang-btn text-xs px-2 py-1 rounded border border-blue-300">ગુ</button>
+      <button data-lang="en" onclick="setLang('en', this)" class="lang-btn active text-xs px-2 py-1 rounded border border-blue-300">EN</button>
+      <button data-lang="hi" onclick="setLang('hi', this)" class="lang-btn text-xs px-2 py-1 rounded border border-blue-300">हि</button>
+      <button data-lang="gu" onclick="setLang('gu', this)" class="lang-btn text-xs px-2 py-1 rounded border border-blue-300">ગુ</button>
     </div>
   </div>
 </header>
@@ -304,7 +304,7 @@
 
       <div style="margin-top:auto;text-align:center;">
         <div id="card-cta" style="font-size:17px;color:#bbf7d0;">Check yours free 👇</div>
-        <div style="font-size:28px;font-weight:bold;letter-spacing:1px;">schemecheck.in</div>
+        <div id="card-url" style="font-size:28px;font-weight:bold;letter-spacing:1px;">schemecheck.in</div>
       </div>
     </div>
   </div>
@@ -383,10 +383,10 @@ const TOTAL_STEPS = 10;
 let lastResult = null;     // {count, total_annual_benefit, schemes}
 let lastState = '';        // user's selected state, for the share card
 
-function setLang(l) {
+function setLang(l, btn) {
   lang = l;
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
+  (btn || document.querySelector(`.lang-btn[data-lang="${l}"]`))?.classList.add('active');
   applyLang();
 }
 
@@ -436,12 +436,18 @@ function prevStep() {
 function validateStep(n) {
   const validators = {
     1: () => document.getElementById('f-state').value !== '',
-    2: () => { const v=parseInt(document.getElementById('f-age').value); return v>0&&v<120; },
+    2: () => { const v=parseInt(document.getElementById('f-age').value); return v>0&&v<=120; },
     3: () => document.getElementById('f-gender').value !== '',
     4: () => document.getElementById('f-caste').value !== '',
     5: () => document.getElementById('f-income').value !== '',
     6: () => document.getElementById('f-occ').value !== '',
-    7: () => document.getElementById('f-has-land').value !== '',
+    7: () => {
+      const has = document.getElementById('f-has-land').value;
+      if(has === '') return false;
+      // if they own land, acres must be a positive number
+      if(has === 'yes') { const a=parseFloat(document.getElementById('f-land').value); return a>0; }
+      return true;
+    },
     8: () => document.getElementById('f-bpl').value !== '',
     9: () => document.getElementById('f-disabled').value !== '',
     10: () => document.getElementById('f-widow').value !== '',
@@ -499,8 +505,8 @@ async function submitForm() {
 
 // ─── Render results ────────────────────────────────────────
 function fmt(n) {
-  if(n >= 10000000) return '₹'+Math.round(n/100000)/10+' Cr';
-  if(n >= 100000) return '₹'+Math.round(n/100000)/10+' L';
+  if(n >= 10000000) return '₹'+Math.round(n/1000000)/10+' Cr';
+  if(n >= 100000) return '₹'+Math.round(n/10000)/10+' L';
   if(n >= 1000) return '₹'+n.toLocaleString('en-IN');
   return '₹'+n;
 }
@@ -602,6 +608,7 @@ function buildCard() {
 
   const person = [name, lastState].filter(Boolean).join(' · ');
   document.getElementById('card-person').textContent = person || lastState || '';
+  document.getElementById('card-url').textContent = window.location.host || 'schemecheck.in';
 
   document.getElementById('card-count').textContent = lastResult.count;
   document.getElementById('card-worth').textContent = fmt(lastResult.total_annual_benefit) + ' / ' + t.cardYear;
@@ -662,7 +669,7 @@ async function shareCard() {
     }
   } catch(e) { /* fall through to WhatsApp link */ }
 
-  const waUrl = 'https://wa.me/?text=' + encodeURIComponent(text + ' https://schemecheck.in');
+  const waUrl = 'https://wa.me/?text=' + encodeURIComponent(text + ' ' + window.location.origin);
   window.open(waUrl, '_blank');
 }
 </script>
