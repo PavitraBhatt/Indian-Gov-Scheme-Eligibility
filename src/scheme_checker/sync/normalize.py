@@ -16,7 +16,7 @@ import re
 from collections.abc import Callable
 from typing import Any
 
-from ..schema import VALID_CATEGORIES, validate_scheme
+from ..schema import VALID_BENEFIT_TYPES, VALID_CATEGORIES, validate_scheme
 
 # The model is responsible for the human-authored content fields only. Identity
 # and provenance (id, source_url, last_verified, state_specific) are filled in
@@ -51,6 +51,7 @@ OUTPUT_SCHEMA = {
         "category": {"type": "string", "enum": sorted(VALID_CATEGORIES)},
         "benefit_en": {"type": "string"},
         "benefit_amount": {"type": "integer"},
+        "benefit_type": {"type": "string", "enum": sorted(VALID_BENEFIT_TYPES)},
         "apply_link": {"type": "string"},
         "eligibility": _ELIGIBILITY_SCHEMA,
         "documents": {"type": "array", "items": {"type": "string"}},
@@ -68,6 +69,7 @@ OUTPUT_SCHEMA = {
         "category",
         "benefit_en",
         "benefit_amount",
+        "benefit_type",
         "apply_link",
         "eligibility",
         "documents",
@@ -88,6 +90,10 @@ Rules:
 - category MUST be one of: agriculture, health, housing, insurance, finance, \
 women_children, education_youth, senior_disability, energy.
 - benefit_amount is the headline rupee value as an integer (0 if not monetary).
+- benefit_type MUST be one of: cash_yearly (recurring annual/monthly cash), \
+one_time (one-time cash/asset/subsidy/stipend), loan (a loan or credit ceiling \
+to be repaid), insurance (cover paid only if the event happens), service \
+(non-monetary service or savings). Never call a loan or insurance ceiling cash.
 - steps_en: 3-6 short, plain-language steps at a Class 8 reading level.
 - documents: the documents an applicant must bring.
 - scam_note: one or two sentences stating the scheme is free and where to \

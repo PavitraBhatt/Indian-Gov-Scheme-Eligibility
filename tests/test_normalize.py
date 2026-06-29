@@ -13,6 +13,7 @@ def _good_content():
         "category": "agriculture",
         "benefit_en": "Rs 6,000 per year income support",
         "benefit_amount": 6000,
+        "benefit_type": "cash_yearly",
         "apply_link": "https://example.gov.in",
         "eligibility": {"states": "all", "occupation": ["farmer"]},
         "documents": ["Aadhaar card", "Bank passbook"],

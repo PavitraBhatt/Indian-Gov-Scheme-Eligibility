@@ -17,6 +17,7 @@ REQUIRED_FIELDS: dict[str, type] = {
     "category": str,
     "benefit_en": str,
     "benefit_amount": int,
+    "benefit_type": str,
     "apply_link": str,
     "eligibility": dict,
     "documents": list,
@@ -33,6 +34,17 @@ REQUIRED_FIELDS: dict[str, type] = {
 OPTIONAL_FIELDS: dict[str, type] = {
     "source_url": str,  # official government page this record was sourced from
     "last_verified": str,  # ISO date (YYYY-MM-DD) the data was last checked
+}
+
+# How a scheme's benefit_amount should be interpreted. Only cash_yearly is
+# summed into the headline "money you actually receive each year"; the rest are
+# reported separately so loans and insurance ceilings aren't passed off as cash.
+VALID_BENEFIT_TYPES: set[str] = {
+    "cash_yearly",  # recurring annual/monthly cash transfer
+    "one_time",  # one-time cash, asset, subsidy, or stipend
+    "loan",  # credit/loan ceiling (access, not income)
+    "insurance",  # cover paid only if the event happens
+    "service",  # non-monetary service or savings scheme
 }
 
 VALID_CATEGORIES: set[str] = {
@@ -96,6 +108,11 @@ def validate_scheme(scheme: dict[str, Any]) -> list[str]:
     # value-level checks (only if the field is present and the right type)
     if isinstance(scheme.get("category"), str) and scheme["category"] not in VALID_CATEGORIES:
         errors.append(f"'{sid}.category': invalid category '{scheme['category']}'")
+    if (
+        isinstance(scheme.get("benefit_type"), str)
+        and scheme["benefit_type"] not in VALID_BENEFIT_TYPES
+    ):
+        errors.append(f"'{sid}.benefit_type': invalid type '{scheme['benefit_type']}'")
     if _type_ok(scheme.get("benefit_amount"), int) and scheme["benefit_amount"] < 0:
         errors.append(f"'{sid}.benefit_amount': must be >= 0")
     if isinstance(scheme.get("apply_link"), str) and not scheme["apply_link"].startswith("http"):

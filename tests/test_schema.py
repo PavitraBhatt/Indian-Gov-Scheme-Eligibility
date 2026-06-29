@@ -13,6 +13,7 @@ def _valid_scheme(**overrides):
         "category": "finance",
         "benefit_en": "Some benefit",
         "benefit_amount": 1000,
+        "benefit_type": "cash_yearly",
         "apply_link": "https://example.gov.in",
         "eligibility": {"states": "all"},
         "documents": ["Aadhaar card"],
