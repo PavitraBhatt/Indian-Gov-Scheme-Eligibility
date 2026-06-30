@@ -6,11 +6,14 @@ A FastAPI + Tailwind web app that helps Indian citizens discover every governmen
 
 ## Features
 
-- 54 schemes — 49 central + 5 Gujarat state (agriculture, health, housing, finance, women, education, disability, energy, social security)
+- 64 schemes — 49 central + 15 state (Gujarat, Maharashtra, Rajasthan, Uttar Pradesh), spanning agriculture, health, housing, finance, women & children, education, disability, energy, and social security
 - Eligibility matching by: state, age, gender, caste, income, occupation, land ownership, BPL card, disability, widow status
-- Multilingual UI: English / Hindi / Gujarati
+- **Honest benefit totals** — recurring cash, one-time grants, loan *access*, and insurance *cover* are reported separately (a loan ceiling is never presented as yearly income)
+- **"Almost eligible" guidance** — schemes you miss by one rule, with the exact requirement that would unlock each
+- Multilingual UI: **English / Hindi / Gujarati** (UI strings + scheme names). Note: per-scheme *content* (benefit text, steps, documents, scam note) is currently English-only — translating that content is on the roadmap.
 - Per-scheme: documents checklist, step-by-step guide, scam alert, processing time, direct apply link
-- REST API (`/api/check`, `/api/schemes`) for future integrations
+- Shareable **PDF benefit card**
+- Validated REST API (`/api/check`, `/api/schemes`) for integrations
 
 ## Quick Start
 
@@ -127,8 +130,8 @@ myScheme (via API Setu) → fetch → Claude-normalize → validate → diff →
 │   ├── schemes_rajasthan.json      # Rajasthan
 │   └── schemes_uttar_pradesh.json  # Uttar Pradesh
 ├── frontend/
-│   └── index.html    # Multilingual 10-step form + shareable PNG card
-├── tests/            # core, api, cli, db, data-integrity (290+ tests)
+│   └── index.html    # Multilingual 10-step form + shareable PDF card
+├── tests/            # core, api, cli, db, schema, sync, data-integrity (140+ tests)
 ├── Dockerfile · render.yaml · Procfile   # deployment
 └── .mcp.json         # GitHub MCP server config
 ```
@@ -143,9 +146,12 @@ export GITHUB_PERSONAL_ACCESS_TOKEN=ghp_your_token_here
 
 ## Roadmap
 
-- [x] Shareable PNG benefit summary card
+- [x] Shareable PDF benefit card
 - [x] State schemes: Maharashtra, Rajasthan, UP
 - [x] SQLite storage layer
+- [x] Honest, type-aware benefit totals + "almost eligible" guidance
+- [x] Review-gated Claude sync pipeline (myScheme → PR)
+- [ ] Translate per-scheme content (benefit text, steps, docs) to Hindi & Gujarati
 - [ ] WhatsApp bot integration (Twilio)
 - [ ] Application status tracker
 - [ ] Offline PWA mode
