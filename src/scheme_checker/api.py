@@ -8,7 +8,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from .core import UserProfile, match_schemes
+from .core import UserProfile, match_schemes, near_misses
 from .schemes import get_scheme_by_id, load_schemes
 
 app = FastAPI(title="Indian Gov Scheme Eligibility API", version="0.3.0")
@@ -90,6 +90,9 @@ async def check_eligibility(req: CheckRequest):
         "loan_access": totals["loan_access"],
         "insurance_cover": totals["insurance_cover"],
         "schemes": matched,
+        # schemes the applicant narrowly misses (fail exactly one requirement),
+        # each with a 'miss_reason' so they know what would unlock it
+        "almost": near_misses(profile, schemes),
     }
 
 

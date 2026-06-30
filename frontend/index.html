@@ -289,6 +289,13 @@
     <!-- Scheme cards -->
     <div id="scheme-list" class="space-y-4"></div>
 
+    <!-- Almost eligible -->
+    <div id="almost-wrap" class="mt-8" style="display:none">
+      <h3 class="font-bold text-gray-800 mb-1" id="almost-title">🔸 Almost eligible</h3>
+      <p class="text-sm text-gray-500 mb-3" id="almost-sub">You narrowly miss these — here's what would unlock each one.</p>
+      <div id="almost-list" class="space-y-3"></div>
+    </div>
+
     <button onclick="resetForm()" class="mt-6 w-full border-2 border-blue-700 text-blue-700 py-3 rounded-lg font-semibold hover:bg-blue-50" id="btn-recheck">Check Again</button>
   </div>
 
@@ -342,6 +349,7 @@ const T = {
     cardCash:"cash",
     howTo:"How to Apply",docs:"Documents Needed",scamAlert:"⚠️ Scam Alert",
     processDays:"Processing time",
+    almostTitle:"🔸 Almost eligible",almostSub:"You narrowly miss these — here's what would unlock each one.",
     shareTitle:"📲 Share your benefit card",
     shareSub:"Download an image and forward it on WhatsApp to help others check too.",
     downloadCard:"⬇️ Download PDF",shareWa:"Share on WhatsApp",
@@ -364,6 +372,7 @@ const T = {
     cardCash:"नकद",
     howTo:"कैसे आवेदन करें",docs:"आवश्यक दस्तावेज",scamAlert:"⚠️ धोखाधड़ी सतर्क",
     processDays:"प्रक्रिया का समय",
+    almostTitle:"🔸 लगभग पात्र",almostSub:"आप इनसे थोड़ा चूक गए — जानें इन्हें कैसे पा सकते हैं।",
     shareTitle:"📲 अपना लाभ कार्ड साझा करें",
     shareSub:"तस्वीर डाउनलोड करें और WhatsApp पर भेजें ताकि दूसरे भी जांच सकें।",
     downloadCard:"⬇️ PDF डाउनलोड करें",shareWa:"WhatsApp पर साझा करें",
@@ -386,6 +395,7 @@ const T = {
     cardCash:"રોકડ",
     howTo:"કેવી રીતે અરજી કરવી",docs:"જરૂરી દસ્તાવેજો",scamAlert:"⚠️ છેતરપિંડી ચેતવણી",
     processDays:"પ્રક્રિયા સમય",
+    almostTitle:"🔸 લગભગ પાત્ર",almostSub:"તમે આનાથી થોડું ચૂકી ગયા — જાણો આ કેવી રીતે મેળવી શકો.",
     shareTitle:"📲 તમારું લાભ કાર્ડ શેર કરો",
     shareSub:"ચિત્ર ડાઉનલોડ કરો અને WhatsApp પર મોકલો જેથી બીજા પણ તપાસી શકે.",
     downloadCard:"⬇️ PDF ડાઉનલોડ કરો",shareWa:"WhatsApp પર શેર કરો",
@@ -562,7 +572,8 @@ function renderResults(data) {
   list.innerHTML = '';
 
   if(data.schemes.length === 0) {
-    list.innerHTML = '<p class="text-gray-500 text-center py-8">No schemes matched your profile. Try adjusting your answers.</p>';
+    list.innerHTML = '<p class="text-gray-500 text-center py-8">No schemes matched your profile exactly. See the "almost eligible" list below.</p>';
+    renderAlmost(data.almost || []);
     return;
   }
 
@@ -614,6 +625,29 @@ function renderResults(data) {
       </div>
     </div>`;
   });
+
+  renderAlmost(data.almost || []);
+}
+
+function renderAlmost(almost) {
+  const t = T[lang];
+  const wrap = document.getElementById('almost-wrap');
+  const list = document.getElementById('almost-list');
+  document.getElementById('almost-title').textContent = t.almostTitle;
+  document.getElementById('almost-sub').textContent = t.almostSub;
+  if(!almost.length) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  list.innerHTML = almost.map(s => {
+    const name = lang==='hi' ? s.name_hi : lang==='gu' ? s.name_gu : s.name_en;
+    return `
+    <div class="bg-amber-50 border-l-4 border-amber-400 rounded-lg p-3">
+      <div class="flex justify-between items-start gap-2">
+        <p class="font-semibold text-gray-800 text-sm">${name}</p>
+        ${s.benefit_amount>0?`<span class="text-amber-700 font-bold text-xs whitespace-nowrap">${fmt(s.benefit_amount)}</span>`:''}
+      </div>
+      <p class="text-sm text-amber-800 mt-1">⚠️ ${s.miss_reason}</p>
+    </div>`;
+  }).join('');
 }
 
 function resetForm() {

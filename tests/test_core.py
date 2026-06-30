@@ -121,3 +121,36 @@ def test_results_sorted_by_benefit_amount():
     matched = match_schemes(profile, schemes)
     amounts = [s["benefit_amount"] for s in matched]
     assert amounts == sorted(amounts, reverse=True)
+
+
+def test_near_miss_bpl_card():
+    """A non-BPL farmer narrowly misses BPL-gated schemes with a clear reason."""
+    from scheme_checker import load_schemes, near_misses
+
+    schemes = load_schemes()
+    profile = _farmer_profile(has_bpl_card=False, annual_income=50000)
+    by_id = {s["id"]: s for s in near_misses(profile, schemes)}
+    assert "ayushman_bharat" in by_id  # only thing missing is the BPL card
+    assert "BPL" in by_id["ayushman_bharat"]["miss_reason"]
+
+
+def test_near_miss_excludes_full_matches():
+    from scheme_checker import load_schemes, near_misses
+
+    schemes = load_schemes()
+    profile = _farmer_profile(has_bpl_card=True)
+    matched_ids = {s["id"] for s in match_schemes(profile, schemes)}
+    misses = near_misses(profile, schemes)
+    assert matched_ids.isdisjoint({s["id"] for s in misses})
+    for s in misses:  # each near miss fails exactly one rule -> one reason
+        assert isinstance(s["miss_reason"], str) and s["miss_reason"]
+
+
+def test_near_miss_income_reason_shows_cap():
+    from scheme_checker import load_schemes, near_misses
+
+    schemes = load_schemes()
+    profile = _farmer_profile(annual_income=250000)  # only fails pm_kisan on income
+    misses = {s["id"]: s for s in near_misses(profile, schemes, max_results=50)}
+    assert "pm_kisan" in misses
+    assert "income" in misses["pm_kisan"]["miss_reason"].lower()

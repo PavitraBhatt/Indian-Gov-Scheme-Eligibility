@@ -42,58 +42,91 @@ class UserProfile:
         )
 
 
-def _check_eligibility(profile: UserProfile, scheme: dict[str, Any]) -> bool:
+def _rupees(n: int) -> str:
+    return f"Rs {n:,}"
+
+
+def _failed_reasons(profile: UserProfile, scheme: dict[str, Any]) -> list[str]:
+    """Return a human-readable reason for every eligibility gate the profile fails.
+
+    An empty list means the applicant qualifies. Each reason is phrased as the
+    requirement they don't yet meet, so it can power an 'almost eligible' view.
+    """
     e = scheme.get("eligibility", {})
+    reasons: list[str] = []
 
     if e.get("states") != "all":
-        allowed_states = e.get("states", [])
-        if profile.state not in allowed_states:
-            return False
+        allowed = e.get("states", [])
+        if profile.state not in allowed:
+            reasons.append(f"Only for residents of {', '.join(allowed)}")
 
-    min_age = e.get("age_min")
-    max_age = e.get("age_max")
+    min_age, max_age = e.get("age_min"), e.get("age_max")
     if min_age is not None and profile.age < min_age:
-        return False
+        reasons.append(f"You must be at least {min_age} years old")
     if max_age is not None and profile.age > max_age:
-        return False
+        reasons.append(f"You must be {max_age} years old or younger")
 
-    allowed_genders = e.get("gender")
-    if allowed_genders and profile.gender not in allowed_genders:
-        return False
+    genders = e.get("gender")
+    if genders and profile.gender not in genders:
+        reasons.append(f"For {', '.join(genders).lower()} applicants only")
 
-    allowed_castes = e.get("caste")
-    if allowed_castes and profile.caste not in allowed_castes:
-        return False
+    castes = e.get("caste")
+    if castes and profile.caste not in castes:
+        reasons.append(f"For {', '.join(castes)} category applicants")
 
     income_max = e.get("income_max")
     if income_max is not None and profile.annual_income > income_max:
-        return False
+        reasons.append(
+            f"Household income must be under {_rupees(income_max)} "
+            f"(yours is {_rupees(profile.annual_income)})"
+        )
 
-    allowed_occupations = e.get("occupation")
-    if allowed_occupations and profile.occupation not in allowed_occupations:
-        return False
+    occupations = e.get("occupation")
+    if occupations and profile.occupation not in occupations:
+        reasons.append(f"For {', '.join(o.replace('_', ' ') for o in occupations)} only")
 
     land_min = e.get("land_min_acres")
-    if land_min is not None:
-        if profile.land_acres is None or profile.land_acres < land_min:
-            return False
+    if land_min is not None and (profile.land_acres is None or profile.land_acres < land_min):
+        reasons.append(f"Requires at least {land_min} acres of agricultural land")
 
     if e.get("requires_bpl") and not profile.has_bpl_card:
-        return False
-
+        reasons.append("Requires a BPL ration card")
     if e.get("requires_disability") and not profile.is_differently_abled:
-        return False
-
+        reasons.append("Requires a 40%+ disability certificate")
     if e.get("requires_widow") and not profile.is_widow:
-        return False
+        reasons.append("Available to widows")
 
-    return True
+    return reasons
+
+
+def _check_eligibility(profile: UserProfile, scheme: dict[str, Any]) -> bool:
+    return not _failed_reasons(profile, scheme)
 
 
 def match_schemes(profile: UserProfile, schemes: list[dict[str, Any]]) -> list[dict[str, Any]]:
     matched = [s for s in schemes if _check_eligibility(profile, s)]
     matched.sort(key=lambda s: s.get("benefit_amount", 0), reverse=True)
     return matched
+
+
+def near_misses(
+    profile: UserProfile,
+    schemes: list[dict[str, Any]],
+    max_results: int = 8,
+) -> list[dict[str, Any]]:
+    """Schemes the applicant narrowly misses — failing exactly one requirement.
+
+    Each result is the scheme dict plus a 'miss_reason' explaining the single
+    gate they don't meet (e.g. 'Requires a BPL ration card'). Sorted by benefit
+    so the most valuable near-misses surface first.
+    """
+    out = []
+    for s in schemes:
+        reasons = _failed_reasons(profile, s)
+        if len(reasons) == 1:
+            out.append({**s, "miss_reason": reasons[0]})
+    out.sort(key=lambda s: s.get("benefit_amount", 0), reverse=True)
+    return out[:max_results]
 
 
 # Legacy helpers kept for backward compatibility
