@@ -7,31 +7,89 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
+  :root{ --navy:#14315c; --navy-d:#0e2444; --green:#0e7a3b; --green-d:#0b5f2e; --saffron:#ff9933; }
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter','Noto Sans Devanagari','Noto Sans Gujarati',system-ui,sans-serif;background:#f4f6f9}
   .step{display:none}.step.active{display:block}
-  .scheme-card{border-left:4px solid #16a34a}
+  .scheme-card{border-left:4px solid var(--green)}
   .scam-alert{border-left:4px solid #dc2626}
-  .lang-btn.active{background:#1d4ed8;color:white}
+
+  /* retone Tailwind blues -> navy + green, so the whole app matches the theme */
+  .bg-blue-900{background-color:var(--navy)!important}
+  .bg-blue-700{background-color:var(--navy)!important}
+  .hover\:bg-blue-800:hover{background-color:var(--navy-d)!important}
+  .text-blue-700{color:var(--navy)!important}
+  .text-blue-600{color:var(--navy)!important}
+  .text-blue-200{color:#c3d4ea!important}
+  .border-blue-700{border-color:var(--navy)!important}
+  .border-blue-500{border-color:var(--navy)!important}
+  .border-blue-300{border-color:rgba(255,255,255,.35)!important}
+  .bg-blue-50{background-color:#eef4fb!important}
+  .hover\:bg-blue-50:hover{background-color:#eef4fb!important}
+  .bg-blue-600{background-color:var(--green)!important}
+  .focus\:ring-blue-500:focus{--tw-ring-color:var(--green)!important}
+
+  /* modern card polish for the form steps, loading and results blocks */
+  #form-container .step > div,
+  #loading, #results > div:first-child{
+    border-radius:1rem; box-shadow:0 10px 30px rgba(20,49,92,.09);
+  }
+
+  /* language segmented control */
+  .lang-btn{transition:.15s ease; color:#fff}
+  .lang-btn.active{background:#fff!important;color:var(--navy)!important;font-weight:700}
+
+  /* hero + stat cards */
+  .hero{background:linear-gradient(135deg,#0e7a3b 0%,#0b5f2e 55%,#0a4a25 100%)}
+  .stat-card{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.20)}
+  .soft-card{box-shadow:0 12px 34px rgba(20,49,92,.10)}
 </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
 
+<!-- tricolour strip -->
+<div class="h-1.5 w-full" style="background:linear-gradient(to right,#FF9933 0 33.33%,#fff 33.33% 66.66%,#138808 66.66% 100%)"></div>
+
 <!-- HEADER -->
-<header class="bg-blue-900 text-white py-4 px-4 shadow">
-  <div class="max-w-2xl mx-auto flex justify-between items-center">
-    <div>
-      <h1 class="text-xl font-bold" id="h-title">Scheme Eligibility Checker</h1>
-      <p class="text-blue-200 text-sm" id="h-sub">Find all government schemes you qualify for</p>
+<header class="bg-blue-900 text-white shadow-md sticky top-0 z-30">
+  <div class="max-w-5xl mx-auto flex justify-between items-center px-4 py-3">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-lg flex items-center justify-center text-lg shrink-0 shadow"
+           style="background:linear-gradient(135deg,#FF9933,#138808)">🇮🇳</div>
+      <div>
+        <h1 class="text-base sm:text-lg font-bold leading-tight" id="h-title">Scheme Eligibility Checker</h1>
+        <p class="text-blue-200 text-[11px] sm:text-xs leading-tight" id="h-sub">Find all government schemes you qualify for</p>
+      </div>
     </div>
-    <div class="flex gap-1">
-      <button data-lang="en" onclick="setLang('en', this)" class="lang-btn active text-xs px-2 py-1 rounded border border-blue-300">EN</button>
-      <button data-lang="hi" onclick="setLang('hi', this)" class="lang-btn text-xs px-2 py-1 rounded border border-blue-300">हि</button>
-      <button data-lang="gu" onclick="setLang('gu', this)" class="lang-btn text-xs px-2 py-1 rounded border border-blue-300">ગુ</button>
+    <div class="flex gap-1 bg-white/10 p-1 rounded-full">
+      <button data-lang="en" onclick="setLang('en', this)" class="lang-btn active text-xs px-3 py-1 rounded-full">EN</button>
+      <button data-lang="hi" onclick="setLang('hi', this)" class="lang-btn text-xs px-3 py-1 rounded-full">हि</button>
+      <button data-lang="gu" onclick="setLang('gu', this)" class="lang-btn text-xs px-3 py-1 rounded-full">ગુ</button>
     </div>
   </div>
 </header>
 
-<main class="max-w-2xl mx-auto px-4 py-6">
+<!-- HERO -->
+<section class="hero text-white">
+  <div class="max-w-5xl mx-auto px-4 pt-10 pb-16 text-center">
+    <span class="inline-block bg-white/15 text-white text-xs font-semibold px-3 py-1 rounded-full mb-4" id="hero-badge">100% free · No login needed</span>
+    <h2 class="text-3xl sm:text-4xl font-extrabold leading-tight mb-3" id="hero-title">Find every government scheme you qualify for</h2>
+    <p class="text-green-50/90 text-base sm:text-lg max-w-xl mx-auto mb-7" id="hero-sub">Answer 10 simple questions and get your personalised list of central and state welfare schemes — in Gujarati, Hindi, or English.</p>
+    <a href="#check" class="inline-block bg-white text-[#0b5f2e] font-bold px-7 py-3 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition" id="hero-cta">Start free check →</a>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-10 max-w-3xl mx-auto">
+      <div class="stat-card rounded-xl p-4"><div class="text-2xl font-extrabold">64</div><div class="text-xs text-green-50/80" id="stat-schemes">Schemes</div></div>
+      <div class="stat-card rounded-xl p-4"><div class="text-2xl font-extrabold">4</div><div class="text-xs text-green-50/80" id="stat-states">States</div></div>
+      <div class="stat-card rounded-xl p-4"><div class="text-2xl font-extrabold">3</div><div class="text-xs text-green-50/80" id="stat-langs">Languages</div></div>
+      <div class="stat-card rounded-xl p-4"><div class="text-2xl font-extrabold">₹0</div><div class="text-xs text-green-50/80" id="stat-cost">Cost, forever</div></div>
+    </div>
+  </div>
+</section>
+
+<main id="check" class="max-w-2xl mx-auto px-4 py-10 relative z-10">
 
   <!-- PROGRESS BAR -->
   <div id="progress-wrap" class="mb-6">
@@ -327,8 +385,29 @@
 
 </main>
 
-<footer class="text-center text-xs text-gray-400 py-6">
-  Data updated June 2026 · All scheme information is for guidance only · Always verify at official portals
+<footer class="bg-blue-900 text-gray-300 mt-6">
+  <div class="h-1 w-full" style="background:linear-gradient(to right,#FF9933 0 33.33%,#fff 33.33% 66.66%,#138808 66.66% 100%)"></div>
+  <div class="max-w-5xl mx-auto px-4 py-9 grid gap-6 sm:grid-cols-3 text-sm">
+    <div>
+      <div class="flex items-center gap-2 mb-2">
+        <div class="w-8 h-8 rounded-md flex items-center justify-center text-sm" style="background:linear-gradient(135deg,#FF9933,#138808)">🇮🇳</div>
+        <span class="font-bold text-white" id="foot-brand">Scheme Eligibility Checker</span>
+      </div>
+      <p class="text-gray-400 text-xs leading-relaxed" id="foot-about">A free public-service tool to help Indian citizens discover the central and state welfare schemes they are entitled to.</p>
+    </div>
+    <div>
+      <div class="font-semibold text-white mb-2" id="foot-help-t">Helplines</div>
+      <p class="text-xs text-gray-400 leading-relaxed">
+        <span id="foot-scam">Report scheme fraud:</span> <span class="text-white font-semibold">1930</span><br>
+        <span id="foot-cyber">Cyber crime:</span> <span class="text-white">cybercrime.gov.in</span>
+      </p>
+    </div>
+    <div>
+      <div class="font-semibold text-white mb-2" id="foot-note-t">Please note</div>
+      <p class="text-xs text-gray-400 leading-relaxed" id="foot-note">This is an independent service, not an official government website. All schemes are free to apply — never pay an agent. Always verify details on the official portal.</p>
+    </div>
+  </div>
+  <div class="border-t border-white/10 text-center text-[11px] text-gray-500 py-3" id="foot-copy">Data for guidance only · Always verify at official government portals</div>
 </footer>
 
 <script>
@@ -350,6 +429,16 @@ const T = {
     howTo:"How to Apply",docs:"Documents Needed",scamAlert:"⚠️ Scam Alert",
     processDays:"Processing time",
     almostTitle:"🔸 Almost eligible",almostSub:"You narrowly miss these — here's what would unlock each one.",
+    heroBadge:"100% free · No login needed",
+    heroTitle:"Find every government scheme you qualify for",
+    heroSub:"Answer 10 simple questions and get your personalised list of central and state welfare schemes — in Gujarati, Hindi, or English.",
+    heroCta:"Start free check →",
+    statSchemes:"Schemes",statStates:"States",statLangs:"Languages",statCost:"Cost, forever",
+    footAbout:"A free public-service tool to help Indian citizens discover the central and state welfare schemes they are entitled to.",
+    footHelpT:"Helplines",footScam:"Report scheme fraud:",footCyber:"Cyber crime:",
+    footNoteT:"Please note",
+    footNote:"This is an independent service, not an official government website. All schemes are free to apply — never pay an agent. Always verify details on the official portal.",
+    footCopy:"Data for guidance only · Always verify at official government portals",
     shareTitle:"📲 Share your benefit card",
     shareSub:"Download an image and forward it on WhatsApp to help others check too.",
     downloadCard:"⬇️ Download PDF",shareWa:"Share on WhatsApp",
@@ -373,6 +462,16 @@ const T = {
     howTo:"कैसे आवेदन करें",docs:"आवश्यक दस्तावेज",scamAlert:"⚠️ धोखाधड़ी सतर्क",
     processDays:"प्रक्रिया का समय",
     almostTitle:"🔸 लगभग पात्र",almostSub:"आप इनसे थोड़ा चूक गए — जानें इन्हें कैसे पा सकते हैं।",
+    heroBadge:"100% मुफ्त · कोई लॉगिन नहीं",
+    heroTitle:"अपनी हर सरकारी योजना खोजें",
+    heroSub:"10 आसान सवालों के जवाब दें और केंद्र व राज्य की कल्याणकारी योजनाओं की अपनी सूची पाएं — गुजराती, हिंदी या अंग्रेज़ी में।",
+    heroCta:"मुफ्त जांच शुरू करें →",
+    statSchemes:"योजनाएं",statStates:"राज्य",statLangs:"भाषाएं",statCost:"हमेशा मुफ्त",
+    footAbout:"भारतीय नागरिकों को उनके हक की केंद्र व राज्य कल्याणकारी योजनाएं खोजने में मदद करने वाला मुफ्त जन-सेवा साधन।",
+    footHelpT:"हेल्पलाइन",footScam:"योजना धोखाधड़ी की शिकायत:",footCyber:"साइबर अपराध:",
+    footNoteT:"कृपया ध्यान दें",
+    footNote:"यह एक स्वतंत्र सेवा है, कोई आधिकारिक सरकारी वेबसाइट नहीं। सभी योजनाओं के लिए आवेदन मुफ्त है — किसी एजेंट को पैसे न दें। हमेशा आधिकारिक पोर्टल पर विवरण सत्यापित करें।",
+    footCopy:"जानकारी केवल मार्गदर्शन हेतु · हमेशा आधिकारिक पोर्टल पर सत्यापित करें",
     shareTitle:"📲 अपना लाभ कार्ड साझा करें",
     shareSub:"तस्वीर डाउनलोड करें और WhatsApp पर भेजें ताकि दूसरे भी जांच सकें।",
     downloadCard:"⬇️ PDF डाउनलोड करें",shareWa:"WhatsApp पर साझा करें",
@@ -396,6 +495,16 @@ const T = {
     howTo:"કેવી રીતે અરજી કરવી",docs:"જરૂરી દસ્તાવેજો",scamAlert:"⚠️ છેતરપિંડી ચેતવણી",
     processDays:"પ્રક્રિયા સમય",
     almostTitle:"🔸 લગભગ પાત્ર",almostSub:"તમે આનાથી થોડું ચૂકી ગયા — જાણો આ કેવી રીતે મેળવી શકો.",
+    heroBadge:"100% મફત · લૉગિન નહીં",
+    heroTitle:"તમારી દરેક સરકારી યોજના શોધો",
+    heroSub:"10 સરળ પ્રશ્નોના જવાબ આપો અને કેન્દ્ર અને રાજ્યની કલ્યાણ યોજનાઓની તમારી યાદી મેળવો — ગુજરાતી, હિન્દી કે અંગ્રેજીમાં.",
+    heroCta:"મફત તપાસ શરૂ કરો →",
+    statSchemes:"યોજનાઓ",statStates:"રાજ્યો",statLangs:"ભાષાઓ",statCost:"કાયમ મફત",
+    footAbout:"ભારતીય નાગરિકોને તેમના હકની કેન્દ્ર અને રાજ્ય કલ્યાણ યોજનાઓ શોધવામાં મદદ કરતું મફત જન-સેવા સાધન.",
+    footHelpT:"હેલ્પલાઇન",footScam:"યોજના છેતરપિંડીની ફરિયાદ:",footCyber:"સાયબર ક્રાઇમ:",
+    footNoteT:"કૃપા કરીને નોંધો",
+    footNote:"આ એક સ્વતંત્ર સેવા છે, કોઈ સત્તાવાર સરકારી વેબસાઇટ નથી. બધી યોજનાઓ માટે અરજી મફત છે — કોઈ એજન્ટને પૈસા ન આપો. હંમેશા સત્તાવાર પોર્ટલ પર વિગતો ચકાસો.",
+    footCopy:"માહિતી ફક્ત માર્ગદર્શન માટે · હંમેશા સત્તાવાર પોર્ટલ પર ચકાસો",
     shareTitle:"📲 તમારું લાભ કાર્ડ શેર કરો",
     shareSub:"ચિત્ર ડાઉનલોડ કરો અને WhatsApp પર મોકલો જેથી બીજા પણ તપાસી શકે.",
     downloadCard:"⬇️ PDF ડાઉનલોડ કરો",shareWa:"WhatsApp પર શેર કરો",
@@ -441,6 +550,24 @@ function applyLang() {
   setText('share-sub', t.shareSub);
   setText('btn-download-card', t.downloadCard);
   setText('btn-share-card', t.shareWa);
+  // hero
+  setText('hero-badge', t.heroBadge);
+  setText('hero-title', t.heroTitle);
+  setText('hero-sub', t.heroSub);
+  setText('hero-cta', t.heroCta);
+  setText('stat-schemes', t.statSchemes);
+  setText('stat-states', t.statStates);
+  setText('stat-langs', t.statLangs);
+  setText('stat-cost', t.statCost);
+  // footer
+  setText('foot-brand', t.title);
+  setText('foot-about', t.footAbout);
+  setText('foot-help-t', t.footHelpT);
+  setText('foot-scam', t.footScam);
+  setText('foot-cyber', t.footCyber);
+  setText('foot-note-t', t.footNoteT);
+  setText('foot-note', t.footNote);
+  setText('foot-copy', t.footCopy);
 }
 
 // ─── Form navigation ──────────────────────────────────────
