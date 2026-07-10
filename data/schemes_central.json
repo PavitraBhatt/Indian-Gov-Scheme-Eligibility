@@ -36,7 +36,7 @@
       "Income tax payer"
     ],
     "scam_note": "PM Kisan is 100% free. No agent or middleman needed. Report fraud to 155261.",
-    "processing_days": "60-90",
+    "processing_days": "60-90 days",
     "tags": [
       "agriculture",
       "income_support",
@@ -82,7 +82,7 @@
       "Land ownership dispute"
     ],
     "scam_note": "KCC is issued free by banks. No processing fee for loans up to Rs 3 lakh. Report fraud to 1930.",
-    "processing_days": "7-15",
+    "processing_days": "7-15 days",
     "tags": [
       "agriculture",
       "credit",
@@ -127,7 +127,7 @@
       "Wrong crop declared"
     ],
     "scam_note": "Only pay the 2% farmer premium. Government pays the rest. Don't pay anyone else. Call 1800-180-1551 to report fraud.",
-    "processing_days": "30-45 after claim",
+    "processing_days": "30-45 days after claim",
     "tags": [
       "agriculture",
       "insurance",
@@ -214,7 +214,7 @@
       "Male applicant"
     ],
     "scam_note": "Connection is 100% free. No deposit. Report fraud at 1800-233-3555.",
-    "processing_days": "7-15",
+    "processing_days": "7-15 days",
     "tags": [
       "energy",
       "women",
@@ -262,7 +262,7 @@
       "Income above BPL"
     ],
     "scam_note": "PMAY-G is completely free. No agent fee. Fraud helpline: 1800-11-6446.",
-    "processing_days": "90-180",
+    "processing_days": "90-180 days",
     "tags": [
       "housing",
       "rural",
@@ -310,7 +310,7 @@
       "Not first-time buyer"
     ],
     "scam_note": "Apply only through official bank or government portal. No agent needed.",
-    "processing_days": "30-60",
+    "processing_days": "30-60 days",
     "tags": [
       "housing",
       "urban",
@@ -350,7 +350,7 @@
       "Auto-debit failed due to insufficient balance"
     ],
     "scam_note": "Only Rs 20/year. No agent commission. Enrol directly at your bank.",
-    "processing_days": "30 after claim filing",
+    "processing_days": "30 days after claim filing",
     "tags": [
       "insurance",
       "accident",
@@ -390,7 +390,7 @@
       "Multiple enrolments in different banks"
     ],
     "scam_note": "Only Rs 436/year. Enrol directly at bank. No middleman needed.",
-    "processing_days": "30 after claim filing",
+    "processing_days": "30 days after claim filing",
     "tags": [
       "insurance",
       "life",
@@ -437,7 +437,7 @@
       "Existing loan default"
     ],
     "scam_note": "Mudra loans are free to apply. Report any demand for fees at 1800-180-1111.",
-    "processing_days": "7-30",
+    "processing_days": "7-30 days",
     "tags": [
       "finance",
       "business",
@@ -562,7 +562,7 @@
       "Registration after 150 days of pregnancy"
     ],
     "scam_note": "PMMVY benefits come directly to your bank account. No middleman. Report issues to 7998799804.",
-    "processing_days": "30-45 per instalment",
+    "processing_days": "30-45 days per instalment",
     "tags": [
       "women_children",
       "maternity",
@@ -689,7 +689,7 @@
       "No vending certificate/ULB letter"
     ],
     "scam_note": "SVANidhi loan is free to apply. No processing fee for first loan. Report fraud at 1800-11-1979.",
-    "processing_days": "7-15",
+    "processing_days": "7-15 days",
     "tags": [
       "finance",
       "street_vendor",
@@ -732,7 +732,7 @@
       "Already receiving other state pension"
     ],
     "scam_note": "Pension comes directly to bank. No agent needed. Report fraud at 1800-11-0001.",
-    "processing_days": "30-60",
+    "processing_days": "30-60 days",
     "tags": [
       "senior_disability",
       "pension",
@@ -826,7 +826,7 @@
       "Wrong institute selected"
     ],
     "scam_note": "NSP scholarships go directly to bank. Never pay anyone to apply. Helpline: 0120-6619540.",
-    "processing_days": "60-90",
+    "processing_days": "60-90 days",
     "tags": [
       "education_youth",
       "scholarship",
@@ -875,7 +875,7 @@
       "Non-SC/ST and non-woman applicant"
     ],
     "scam_note": "Apply directly at bank or standupmitra.in. No middleman fee. Helpline: 1800-180-1111.",
-    "processing_days": "30-60",
+    "processing_days": "30-60 days",
     "tags": [
       "finance",
       "entrepreneurship",
@@ -918,7 +918,7 @@
       "No suitable rooftop"
     ],
     "scam_note": "Use only empanelled vendors from portal. Subsidy comes to bank directly. Helpline: 1800-180-3333.",
-    "processing_days": "30-60 after installation",
+    "processing_days": "30-60 days after installation",
     "tags": [
       "energy",
       "solar",
@@ -1015,7 +1015,7 @@
       "Husband alive or married again"
     ],
     "scam_note": "Pension credited directly to bank. No agent needed. Helpline: 1800-11-0001.",
-    "processing_days": "30-60",
+    "processing_days": "30-60 days",
     "tags": [
       "women_children",
       "pension",
@@ -1061,7 +1061,7 @@
       "Age outside 18-79"
     ],
     "scam_note": "Pension directly to bank. Report fraud at 1800-11-0001.",
-    "processing_days": "30-60",
+    "processing_days": "30-60 days",
     "tags": [
       "senior_disability",
       "pension",
@@ -1107,7 +1107,7 @@
       "Quota exhausted for the year"
     ],
     "scam_note": "Subsidy is credited directly. Use only empanelled vendors. Report fraud at 1800-180-3333.",
-    "processing_days": "60-120",
+    "processing_days": "60-120 days",
     "tags": [
       "agriculture",
       "solar",
@@ -1150,7 +1150,7 @@
       "No agricultural land"
     ],
     "scam_note": "Soil testing is completely free under this scheme. No charges.",
-    "processing_days": "30-45",
+    "processing_days": "30-45 days",
     "tags": [
       "agriculture",
       "soil",
@@ -1238,7 +1238,7 @@
       "Annual subsidy quota exhausted"
     ],
     "scam_note": "Subsidy goes to your bank directly. Use approved vendors only.",
-    "processing_days": "45-90",
+    "processing_days": "45-90 days",
     "tags": [
       "agriculture",
       "irrigation",
@@ -1328,7 +1328,7 @@
       "No ear-tag identification"
     ],
     "scam_note": "Pay only the subsidised premium share. Government covers the rest.",
-    "processing_days": "15-30",
+    "processing_days": "15-30 days",
     "tags": [
       "agriculture",
       "livestock",
@@ -1542,7 +1542,7 @@
       "No creche centre nearby"
     ],
     "scam_note": "Fees are nominal and subsidised. Verify the centre is government-registered.",
-    "processing_days": "15-30",
+    "processing_days": "15-30 days",
     "tags": [
       "women_children",
       "daycare",
@@ -1673,7 +1673,7 @@
       "Government employee in family"
     ],
     "scam_note": "Registration and training are free. Toolkit and loan are genuine government benefits. Apply via CSC.",
-    "processing_days": "30-60",
+    "processing_days": "30-60 days",
     "tags": [
       "finance",
       "artisan",
@@ -1819,7 +1819,7 @@
       "Bank loan rejected"
     ],
     "scam_note": "Apply only on the official KVIC portal. No agent can guarantee approval. Helpline: 1800-3000-0034.",
-    "processing_days": "60-120",
+    "processing_days": "60-120 days",
     "tags": [
       "finance",
       "business",
@@ -1911,7 +1911,7 @@
       "Income above limit"
     ],
     "scam_note": "Training and SHG support are free. Apply through your urban local body office.",
-    "processing_days": "30-90",
+    "processing_days": "30-90 days",
     "tags": [
       "finance",
       "urban",
@@ -1960,7 +1960,7 @@
       "Private/residential school student"
     ],
     "scam_note": "Scholarship goes directly to bank. Apply free on NSP. No agent needed.",
-    "processing_days": "60-90",
+    "processing_days": "60-90 days",
     "tags": [
       "education_youth",
       "scholarship",
@@ -2011,7 +2011,7 @@
       "Family income above Rs 8 lakh"
     ],
     "scam_note": "Apply only on the AICTE portal. Scholarship credited directly. No fees to apply.",
-    "processing_days": "60-90",
+    "processing_days": "60-90 days",
     "tags": [
       "education_youth",
       "scholarship",
@@ -2099,7 +2099,7 @@
       "Duplicate ration card"
     ],
     "scam_note": "Ration card is free. Foodgrain is subsidised/free. Report shop overcharging to the food department.",
-    "processing_days": "15-30",
+    "processing_days": "15-30 days",
     "tags": [
       "finance",
       "food",
@@ -2141,7 +2141,7 @@
       "Not in SECC poor list"
     ],
     "scam_note": "Connection is free for eligible poor households. Never pay a bribe for a meter.",
-    "processing_days": "30-60",
+    "processing_days": "30-60 days",
     "tags": [
       "energy",
       "electricity",
