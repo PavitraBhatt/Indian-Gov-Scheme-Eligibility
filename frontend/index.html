@@ -539,6 +539,13 @@ function fmt(n) {
   return '₹'+n;
 }
 
+// Append "days" only when processing time is a bare number/range
+// (leaves descriptive values like "Immediate at hospital" untouched).
+function procTime(v) {
+  v = (v || '').trim();
+  return /^\d+\s*-\s*\d+$|^\d+$/.test(v) ? v + ' days' : v;
+}
+
 // Quick-fill chip + live hint for the income field
 function setIncome(v) {
   const el = document.getElementById('f-income');
@@ -620,7 +627,7 @@ function renderResults(data) {
             class="flex-1 text-center bg-blue-700 text-white py-2 rounded-lg text-sm font-semibold hover:bg-blue-800">
             ${t.applyNow}
           </a>
-          <span class="text-xs text-gray-400 self-center">${t.processDays}: ${s.processing_days}</span>
+          <span class="text-xs text-gray-400 self-center">${t.processDays}: ${procTime(s.processing_days)}</span>
         </div>
       </div>
     </div>`;
@@ -836,7 +843,7 @@ function downloadCard() {
         {t:'   •   ', c:[190,195,205], s:8.5},
         {t:amt, c:GREEN, s:8.5, b:true},
         {t:'   •   ', c:[190,195,205], s:8.5},
-        {t:'Processing: '+s.processing_days, c:MUTED, s:8.5},
+        {t:'Processing: '+procTime(s.processing_days), c:MUTED, s:8.5},
       ], M, y); y += 15;
 
       // benefit description
