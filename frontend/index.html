@@ -707,8 +707,8 @@ async function renderCardCanvas() {
   return html2canvas(document.getElementById('share-card'), {scale: 2, useCORS: true});
 }
 
-// Build a proper multi-page, government-style PDF report with native text:
-// every qualifying scheme, clickable apply links, documents, and honest totals.
+// Build a proper multi-page, government-style PDF report with native text.
+// Note: jsPDF's built-in font has no ₹ or → glyph, so we use "Rs" and plain text.
 function downloadCard() {
   if(!lastResult) return;
   const btn = document.getElementById('btn-download-card');
@@ -719,41 +719,53 @@ function downloadCard() {
     const W = doc.internal.pageSize.getWidth();
     const H = doc.internal.pageSize.getHeight();
     const M = 42;                       // page margin
-    const CONTENT_BOTTOM = H - 56;
-    const NAVY=[27,58,92], GREEN=[19,136,8], SAFFRON=[255,153,51], LINK=[21,101,192];
+    const CW = W - 2*M;                 // content width
+    const CONTENT_BOTTOM = H - 58;
+    const NAVY=[27,58,92], GREEN=[17,120,8], SLATE=[90,100,115], MUTED=[120,128,140],
+          DARK=[25,32,40], LINK=[21,101,192], SAFFRON=[255,153,51], AMBER=[176,98,10];
     const host = window.location.host || 'schemecheck.in';
     const today = new Date().toLocaleDateString('en-IN', {day:'numeric',month:'long',year:'numeric'});
     const name = (document.getElementById('card-name').value || '').trim();
     let y = 0, pageNo = 0;
 
+    // jsPDF Helvetica lacks the rupee glyph, so format money with "Rs".
+    const rs = (n) => {
+      if(n >= 10000000) return 'Rs '+Math.round(n/1000000)/10+' Cr';
+      if(n >= 100000)   return 'Rs '+Math.round(n/10000)/10+' L';
+      return 'Rs '+n.toLocaleString('en-IN');
+    };
     const linkHost = (u) => { try { return new URL(u).host.replace(/^www\./,''); } catch(e){ return u; } };
+    // Print coloured segments inline, advancing x by each segment's width.
+    const inline = (segs, x, yy) => {
+      segs.forEach(p => {
+        doc.setFont('helvetica', p.b?'bold':'normal'); doc.setFontSize(p.s||9);
+        doc.setTextColor(...(p.c||DARK));
+        doc.text(p.t, x, yy); x += doc.getTextWidth(p.t);
+      });
+    };
 
     function header() {
       pageNo++;
-      // tricolour top stripe
       doc.setFillColor(...SAFFRON); doc.rect(0,0,W,5,'F');
       doc.setFillColor(255,255,255); doc.rect(0,5,W,5,'F');
-      doc.setFillColor(...GREEN);   doc.rect(0,10,W,5,'F');
-      // navy title band
-      doc.setFillColor(...NAVY); doc.rect(0,15,W,60,'F');
+      doc.setFillColor(...GREEN);    doc.rect(0,10,W,5,'F');
+      doc.setFillColor(...NAVY);     doc.rect(0,15,W,54,'F');
       doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(16);
-      doc.text('Government Scheme Eligibility Report', M, 42);
-      doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(196,212,228);
-      doc.text('Informational summary of welfare schemes you may qualify for', M, 58);
-      doc.setTextColor(255,255,255); doc.setFontSize(9);
-      doc.text(host, W-M, 42, {align:'right'});
-      doc.text(today, W-M, 58, {align:'right'});
-      y = 100;
+      doc.text('Government Scheme Eligibility Report', M, 48);
+      doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(210,222,235);
+      doc.text(host, W-M, 40, {align:'right'});
+      doc.text(today, W-M, 56, {align:'right'});
+      y = 92;
     }
 
     function footer() {
-      doc.setDrawColor(220); doc.setLineWidth(0.5); doc.line(M, H-44, W-M, H-44);
+      doc.setDrawColor(220); doc.setLineWidth(0.5); doc.line(M, H-46, W-M, H-46);
       doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(135);
-      const disc = 'This is an informational summary, not an official certificate. All listed schemes are free to apply — '
-        + 'never pay an agent. Verify every detail at the official portal. Report fraud: call 1930.';
-      doc.text(doc.splitTextToSize(disc, W-2*M-70), M, H-32);
+      const disc = 'Informational summary, not an official certificate. All listed schemes are free to apply - '
+        + 'never pay an agent. Verify details at the official portal. Report fraud: call 1930.';
+      doc.text(doc.splitTextToSize(disc, CW-60), M, H-34);
       doc.setTextColor(110);
-      doc.text('Page '+pageNo, W-M, H-32, {align:'right'});
+      doc.text('Page '+pageNo, W-M, H-34, {align:'right'});
     }
 
     function ensure(space) {
@@ -761,85 +773,109 @@ function downloadCard() {
     }
 
     function sectionTitle(txt, ruleW) {
-      ensure(40);
+      ensure(42);
       doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor(...NAVY);
-      doc.text(txt, M, y); y += 6;
+      doc.text(txt, M, y); y += 7;
       doc.setDrawColor(...NAVY); doc.setLineWidth(1.3); doc.line(M, y, M+ruleW, y);
-      doc.setLineWidth(0.2); y += 18;
+      doc.setLineWidth(0.2); y += 19;
     }
 
     header();
 
     // ── Prepared-for box ───────────────────────────────
-    const boxH = 46;
-    doc.setFillColor(244,247,250); doc.roundedRect(M, y, W-2*M, boxH, 6, 6, 'F');
-    doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(110);
-    doc.text('PREPARED FOR', M+14, y+18);
-    doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor(30);
-    doc.text((name ? name+'  ·  ' : '') + (lastState || 'India'), M+14, y+36);
-    y += boxH + 22;
+    const boxH = 44;
+    doc.setFillColor(244,247,250); doc.roundedRect(M, y, CW, boxH, 6, 6, 'F');
+    doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(...MUTED);
+    doc.text('PREPARED FOR', M+14, y+17);
+    doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor(...DARK);
+    doc.text((name ? name+'   -   ' : '') + (lastState || 'India'), M+14, y+34);
+    y += boxH + 24;
 
     // ── Summary ────────────────────────────────────────
     sectionTitle('Summary', 58);
-    doc.setFont('helvetica','normal'); doc.setFontSize(11); doc.setTextColor(33);
+    doc.setFont('helvetica','normal'); doc.setFontSize(11); doc.setTextColor(...DARK);
     doc.text('You qualify for '+lastResult.count+' scheme(s).', M, y); y += 20;
     const rows = [];
-    if(lastResult.annual_cash_benefit) rows.push(['Direct cash you can receive each year', fmt(lastResult.annual_cash_benefit)]);
-    if(lastResult.one_time_benefit)    rows.push(['One-time benefits', fmt(lastResult.one_time_benefit)]);
-    if(lastResult.loan_access)         rows.push(['Loan access (to be repaid)', fmt(lastResult.loan_access)]);
-    if(lastResult.insurance_cover)     rows.push(['Insurance cover (paid only if needed)', fmt(lastResult.insurance_cover)]);
+    if(lastResult.annual_cash_benefit) rows.push(['Direct cash each year', rs(lastResult.annual_cash_benefit)]);
+    if(lastResult.one_time_benefit)    rows.push(['One-time benefits', rs(lastResult.one_time_benefit)]);
+    if(lastResult.loan_access)         rows.push(['Loan access (to be repaid)', rs(lastResult.loan_access)]);
+    if(lastResult.insurance_cover)     rows.push(['Insurance cover (only if needed)', rs(lastResult.insurance_cover)]);
     rows.forEach(([k,v]) => {
       ensure(16);
-      doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(80);
-      doc.text('•  '+k, M+4, y);
-      doc.setFont('helvetica','bold'); doc.setTextColor(...GREEN);
-      doc.text(v, W-M, y, {align:'right'}); y += 16;
+      // label then amount inline, right next to each other
+      inline([
+        {t:'•  '+k+':  ', c:SLATE, s:10},
+        {t:v, c:GREEN, s:10, b:true},
+      ], M+4, y);
+      y += 17;
     });
-    y += 14;
+    y += 16;
 
     // ── Qualifying schemes ─────────────────────────────
-    sectionTitle('Schemes you qualify for', 150);
+    sectionTitle('Schemes you qualify for', 152);
     (lastResult.schemes || []).forEach((s, i) => {
-      const nameLines = doc.splitTextToSize((i+1)+'.  '+s.name_en, W-2*M);
-      const benLines  = doc.splitTextToSize(s.benefit_en, W-2*M-8);
-      const docsTxt   = (s.documents && s.documents.length) ? 'Documents: '+s.documents.join(', ') : '';
-      const docLines  = docsTxt ? doc.splitTextToSize(docsTxt, W-2*M-8) : [];
-      const blockH = nameLines.length*15 + 14 + benLines.length*12 + docLines.length*11 + 16 + 14;
+      const nameLines = doc.splitTextToSize((i+1)+'.  '+s.name_en, CW);
+      const benLines  = doc.splitTextToSize(s.benefit_en, CW-4);
+      const docsTxt   = (s.documents && s.documents.length) ? 'Documents needed: '+s.documents.join(', ') : '';
+      const docLines  = docsTxt ? doc.splitTextToSize(docsTxt, CW-4) : [];
+      const steps     = s.steps_en || [];
+      const stepLines = steps.map((st,n) => doc.splitTextToSize((n+1)+'. '+st, CW-18));
+      const stepH     = stepLines.reduce((a,l)=>a+l.length*11, 0);
+      const blockH = nameLines.length*15 + 15 + benLines.length*12 + docLines.length*11
+                     + (steps.length? 14 + stepH : 0) + 18 + 16;
       ensure(blockH);
 
-      doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(20);
-      doc.text(nameLines, M, y); y += nameLines.length*15;
+      // name (bold, dark)
+      doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(...DARK);
+      doc.text(nameLines, M, y); y += nameLines.length*15 + 1;
 
-      doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(120);
-      const amt = s.benefit_amount>0 ? fmt(s.benefit_amount)+' ('+s.benefit_type.replace(/_/g,' ')+')' : 'Free service';
-      doc.text(s.category.replace(/_/g,' ').toUpperCase()+'    ·    '+amt
-               +'    ·    Processing: '+s.processing_days, M, y); y += 14;
+      // meta line: category (navy) · amount (green) · processing (muted) — colour-coded, tight
+      const amt = s.benefit_amount>0 ? rs(s.benefit_amount)+' '+s.benefit_type.replace(/_/g,' ') : 'Free service';
+      inline([
+        {t:s.category.replace(/_/g,' ').toUpperCase(), c:NAVY, s:8.5, b:true},
+        {t:'   •   ', c:[190,195,205], s:8.5},
+        {t:amt, c:GREEN, s:8.5, b:true},
+        {t:'   •   ', c:[190,195,205], s:8.5},
+        {t:'Processing: '+s.processing_days, c:MUTED, s:8.5},
+      ], M, y); y += 15;
 
-      doc.setFontSize(9.5); doc.setTextColor(60);
+      // benefit description
+      doc.setFont('helvetica','normal'); doc.setFontSize(9.5); doc.setTextColor(...SLATE);
       doc.text(benLines, M, y); y += benLines.length*12;
 
+      // documents
       if(docLines.length){
-        doc.setFontSize(8.5); doc.setTextColor(110);
+        doc.setFontSize(8.5); doc.setTextColor(...MUTED);
         doc.text(docLines, M, y); y += docLines.length*11;
       }
 
-      doc.setFontSize(9); doc.setTextColor(...LINK);
-      doc.textWithLink('Apply online → '+linkHost(s.apply_link), M, y+4, {url:s.apply_link});
-      y += 16;
+      // how to apply — step by step
+      if(steps.length){
+        y += 4;
+        doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(...NAVY);
+        doc.text('How to apply:', M, y); y += 12;
+        doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(...SLATE);
+        stepLines.forEach(l => { doc.text(l, M+14, y); y += l.length*11; });
+      }
 
-      doc.setDrawColor(232); doc.setLineWidth(0.5); doc.line(M, y, W-M, y); y += 14;
+      // apply link (clickable, no arrow glyph)
+      y += 4;
+      doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(...LINK);
+      doc.textWithLink('Apply online at '+linkHost(s.apply_link), M, y, {url:s.apply_link});
+      y += 14;
+
+      doc.setDrawColor(228); doc.setLineWidth(0.5); doc.line(M, y, W-M, y); y += 16;
     });
 
     // ── Almost eligible (optional) ─────────────────────
     if(lastResult.almost && lastResult.almost.length){
-      y += 6;
-      sectionTitle('Schemes you almost qualify for', 195);
+      sectionTitle('Schemes you almost qualify for', 198);
       lastResult.almost.forEach(s => {
-        const reason = doc.splitTextToSize('What is needed: '+s.miss_reason, W-2*M-8);
-        ensure(14 + reason.length*12 + 12);
-        doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(150,90,10);
-        doc.text(s.name_en, M, y); y += 14;
-        doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(90);
+        const reason = doc.splitTextToSize('What you need: '+s.miss_reason, CW-4);
+        ensure(14 + reason.length*12 + 10);
+        doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(...AMBER);
+        doc.text(s.name_en, M, y); y += 13;
+        doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(...SLATE);
         doc.text(reason, M, y); y += reason.length*12 + 10;
       });
     }
