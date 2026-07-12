@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ h1 }}</h1>
+<p style="color:var(--muted)">{{ intro }}</p>
+<a class="cta" href="{{ base }}/#check">Check your eligibility →</a>
+
+{% if states %}
+<p class="note" style="margin-top:16px">Browse by state:
+  {% for st in states %}<a href="{{ base }}/schemes/state/{{ st.lower().replace(' ','-') }}">{{ st }}</a>{% if not loop.last %} · {% endif %}{% endfor %}
+</p>
+{% endif %}
+
+{% for group in groups %}
+<h2 id="{{ group.key }}">{{ group.label }} <span class="note">({{ group.schemes|length }})</span></h2>
+<div class="card" style="padding:6px 20px">
+  {% for s in group.schemes %}
+  <a class="scheme-link" href="{{ base }}/schemes/{{ slug_for(s.id) }}">
+    <span class="nm">{{ s.name_en }}</span>
+    <span class="ds">{{ s.benefit_en }}</span>
+  </a>
+  {% endfor %}
+</div>
+{% endfor %}
+{% endblock %}

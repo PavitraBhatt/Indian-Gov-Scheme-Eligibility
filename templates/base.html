@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page_title }}</title>
+<meta name="description" content="{{ meta_description }}">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="{{ canonical }}">
+<link rel="alternate" hreflang="en" href="{{ canonical }}">
+<link rel="alternate" hreflang="x-default" href="{{ canonical }}">
+<!-- Open Graph / Twitter -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{ site_name }}">
+<meta property="og:title" content="{{ page_title }}">
+<meta property="og:description" content="{{ meta_description }}">
+<meta property="og:url" content="{{ canonical }}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ page_title }}">
+<meta name="twitter:description" content="{{ meta_description }}">
+{% for block in jsonld_blocks %}
+<script type="application/ld+json">{{ block | tojson | safe }}</script>
+{% endfor %}
+<style>
+  :root{--navy:#14315c;--green:#0e7a3b;--saffron:#ff9933;--ink:#1f2733;--muted:#5b6675;--line:#e6eaf0}
+  *{box-sizing:border-box}
+  html{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--ink);line-height:1.6}
+  body{margin:0;background:#f4f6f9}
+  a{color:var(--navy)}
+  .strip{height:5px;background:linear-gradient(to right,var(--saffron) 0 33.33%,#fff 33.33% 66.66%,var(--green) 66.66% 100%)}
+  header.site{background:var(--navy);color:#fff}
+  header.site .wrap{max-width:900px;margin:0 auto;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  header.site a{color:#fff;text-decoration:none}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.15rem}
+  .mark{width:30px;height:30px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--saffron),var(--green))}
+  nav.site a{margin-left:16px;font-size:.9rem;opacity:.9}
+  main{max-width:900px;margin:0 auto;padding:22px 18px 40px}
+  .crumbs{font-size:.82rem;color:var(--muted);margin:6px 0 18px}
+  .crumbs a{color:var(--muted)}
+  h1{font-size:1.9rem;line-height:1.25;margin:.2em 0 .3em;color:var(--navy)}
+  h2{font-size:1.25rem;margin:1.6em 0 .5em;color:var(--navy);border-bottom:2px solid var(--line);padding-bottom:.25em}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:0 6px 20px rgba(20,49,92,.05)}
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;list-style:none;padding:0;margin:0}
+  .facts li{background:#f7f9fc;border:1px solid var(--line);border-radius:9px;padding:9px 12px;font-size:.86rem}
+  .facts b{display:block;color:var(--muted);font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:2px}
+  .cta{display:inline-block;background:var(--green);color:#fff;text-decoration:none;font-weight:700;padding:12px 22px;border-radius:9px;margin:6px 0}
+  .cta:hover{background:#0b5f2e}
+  .scam{background:#fff4f4;border-left:4px solid #dc2626;border-radius:8px;padding:12px 14px;font-size:.9rem}
+  .tag{display:inline-block;background:#eef4fb;color:var(--navy);border-radius:20px;padding:3px 10px;font-size:.75rem;margin:2px 4px 2px 0}
+  ul.clean{padding-left:1.15em}
+  .scheme-link{display:block;padding:12px 0;border-bottom:1px solid var(--line);text-decoration:none}
+  .scheme-link:last-child{border-bottom:0}
+  .scheme-link .nm{font-weight:600;color:var(--navy)}
+  .scheme-link .ds{color:var(--muted);font-size:.86rem}
+  footer.site{background:var(--navy);color:#c9d4e2;font-size:.82rem;margin-top:30px}
+  footer.site .wrap{max-width:900px;margin:0 auto;padding:20px 18px}
+  footer.site a{color:#fff}
+  .note{color:var(--muted);font-size:.8rem}
+</style>
+</head>
+<body>
+<div class="strip"></div>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="{{ base }}/"><span class="mark">🇮🇳</span> {{ site_name }}</a>
+    <nav class="site"><a href="{{ base }}/schemes/">All schemes</a><a href="{{ base }}/">Check eligibility</a></nav>
+  </div>
+</header>
+<main>
+  {% if breadcrumbs %}
+  <div class="crumbs">
+    {% for label, url in breadcrumbs %}{% if not loop.last %}<a href="{{ url }}">{{ label }}</a> › {% else %}{{ label }}{% endif %}{% endfor %}
+  </div>
+  {% endif %}
+  {% block content %}{% endblock %}
+</main>
+<footer class="site">
+  <div class="wrap">
+    <p><strong>{{ site_name }}</strong> — a free, independent public-service tool. <em>Not an official government website.</em></p>
+    <p class="note">All schemes are free to apply — never pay an agent. Verify details on the official portal. Report fraud: call 1930.</p>
+  </div>
+</footer>
+</body>
+</html>

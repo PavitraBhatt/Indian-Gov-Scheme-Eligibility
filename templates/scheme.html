@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ scheme.name_en }}</h1>
+<p style="font-size:1.05rem;color:var(--muted)">{{ summary }}</p>
+
+<a class="cta" href="{{ base }}/#check">Check if you qualify →</a>
+
+<ul class="facts">
+  <li><b>Category</b>{{ category_label }}</li>
+  <li><b>Ministry / Dept</b>{{ scheme.ministry }}</li>
+  <li><b>Applies to</b>{% if scheme.state_specific %}{{ scheme.eligibility.states|join(', ') }}{% else %}All India{% endif %}</li>
+  {% if scheme.benefit_amount %}<li><b>Benefit value</b>Rs {{ "{:,}".format(scheme.benefit_amount) }} ({{ scheme.benefit_type.replace('_',' ') }})</li>{% endif %}
+  <li><b>Processing time</b>{{ scheme.processing_days }}</li>
+  <li><b>Info reviewed</b>{{ last_verified }}</li>
+</ul>
+
+<h2>Who is eligible</h2>
+<div class="card">
+  <ul class="clean">
+    {% for line in eligibility %}<li>{{ line }}</li>{% endfor %}
+  </ul>
+</div>
+
+<h2>Benefits</h2>
+<div class="card"><p>{{ scheme.benefit_en }}</p></div>
+
+<h2>Documents required</h2>
+<div class="card">
+  <ul class="clean">{% for d in scheme.documents %}<li>{{ d }}</li>{% endfor %}</ul>
+</div>
+
+<h2>How to apply</h2>
+<div class="card">
+  <ol class="clean">{% for step in scheme.steps_en %}<li>{{ step }}</li>{% endfor %}</ol>
+  <p style="margin-top:14px">
+    <a class="cta" href="{{ scheme.apply_link }}" rel="nofollow noopener" target="_blank">Apply on the official portal →</a>
+  </p>
+</div>
+
+{% if scheme.scam_note %}
+<h2>⚠️ Avoid scams</h2>
+<p class="scam">{{ scheme.scam_note }}</p>
+{% endif %}
+
+<h2>Not sure if you qualify?</h2>
+<p>Answer 10 quick questions and {{ site_name }} will tell you every scheme you are eligible for — free, in English, Hindi or Gujarati.</p>
+<a class="cta" href="{{ base }}/#check">Check my eligibility →</a>
+
+<p style="margin-top:22px">
+  {% for tag in scheme.tags %}<span class="tag">{{ tag.replace('_',' ') }}</span>{% endfor %}
+</p>
+{% endblock %}

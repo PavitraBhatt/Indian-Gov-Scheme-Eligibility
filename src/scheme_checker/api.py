@@ -10,8 +10,12 @@ from pydantic import BaseModel, Field
 
 from .core import UserProfile, benefit_totals, match_schemes, near_misses
 from .schemes import get_scheme_by_id, load_schemes
+from .web import router as web_router
 
 app = FastAPI(title="Indian Gov Scheme Eligibility API", version="0.3.0")
+
+# Server-rendered, indexable pages: /schemes/, /schemes/{slug}, robots, sitemap.
+app.include_router(web_router)
 
 # CORS — the form is same-origin, but /api is documented for integrations.
 # Default to same-origin only; set SCHEME_CORS_ORIGINS (comma-separated) to open up.
