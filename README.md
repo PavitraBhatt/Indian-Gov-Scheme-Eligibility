@@ -1,6 +1,6 @@
-# Indian Government Scheme Eligibility Checker
+# SchemeSaathi — Government Scheme Eligibility Checker
 
-A FastAPI + Tailwind web app that helps Indian citizens discover every government scheme they qualify for — in English, Hindi, and Gujarati.
+**SchemeSaathi** (योजना साथी — "your scheme companion") is a FastAPI + Tailwind web app that helps Indian citizens discover every government scheme they qualify for — in English, Hindi, and Gujarati.
 
 **10-question form → personalised scheme list → step-by-step application guide + scam alerts**
 
