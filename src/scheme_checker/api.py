@@ -8,7 +8,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from .core import UserProfile, match_schemes, near_misses
+from .core import UserProfile, benefit_totals, match_schemes, near_misses
 from .schemes import get_scheme_by_id, load_schemes
 
 app = FastAPI(title="Indian Gov Scheme Eligibility API", version="0.3.0")
@@ -54,33 +54,12 @@ async def serve_frontend():
     return HTMLResponse(index.read_text(encoding="utf-8"))
 
 
-def _benefit_totals(matched: list[dict[str, Any]]) -> dict[str, int]:
-    """Aggregate benefit_amount by type so we never present loans/insurance as cash.
-
-    Only cash_yearly + one_time go into money you'd actually receive; loans and
-    insurance ceilings are reported separately as access/cover, not income.
-    """
-    totals = {"annual_cash": 0, "one_time": 0, "loan_access": 0, "insurance_cover": 0}
-    for s in matched:
-        amount = s.get("benefit_amount", 0)
-        btype = s.get("benefit_type")
-        if btype == "cash_yearly":
-            totals["annual_cash"] += amount
-        elif btype == "one_time":
-            totals["one_time"] += amount
-        elif btype == "loan":
-            totals["loan_access"] += amount
-        elif btype == "insurance":
-            totals["insurance_cover"] += amount
-    return totals
-
-
 @app.post("/api/check", response_model=dict[str, Any])
 async def check_eligibility(req: CheckRequest):
     profile = UserProfile.from_dict(req.model_dump())
     schemes = load_schemes(states=[req.state])
     matched = match_schemes(profile, schemes)
-    totals = _benefit_totals(matched)
+    totals = benefit_totals(matched)
     return {
         "count": len(matched),
         # honest, type-aware aggregates (the old single total_annual_benefit

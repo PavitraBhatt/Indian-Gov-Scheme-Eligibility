@@ -9,7 +9,7 @@ import argparse
 import json
 import sys
 
-from .core import UserProfile, match_schemes
+from .core import UserProfile, benefit_totals, match_schemes
 from .schemes import load_schemes
 
 # Scheme names are in Hindi/Gujarati too, so force UTF-8 output on consoles
@@ -70,12 +70,19 @@ def main(argv=None):
 
     schemes = load_schemes(states=[args.state])
     matched = match_schemes(profile, schemes)
-    total = sum(s.get("benefit_amount", 0) for s in matched)
+    totals = benefit_totals(matched)
 
     if args.json:
         print(
             json.dumps(
-                {"count": len(matched), "total_annual_benefit": total, "schemes": matched},
+                {
+                    "count": len(matched),
+                    "annual_cash_benefit": totals["annual_cash"],
+                    "one_time_benefit": totals["one_time"],
+                    "loan_access": totals["loan_access"],
+                    "insurance_cover": totals["insurance_cover"],
+                    "schemes": matched,
+                },
                 indent=2,
                 ensure_ascii=False,
             )
@@ -86,7 +93,16 @@ def main(argv=None):
         print("No schemes matched your profile. Try adjusting your answers.")
         return
 
-    print(f"\n✓ You qualify for {len(matched)} scheme(s) worth up to Rs {total:,}/year\n")
+    print(f"\n✓ You qualify for {len(matched)} scheme(s)")
+    # honest, type-aware totals (never sum loans/insurance as cash)
+    print(f"   Direct cash each year: up to Rs {totals['annual_cash']:,}")
+    if totals["one_time"]:
+        print(f"   One-time benefits:     up to Rs {totals['one_time']:,}")
+    if totals["loan_access"]:
+        print(f"   Loan access:           up to Rs {totals['loan_access']:,}")
+    if totals["insurance_cover"]:
+        print(f"   Insurance cover:       up to Rs {totals['insurance_cover']:,}")
+    print()
     for i, s in enumerate(matched, 1):
         print(f"{i:>2}. {s['name_en']}")
         print(f"    {s['benefit_en']}")

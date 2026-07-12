@@ -109,6 +109,27 @@ def match_schemes(profile: UserProfile, schemes: list[dict[str, Any]]) -> list[d
     return matched
 
 
+def benefit_totals(matched: list[dict[str, Any]]) -> dict[str, int]:
+    """Aggregate benefit_amount by type so loans/insurance are never summed as cash.
+
+    Only cash_yearly counts as recurring money received; one-time grants, loan
+    ceilings and insurance cover are reported separately. Shared by the API and
+    CLI so their numbers can't drift apart.
+    """
+    totals = {"annual_cash": 0, "one_time": 0, "loan_access": 0, "insurance_cover": 0}
+    key = {
+        "cash_yearly": "annual_cash",
+        "one_time": "one_time",
+        "loan": "loan_access",
+        "insurance": "insurance_cover",
+    }
+    for s in matched:
+        bucket = key.get(s.get("benefit_type"))
+        if bucket:
+            totals[bucket] += s.get("benefit_amount", 0)
+    return totals
+
+
 def near_misses(
     profile: UserProfile,
     schemes: list[dict[str, Any]],

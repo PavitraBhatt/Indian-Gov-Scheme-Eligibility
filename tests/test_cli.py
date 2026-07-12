@@ -49,6 +49,12 @@ def test_cli_json_output(capsys):
     assert data["count"] == len(data["schemes"])
     ids = {s["id"] for s in data["schemes"]}
     assert "pm_kisan" in ids
+    # honest, type-aware totals — the old misleading field must be gone
+    assert "total_annual_benefit" not in data
+    for key in ("annual_cash_benefit", "one_time_benefit", "loan_access", "insurance_cover"):
+        assert key in data
+    cash = sum(s["benefit_amount"] for s in data["schemes"] if s["benefit_type"] == "cash_yearly")
+    assert data["annual_cash_benefit"] == cash
 
 
 def test_cli_bpl_flag_unlocks_ayushman(capsys):

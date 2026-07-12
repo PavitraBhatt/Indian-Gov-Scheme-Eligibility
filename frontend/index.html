@@ -517,7 +517,7 @@ const T = {
 let lang = 'en';
 let currentStep = 1;
 const TOTAL_STEPS = 10;
-let lastResult = null;     // {count, total_annual_benefit, schemes}
+let lastResult = null;     // {count, annual_cash_benefit, one_time_benefit, loan_access, insurance_cover, schemes, almost}
 let lastState = '';        // user's selected state, for the share card
 
 function setLang(l, btn) {
@@ -1028,7 +1028,7 @@ async function shareCard() {
   const t = T[lang];
   const text = t.cardShareText
     .replace('{count}', lastResult.count)
-    .replace('{worth}', fmt(lastResult.total_annual_benefit));
+    .replace('{worth}', fmt(lastResult.annual_cash_benefit || 0));
 
   // Try native share with the image (mobile); fall back to WhatsApp text link
   try {
