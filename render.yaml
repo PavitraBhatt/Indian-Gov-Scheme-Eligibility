@@ -5,10 +5,22 @@ services:
     name: schemesaathi
     runtime: docker
     plan: free
+    branch: master            # deploy from this branch
     dockerfilePath: ./Dockerfile
     healthCheckPath: /api/health
-    autoDeploy: true
+    autoDeploy: true          # every push to `branch` triggers a fresh deploy
     envVars:
       # Render injects PORT automatically; uvicorn reads it in the Dockerfile CMD.
       - key: PYTHONUNBUFFERED
         value: "1"
+      # --- optional knobs: uncomment to use ---
+      # Allow specific front-end origins to call the API (comma-separated):
+      # - key: SCHEME_CORS_ORIGINS
+      #   value: "https://schemesaathi.onrender.com"
+      # Secrets for the weekly sync pipeline. Do NOT put the value here — set
+      # `sync: false` so Render prompts for it in the dashboard and keeps it
+      # out of git:
+      # - key: ANTHROPIC_API_KEY
+      #   sync: false
+      # - key: MYSCHEME_API_KEY
+      #   sync: false
