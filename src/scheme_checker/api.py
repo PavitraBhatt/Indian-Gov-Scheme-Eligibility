@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -51,11 +51,15 @@ class CheckRequest(BaseModel):
 
 
 @app.get("/", response_class=HTMLResponse)
-async def serve_frontend():
+async def serve_frontend(request: Request):
     index = _FRONTEND_DIR / "index.html"
     if not index.exists():
         return HTMLResponse("<h1>Frontend not found</h1>", status_code=404)
-    return HTMLResponse(index.read_text(encoding="utf-8"))
+    # Inject the live origin so canonical/OG URLs are absolute and correct
+    # regardless of the deploy host.
+    base = str(request.base_url).rstrip("/")
+    html = index.read_text(encoding="utf-8").replace("__SITE_URL__", base + "/")
+    return HTMLResponse(html)
 
 
 @app.post("/api/check", response_model=dict[str, Any])

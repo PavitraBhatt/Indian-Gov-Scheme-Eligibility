@@ -3,6 +3,16 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="SchemeSaathi helps Indian citizens find every central and state government welfare scheme they qualify for — free, in English, Hindi and Gujarati. Answer 10 questions to get your personalised list with benefits, documents and how to apply."/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="__SITE_URL__"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="SchemeSaathi"/>
+<meta property="og:title" content="SchemeSaathi — Find government schemes you qualify for"/>
+<meta property="og:description" content="Free tool to find central & state government welfare schemes you qualify for, in English, Hindi and Gujarati."/>
+<meta property="og:url" content="__SITE_URL__"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="SchemeSaathi — Find government schemes you qualify for"/>
 <title>SchemeSaathi — Find government schemes you qualify for | સ્કીમ સાથી</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -80,6 +90,7 @@
     <h2 class="text-3xl sm:text-4xl font-extrabold leading-tight mb-3" id="hero-title">Find every government scheme you qualify for</h2>
     <p class="text-green-50/90 text-base sm:text-lg max-w-xl mx-auto mb-7" id="hero-sub">Answer 10 simple questions and get your personalised list of central and state welfare schemes — in Gujarati, Hindi, or English.</p>
     <a href="#check" class="inline-block bg-white text-[#0b5f2e] font-bold px-7 py-3 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition" id="hero-cta">Start free check →</a>
+    <div class="mt-4"><a href="/schemes/" class="text-green-50/90 underline underline-offset-2 text-sm hover:text-white" id="hero-browse">or browse all schemes →</a></div>
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-10 max-w-3xl mx-auto">
       <div class="stat-card rounded-xl p-4"><div class="text-2xl font-extrabold">64</div><div class="text-xs text-green-50/80" id="stat-schemes">Schemes</div></div>
       <div class="stat-card rounded-xl p-4"><div class="text-2xl font-extrabold">4</div><div class="text-xs text-green-50/80" id="stat-states">States</div></div>
@@ -432,7 +443,7 @@ const T = {
     heroBadge:"100% free · No login needed",
     heroTitle:"Find every government scheme you qualify for",
     heroSub:"Answer 10 simple questions and get your personalised list of central and state welfare schemes — in Gujarati, Hindi, or English.",
-    heroCta:"Start free check →",
+    heroCta:"Start free check →",heroBrowse:"or browse all schemes →",
     statSchemes:"Schemes",statStates:"States",statLangs:"Languages",statCost:"Always free to use",
     footAbout:"A free public-service tool to help Indian citizens discover the central and state welfare schemes they are entitled to.",
     footHelpT:"Helplines",footScam:"Report scheme fraud:",footCyber:"Cyber crime:",
@@ -465,7 +476,7 @@ const T = {
     heroBadge:"100% मुफ्त · कोई लॉगिन नहीं",
     heroTitle:"अपनी हर सरकारी योजना खोजें",
     heroSub:"10 आसान सवालों के जवाब दें और केंद्र व राज्य की कल्याणकारी योजनाओं की अपनी सूची पाएं — गुजराती, हिंदी या अंग्रेज़ी में।",
-    heroCta:"मुफ्त जांच शुरू करें →",
+    heroCta:"मुफ्त जांच शुरू करें →",heroBrowse:"या सभी योजनाएं देखें →",
     statSchemes:"योजनाएं",statStates:"राज्य",statLangs:"भाषाएं",statCost:"हमेशा मुफ्त",
     footAbout:"भारतीय नागरिकों को उनके हक की केंद्र व राज्य कल्याणकारी योजनाएं खोजने में मदद करने वाला मुफ्त जन-सेवा साधन।",
     footHelpT:"हेल्पलाइन",footScam:"योजना धोखाधड़ी की शिकायत:",footCyber:"साइबर अपराध:",
@@ -498,7 +509,7 @@ const T = {
     heroBadge:"100% મફત · લૉગિન નહીં",
     heroTitle:"તમારી દરેક સરકારી યોજના શોધો",
     heroSub:"10 સરળ પ્રશ્નોના જવાબ આપો અને કેન્દ્ર અને રાજ્યની કલ્યાણ યોજનાઓની તમારી યાદી મેળવો — ગુજરાતી, હિન્દી કે અંગ્રેજીમાં.",
-    heroCta:"મફત તપાસ શરૂ કરો →",
+    heroCta:"મફત તપાસ શરૂ કરો →",heroBrowse:"અથવા બધી યોજનાઓ જુઓ →",
     statSchemes:"યોજનાઓ",statStates:"રાજ્યો",statLangs:"ભાષાઓ",statCost:"કાયમ મફત",
     footAbout:"ભારતીય નાગરિકોને તેમના હકની કેન્દ્ર અને રાજ્ય કલ્યાણ યોજનાઓ શોધવામાં મદદ કરતું મફત જન-સેવા સાધન.",
     footHelpT:"હેલ્પલાઇન",footScam:"યોજના છેતરપિંડીની ફરિયાદ:",footCyber:"સાયબર ક્રાઇમ:",
@@ -555,6 +566,7 @@ function applyLang() {
   setText('hero-title', t.heroTitle);
   setText('hero-sub', t.heroSub);
   setText('hero-cta', t.heroCta);
+  setText('hero-browse', t.heroBrowse);
   setText('stat-schemes', t.statSchemes);
   setText('stat-states', t.statStates);
   setText('stat-langs', t.statLangs);
