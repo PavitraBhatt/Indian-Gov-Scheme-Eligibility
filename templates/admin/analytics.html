@@ -1,0 +1,23 @@
+{% extends "admin/base.html" %}
+{% block title %}Analytics{% endblock %}
+{% block heading %}Analytics{% endblock %}
+{% block head %}<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>{% endblock %}
+{% block content %}
+{% set card = 'bg-white rounded-xl shadow-sm border p-5' %}
+<p class="text-sm text-slate-500 mb-4">Privacy-safe aggregates — no personal data is stored. {{ stats.total_checks }} checks logged.</p>
+<div class="grid lg:grid-cols-2 gap-4">
+  <div class="{{ card }}"><h2 class="font-bold text-slate-800 mb-3">Checks per day (14d)</h2><canvas id="perDay" height="140"></canvas></div>
+  <div class="{{ card }}"><h2 class="font-bold text-slate-800 mb-3">Checks by state</h2><canvas id="states" height="140"></canvas></div>
+  <div class="{{ card }}"><h2 class="font-bold text-slate-800 mb-3">Most-matched schemes</h2><canvas id="topSchemes" height="160"></canvas></div>
+  <div class="{{ card }}"><h2 class="font-bold text-slate-800 mb-3">Scheme catalogue by category</h2><canvas id="catalogue" height="160"></canvas></div>
+</div>
+<script>
+  const C = {{ charts_json | safe }};
+  const NAVY='#14315c', GREEN='#0e7a3b';
+  const PAL=['#14315c','#0e7a3b','#ff9933','#2563eb','#db2777','#7c3aed','#0891b2','#ca8a04','#dc2626'];
+  new Chart(perDay,{type:'line',data:{labels:C.per_day.labels,datasets:[{label:'Checks',data:C.per_day.data,borderColor:GREEN,backgroundColor:'rgba(14,122,59,.1)',fill:true,tension:.3}]},options:{plugins:{legend:{display:false}}}});
+  new Chart(states,{type:'bar',data:{labels:C.states.labels,datasets:[{label:'Checks',data:C.states.data,backgroundColor:NAVY}]},options:{plugins:{legend:{display:false}}}});
+  new Chart(topSchemes,{type:'bar',data:{labels:C.top_schemes.labels,datasets:[{label:'Times matched',data:C.top_schemes.data,backgroundColor:GREEN}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}});
+  new Chart(catalogue,{type:'doughnut',data:{labels:C.catalogue.labels,datasets:[{data:C.catalogue.data,backgroundColor:PAL}]},options:{plugins:{legend:{position:'right'}}}});
+</script>
+{% endblock %}

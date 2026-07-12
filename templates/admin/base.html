@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>{% block title %}Admin{% endblock %} · {{ site_name }}</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js"></script>
+{% block head %}{% endblock %}
+<style>body{font-family:'Inter',system-ui,sans-serif}</style>
+</head>
+<body class="bg-slate-100 min-h-screen">
+<div class="flex min-h-screen" x-data="{open:false}">
+  <!-- Sidebar -->
+  <aside class="fixed lg:static inset-y-0 left-0 z-30 w-60 bg-[#14315c] text-white flex-col transition-transform"
+         :class="open?'flex':'hidden lg:flex'">
+    <div class="px-5 py-4 flex items-center gap-2 border-b border-white/10">
+      <span class="w-8 h-8 rounded-md flex items-center justify-center" style="background:linear-gradient(135deg,#ff9933,#138808)">🇮🇳</span>
+      <span class="font-bold">{{ site_name }}</span>
+    </div>
+    <nav class="flex-1 p-3 space-y-1 text-sm">
+      {% set item = 'flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10' %}
+      {% set active = 'bg-white/15 font-semibold' %}
+      <a href="/admin" class="{{ item }} {{ active if nav=='overview' }}">📊 Overview</a>
+      <a href="/admin/analytics" class="{{ item }} {{ active if nav=='analytics' }}">📈 Analytics</a>
+      <a href="/admin/schemes" class="{{ item }} {{ active if nav=='schemes' }}">🗂️ Schemes</a>
+      <a href="/" class="{{ item }}" target="_blank">🌐 View site ↗</a>
+    </nav>
+    <div class="p-3 border-t border-white/10 text-sm">
+      <a href="/admin/logout" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10">🚪 Log out</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="flex-1 flex flex-col min-w-0">
+    <header class="bg-white border-b px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 z-20">
+      <button class="lg:hidden text-slate-600" @click="open=!open">☰</button>
+      <h1 class="font-bold text-slate-800 text-lg">{% block heading %}Dashboard{% endblock %}</h1>
+      <span class="text-xs text-slate-400">Admin</span>
+    </header>
+    <main class="p-4 sm:p-6 flex-1">{% block content %}{% endblock %}</main>
+  </div>
+</div>
+</body>
+</html>

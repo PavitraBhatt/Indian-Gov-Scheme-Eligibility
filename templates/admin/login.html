@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin login · {{ site_name }}</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
+  <form method="post" action="/admin/login" class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-7">
+    <div class="flex items-center gap-2 mb-5">
+      <span class="w-9 h-9 rounded-md flex items-center justify-center" style="background:linear-gradient(135deg,#ff9933,#138808)">🇮🇳</span>
+      <span class="font-bold text-slate-800 text-lg">{{ site_name }} Admin</span>
+    </div>
+    {% if error %}<p class="bg-red-50 text-red-700 text-sm rounded-lg px-3 py-2 mb-4">{{ error }}</p>{% endif %}
+    <label class="block text-sm font-medium text-slate-600 mb-1">Password</label>
+    <input type="password" name="password" autofocus required
+           class="w-full border rounded-lg p-2.5 mb-4 focus:ring-2 focus:ring-[#14315c]">
+    <button class="w-full bg-[#14315c] text-white font-semibold py-2.5 rounded-lg hover:bg-[#0e2444]">Log in</button>
+    <p class="text-xs text-slate-400 mt-4 text-center">Authorised access only.</p>
+  </form>
+</body>
+</html>

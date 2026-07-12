@@ -1,0 +1,47 @@
+{% extends "admin/base.html" %}
+{% block title %}Overview{% endblock %}
+{% block heading %}Overview{% endblock %}
+{% block content %}
+{% set card = 'bg-white rounded-xl shadow-sm border p-5' %}
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+  <div class="{{ card }}"><div class="text-3xl font-extrabold text-[#14315c]">{{ scheme_count }}</div><div class="text-sm text-slate-500 mt-1">Schemes</div></div>
+  <div class="{{ card }}"><div class="text-3xl font-extrabold text-[#14315c]">{{ category_count }}</div><div class="text-sm text-slate-500 mt-1">Categories</div></div>
+  <div class="{{ card }}"><div class="text-3xl font-extrabold text-[#0e7a3b]">{{ stats.total_checks }}</div><div class="text-sm text-slate-500 mt-1">Total checks</div></div>
+  <div class="{{ card }}"><div class="text-3xl font-extrabold text-[#0e7a3b]">{{ stats.checks_today }}</div><div class="text-sm text-slate-500 mt-1">Checks today</div></div>
+</div>
+
+<div class="grid lg:grid-cols-3 gap-4 mb-6">
+  <div class="{{ card }}"><div class="text-sm text-slate-500">Avg schemes matched / citizen</div><div class="text-2xl font-bold mt-1">{{ stats.avg_matched }}</div></div>
+  <div class="{{ card }}"><div class="text-sm text-slate-500">Avg cash unlocked / citizen</div><div class="text-2xl font-bold mt-1">Rs {{ "{:,}".format(stats.avg_cash) }}</div></div>
+  <div class="{{ card }}"><div class="text-sm text-slate-500">States covered</div><div class="text-2xl font-bold mt-1">{{ state_count }} + central</div></div>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-4">
+  <div class="{{ card }}">
+    <h2 class="font-bold text-slate-800 mb-3">Most-matched schemes</h2>
+    {% if top %}
+    <ol class="space-y-2">
+      {% for t in top %}
+      <li class="flex justify-between text-sm border-b last:border-0 pb-2">
+        <a href="/schemes/{{ t.slug }}" target="_blank" class="text-[#14315c] hover:underline">{{ t.name }}</a>
+        <span class="font-semibold text-slate-500">{{ t.count }}×</span>
+      </li>
+      {% endfor %}
+    </ol>
+    {% else %}<p class="text-sm text-slate-400">No checks logged yet.</p>{% endif %}
+  </div>
+  <div class="{{ card }}">
+    <h2 class="font-bold text-slate-800 mb-3">Recent checks</h2>
+    {% if recent %}
+    <table class="w-full text-sm">
+      <thead><tr class="text-slate-400 text-left"><th class="pb-2">When (UTC)</th><th>State</th><th class="text-right">Matched</th></tr></thead>
+      <tbody>
+      {% for r in recent %}
+        <tr class="border-t"><td class="py-1.5">{{ r.ts.replace('T',' ') }}</td><td>{{ r.state }}</td><td class="text-right font-semibold">{{ r.matched_count }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}<p class="text-sm text-slate-400">No checks logged yet.</p>{% endif %}
+  </div>
+</div>
+{% endblock %}

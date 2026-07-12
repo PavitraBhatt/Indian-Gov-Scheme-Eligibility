@@ -1,4 +1,5 @@
 import os
+import secrets
 from pathlib import Path
 from typing import Any
 
@@ -7,15 +8,29 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
+from starlette.middleware.sessions import SessionMiddleware
 
+from .admin import router as admin_router
+from .analytics import log_check
 from .core import UserProfile, benefit_totals, match_schemes, near_misses
 from .schemes import get_scheme_by_id, load_schemes
 from .web import router as web_router
 
 app = FastAPI(title="Indian Gov Scheme Eligibility API", version="0.3.0")
 
+# Signed session cookie for the admin login. SESSION_SECRET keeps sessions valid
+# across restarts; otherwise a per-process random secret (logs you out on deploy).
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=os.environ.get("SESSION_SECRET", secrets.token_hex(32)),
+    https_only=False,
+    same_site="lax",
+)
+
 # Server-rendered, indexable pages: /schemes/, /schemes/{slug}, robots, sitemap.
 app.include_router(web_router)
+# Admin dashboard (password-gated): /admin/*
+app.include_router(admin_router)
 
 # CORS — the form is same-origin, but /api is documented for integrations.
 # Default to same-origin only; set SCHEME_CORS_ORIGINS (comma-separated) to open up.
@@ -68,6 +83,8 @@ async def check_eligibility(req: CheckRequest):
     schemes = load_schemes(states=[req.state])
     matched = match_schemes(profile, schemes)
     totals = benefit_totals(matched)
+    # privacy-safe aggregate logging for the admin dashboard (no personal data)
+    log_check(req.state, len(matched), totals["annual_cash"], [s["id"] for s in matched])
     return {
         "count": len(matched),
         # honest, type-aware aggregates (the old single total_annual_benefit

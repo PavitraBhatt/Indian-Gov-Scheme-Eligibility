@@ -1,0 +1,64 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ 'Edit' if original_id else 'New' }} scheme{% endblock %}
+{% block heading %}{{ 'Edit scheme' if original_id else 'New scheme' }}{% endblock %}
+{% block content %}
+{% set inp = 'w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-[#14315c]' %}
+{% set lbl = 'block text-sm font-medium text-slate-600 mb-1' %}
+{% if errors %}
+<div class="bg-red-50 border border-red-200 text-red-700 rounded-lg p-3 mb-4 text-sm">
+  <p class="font-semibold mb-1">Could not save — please fix:</p>
+  <ul class="list-disc pl-5">{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul>
+</div>
+{% endif %}
+<form method="post" action="/admin/schemes/save" class="bg-white rounded-xl shadow-sm border p-6 max-w-3xl space-y-5">
+  <input type="hidden" name="original_id" value="{{ original_id }}">
+  <div class="grid sm:grid-cols-2 gap-4">
+    <div><label class="{{ lbl }}">ID (slug, a–z_)</label><input class="{{ inp }}" name="id" value="{{ scheme.id }}" required pattern="[a-z0-9_]+"></div>
+    <div><label class="{{ lbl }}">Ministry / Department</label><input class="{{ inp }}" name="ministry" value="{{ scheme.ministry }}"></div>
+    <div><label class="{{ lbl }}">Name (English)</label><input class="{{ inp }}" name="name_en" value="{{ scheme.name_en }}" required></div>
+    <div><label class="{{ lbl }}">Name (Hindi)</label><input class="{{ inp }}" name="name_hi" value="{{ scheme.name_hi }}"></div>
+    <div><label class="{{ lbl }}">Name (Gujarati)</label><input class="{{ inp }}" name="name_gu" value="{{ scheme.name_gu }}"></div>
+    <div><label class="{{ lbl }}">Apply link</label><input class="{{ inp }}" name="apply_link" value="{{ scheme.apply_link }}" required></div>
+    <div>
+      <label class="{{ lbl }}">Category</label>
+      <select class="{{ inp }}" name="category">
+        {% for c in categories %}<option value="{{ c }}" {{ 'selected' if c==scheme.category }}>{{ c }}</option>{% endfor %}
+      </select>
+    </div>
+    <div>
+      <label class="{{ lbl }}">Benefit type</label>
+      <select class="{{ inp }}" name="benefit_type">
+        {% for t in benefit_types %}<option value="{{ t }}" {{ 'selected' if t==scheme.benefit_type }}>{{ t }}</option>{% endfor %}
+      </select>
+    </div>
+    <div><label class="{{ lbl }}">Benefit amount (Rs, 0 if none)</label><input class="{{ inp }}" type="number" min="0" name="benefit_amount" value="{{ scheme.benefit_amount }}"></div>
+    <div><label class="{{ lbl }}">Processing time</label><input class="{{ inp }}" name="processing_days" value="{{ scheme.processing_days }}"></div>
+  </div>
+
+  <div><label class="{{ lbl }}">Benefit (one line summary)</label><input class="{{ inp }}" name="benefit_en" value="{{ scheme.benefit_en }}"></div>
+
+  <label class="flex items-center gap-2 text-sm text-slate-700">
+    <input type="checkbox" name="state_specific" {{ 'checked' if scheme.state_specific }}> State-specific scheme
+  </label>
+
+  <div>
+    <label class="{{ lbl }}">Eligibility (JSON)</label>
+    <textarea class="{{ inp }} font-mono text-xs" name="eligibility" rows="6">{{ eligibility_json }}</textarea>
+    <p class="text-xs text-slate-400 mt-1">Keys: states ("all" or ["Gujarat"]), age_min, age_max, gender, caste, income_max, occupation, land_min_acres, requires_bpl, requires_disability, requires_widow</p>
+  </div>
+
+  <div class="grid sm:grid-cols-2 gap-4">
+    <div><label class="{{ lbl }}">Documents (one per line)</label><textarea class="{{ inp }}" name="documents" rows="4">{{ scheme.documents | join('\n') }}</textarea></div>
+    <div><label class="{{ lbl }}">How to apply — steps (one per line)</label><textarea class="{{ inp }}" name="steps_en" rows="4">{{ scheme.steps_en | join('\n') }}</textarea></div>
+    <div><label class="{{ lbl }}">Rejection reasons (one per line)</label><textarea class="{{ inp }}" name="rejection_reasons" rows="3">{{ scheme.rejection_reasons | join('\n') }}</textarea></div>
+    <div><label class="{{ lbl }}">Tags (one per line)</label><textarea class="{{ inp }}" name="tags" rows="3">{{ scheme.tags | join('\n') }}</textarea></div>
+  </div>
+
+  <div><label class="{{ lbl }}">Scam note</label><textarea class="{{ inp }}" name="scam_note" rows="2">{{ scheme.scam_note }}</textarea></div>
+
+  <div class="flex gap-3 pt-2">
+    <button class="bg-[#0e7a3b] text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-[#0b5f2e]">Save scheme</button>
+    <a href="/admin/schemes" class="px-6 py-2.5 rounded-lg border text-slate-600 hover:bg-slate-50">Cancel</a>
+  </div>
+</form>
+{% endblock %}

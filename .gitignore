@@ -22,6 +22,8 @@ extract_blueprint.py
 
 # SQLite runtime store (built from data/*.json, not source of truth)
 data/schemes.db
+# Admin analytics event log (runtime-only)
+data/events.db
 
 # Sync pipeline proposal (transient; turned into a PR by the workflow)
 data/_sync_proposal.json

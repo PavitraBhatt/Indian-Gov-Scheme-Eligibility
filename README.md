@@ -88,6 +88,25 @@ docker run -p 8000:8000 scheme-checker
 - **Railway/Heroku:** uses the `Procfile`.
 - Health check: `GET /api/health`.
 
+## Admin dashboard (`/admin`)
+
+A password-gated dashboard for the site owner (FastAPI + Jinja + Alpine.js + Chart.js):
+
+- **Overview** — scheme/category counts, total & today's checks, most-matched schemes, recent activity
+- **Analytics** — privacy-safe charts (checks/day, by state, most-matched schemes, catalogue by category). **No personal data is stored** — only aggregate rows (state + counts), logged to a separate `data/events.db`.
+- **Scheme manager** — search + add / edit / delete schemes via a form; writes to the JSON source and rebuilds SQLite live.
+
+Enable it by setting an env var (the dashboard is **disabled** until you do, so there's no default-password hole):
+
+```bash
+export ADMIN_PASSWORD="your-strong-password"
+export SESSION_SECRET="any-long-random-string"   # optional; keeps you logged in across restarts
+```
+
+Then visit `/admin`. On Render, set both in the service's **Environment** tab.
+
+> ⚠️ On an ephemeral host (Render free tier) logged analytics and dashboard edits reset on redeploy. For durable data, point `SCHEME_EVENTS_DB` / `SCHEME_DB_PATH` at a persistent disk or external DB. Scheme edits are best made in git (the source of truth) for production.
+
 ## Storage
 
 JSON files in `data/` are the **source of truth** (human-editable, reviewed in

@@ -13,6 +13,14 @@ services:
       # Render injects PORT automatically; uvicorn reads it in the Dockerfile CMD.
       - key: PYTHONUNBUFFERED
         value: "1"
+      # --- Admin dashboard (/admin) ---
+      # Set BOTH in the Render dashboard (Environment tab), not here. The admin
+      # dashboard is disabled until ADMIN_PASSWORD is set. SESSION_SECRET keeps
+      # you logged in across restarts (any long random string).
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
       # --- optional knobs: uncomment to use ---
       # Allow specific front-end origins to call the API (comma-separated):
       # - key: SCHEME_CORS_ORIGINS
