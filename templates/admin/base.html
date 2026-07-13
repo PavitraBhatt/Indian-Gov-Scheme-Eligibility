@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,40 +7,85 @@
 <title>{% block title %}Admin{% endblock %} · {{ site_name }}</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 {% block head %}{% endblock %}
-<style>body{font-family:'Inter',system-ui,sans-serif}</style>
+<style>
+  :root{--cyan:#22d3ee;--green:#34d399;--violet:#a78bfa;--ink:#e2e8f0}
+  *{box-sizing:border-box}
+  body{
+    margin:0;font-family:'Inter',system-ui,sans-serif;color:var(--ink);
+    background:#070b16;
+    background-image:
+      radial-gradient(60rem 60rem at 85% -10%, rgba(34,211,238,.10), transparent 60%),
+      radial-gradient(50rem 50rem at -10% 20%, rgba(167,139,250,.10), transparent 60%),
+      radial-gradient(60rem 40rem at 50% 120%, rgba(52,211,153,.08), transparent 60%);
+    min-height:100vh;
+  }
+  .display{font-family:'Space Grotesk','Inter',sans-serif}
+  .glass{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);
+    backdrop-filter:blur(14px);border-radius:1rem}
+  .glass-hover{transition:.25s}
+  .glass-hover:hover{border-color:rgba(34,211,238,.4);box-shadow:0 0 0 1px rgba(34,211,238,.15),0 12px 40px rgba(34,211,238,.08);transform:translateY(-2px)}
+  .grad-cyan{background:linear-gradient(135deg,#22d3ee,#34d399);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .grad-violet{background:linear-gradient(135deg,#a78bfa,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .micro{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#7c89a3;font-weight:600}
+  .navitem{display:flex;align-items:center;gap:.6rem;padding:.6rem .8rem;border-radius:.7rem;color:#aeb8cc;font-size:.9rem;font-weight:500;transition:.2s;position:relative}
+  .navitem:hover{background:rgba(255,255,255,.05);color:#fff}
+  .navitem.active{color:#fff;background:linear-gradient(90deg,rgba(34,211,238,.18),rgba(52,211,153,.06));box-shadow:inset 0 0 0 1px rgba(34,211,238,.25)}
+  .navitem.active::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:3px;border-radius:3px;background:linear-gradient(#22d3ee,#34d399);box-shadow:0 0 12px #22d3ee}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  ::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:9px}
+  table{border-collapse:collapse}
+</style>
 </head>
-<body class="bg-slate-100 min-h-screen">
+<body>
 <div class="flex min-h-screen" x-data="{open:false}">
   <!-- Sidebar -->
-  <aside class="fixed lg:static inset-y-0 left-0 z-30 w-60 bg-[#14315c] text-white flex-col transition-transform"
+  <aside class="fixed lg:static inset-y-0 left-0 z-30 w-64 p-4 flex-col gap-1 transition-transform
+               glass border-y-0 border-l-0 rounded-none" style="background:rgba(9,13,25,.7)"
          :class="open?'flex':'hidden lg:flex'">
-    <div class="px-5 py-4 flex items-center gap-2 border-b border-white/10">
-      <span class="w-8 h-8 rounded-md flex items-center justify-center" style="background:linear-gradient(135deg,#ff9933,#138808)">🇮🇳</span>
-      <span class="font-bold">{{ site_name }}</span>
+    <div class="flex items-center gap-2.5 px-2 py-3 mb-2">
+      <span class="w-9 h-9 rounded-xl flex items-center justify-center text-lg shadow-lg"
+            style="background:linear-gradient(135deg,#22d3ee,#34d399)">🇮🇳</span>
+      <div><div class="font-bold display leading-none">{{ site_name }}</div><div class="micro mt-1">Control centre</div></div>
     </div>
-    <nav class="flex-1 p-3 space-y-1 text-sm">
-      {% set item = 'flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10' %}
-      {% set active = 'bg-white/15 font-semibold' %}
-      <a href="/admin" class="{{ item }} {{ active if nav=='overview' }}">📊 Overview</a>
-      <a href="/admin/analytics" class="{{ item }} {{ active if nav=='analytics' }}">📈 Analytics</a>
-      <a href="/admin/schemes" class="{{ item }} {{ active if nav=='schemes' }}">🗂️ Schemes</a>
-      <a href="/" class="{{ item }}" target="_blank">🌐 View site ↗</a>
-    </nav>
-    <div class="p-3 border-t border-white/10 text-sm">
-      <a href="/admin/logout" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10">🚪 Log out</a>
+    <a href="/admin" class="navitem {{ 'active' if nav=='overview' }}">◎ Overview</a>
+    <a href="/admin/analytics" class="navitem {{ 'active' if nav=='analytics' }}">📈 Analytics</a>
+    <a href="/admin/schemes" class="navitem {{ 'active' if nav=='schemes' }}">🗂 Schemes</a>
+    <a href="/" target="_blank" class="navitem">🌐 View site ↗</a>
+    <div class="mt-auto pt-3 border-t border-white/10">
+      <a href="/admin/logout" class="navitem">⏻ Log out</a>
     </div>
   </aside>
 
   <!-- Main -->
   <div class="flex-1 flex flex-col min-w-0">
-    <header class="bg-white border-b px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 z-20">
-      <button class="lg:hidden text-slate-600" @click="open=!open">☰</button>
-      <h1 class="font-bold text-slate-800 text-lg">{% block heading %}Dashboard{% endblock %}</h1>
-      <span class="text-xs text-slate-400">Admin</span>
+    <header class="sticky top-0 z-20 px-4 sm:px-7 py-4 flex items-center justify-between
+                   border-b border-white/10" style="background:rgba(7,11,22,.55);backdrop-filter:blur(10px)">
+      <div class="flex items-center gap-3">
+        <button class="lg:hidden text-slate-300" @click="open=!open">☰</button>
+        <h1 class="display font-bold text-xl">{% block heading %}Dashboard{% endblock %}</h1>
+      </div>
+      <div class="flex items-center gap-2 text-xs text-slate-400"><span class="dot"></span> Live · Admin</div>
     </header>
-    <main class="p-4 sm:p-6 flex-1">{% block content %}{% endblock %}</main>
+    <main class="p-4 sm:p-7 flex-1">{% block content %}{% endblock %}</main>
   </div>
 </div>
+<script>
+  // animated count-up for elements with [data-count]
+  function countUp(el){
+    const target = +el.dataset.count, dur = 900, t0 = performance.now();
+    const fmt = el.dataset.prefix || '';
+    function tick(t){
+      const p = Math.min(1,(t-t0)/dur), e = 1-Math.pow(1-p,3);
+      el.textContent = fmt + Math.round(target*e).toLocaleString('en-IN');
+      if(p<1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  addEventListener('DOMContentLoaded',()=>document.querySelectorAll('[data-count]').forEach(countUp));
+</script>
+{% block scripts %}{% endblock %}
 </body>
 </html>

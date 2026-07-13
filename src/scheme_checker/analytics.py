@@ -126,6 +126,18 @@ def top_states(limit: int = 8) -> dict[str, list]:
     return {"labels": [r["s"] for r in rows], "data": [r["c"] for r in rows]}
 
 
+def checks_by_state() -> dict[str, int]:
+    """All states with their check counts, for the choropleth footfall map."""
+    conn = _connect()
+    try:
+        rows = conn.execute(
+            "SELECT state, COUNT(*) c FROM checks WHERE state IS NOT NULL GROUP BY state"
+        ).fetchall()
+    finally:
+        conn.close()
+    return {r["state"]: r["c"] for r in rows}
+
+
 def top_scheme_ids(limit: int = 10) -> list[tuple[str, int]]:
     """Most-frequently-matched scheme ids across all checks."""
     counter: Counter[str] = Counter()

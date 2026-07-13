@@ -98,6 +98,7 @@ async def overview(request: Request):
             state_count=len(STATES),
             recent=recent,
             top=top,
+            state_counts_json=json.dumps(analytics.checks_by_state()),
         ),
     )
 

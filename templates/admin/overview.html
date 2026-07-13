@@ -1,47 +1,113 @@
 {% extends "admin/base.html" %}
 {% block title %}Overview{% endblock %}
-{% block heading %}Overview{% endblock %}
+{% block heading %}Mission Control{% endblock %}
+{% block head %}<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>{% endblock %}
 {% block content %}
-{% set card = 'bg-white rounded-xl shadow-sm border p-5' %}
-<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-  <div class="{{ card }}"><div class="text-3xl font-extrabold text-[#14315c]">{{ scheme_count }}</div><div class="text-sm text-slate-500 mt-1">Schemes</div></div>
-  <div class="{{ card }}"><div class="text-3xl font-extrabold text-[#14315c]">{{ category_count }}</div><div class="text-sm text-slate-500 mt-1">Categories</div></div>
-  <div class="{{ card }}"><div class="text-3xl font-extrabold text-[#0e7a3b]">{{ stats.total_checks }}</div><div class="text-sm text-slate-500 mt-1">Total checks</div></div>
-  <div class="{{ card }}"><div class="text-3xl font-extrabold text-[#0e7a3b]">{{ stats.checks_today }}</div><div class="text-sm text-slate-500 mt-1">Checks today</div></div>
-</div>
 
-<div class="grid lg:grid-cols-3 gap-4 mb-6">
-  <div class="{{ card }}"><div class="text-sm text-slate-500">Avg schemes matched / citizen</div><div class="text-2xl font-bold mt-1">{{ stats.avg_matched }}</div></div>
-  <div class="{{ card }}"><div class="text-sm text-slate-500">Avg cash unlocked / citizen</div><div class="text-2xl font-bold mt-1">Rs {{ "{:,}".format(stats.avg_cash) }}</div></div>
-  <div class="{{ card }}"><div class="text-sm text-slate-500">States covered</div><div class="text-2xl font-bold mt-1">{{ state_count }} + central</div></div>
-</div>
-
-<div class="grid lg:grid-cols-2 gap-4">
-  <div class="{{ card }}">
-    <h2 class="font-bold text-slate-800 mb-3">Most-matched schemes</h2>
-    {% if top %}
-    <ol class="space-y-2">
-      {% for t in top %}
-      <li class="flex justify-between text-sm border-b last:border-0 pb-2">
-        <a href="/schemes/{{ t.slug }}" target="_blank" class="text-[#14315c] hover:underline">{{ t.name }}</a>
-        <span class="font-semibold text-slate-500">{{ t.count }}×</span>
-      </li>
-      {% endfor %}
-    </ol>
-    {% else %}<p class="text-sm text-slate-400">No checks logged yet.</p>{% endif %}
+<!-- KPI row -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
+  <div class="glass glass-hover p-5">
+    <div class="micro">Schemes</div>
+    <div class="display text-4xl font-extrabold grad-cyan mt-2" data-count="{{ scheme_count }}">0</div>
+    <div class="text-xs text-slate-400 mt-1">{{ category_count }} categories</div>
   </div>
-  <div class="{{ card }}">
-    <h2 class="font-bold text-slate-800 mb-3">Recent checks</h2>
-    {% if recent %}
-    <table class="w-full text-sm">
-      <thead><tr class="text-slate-400 text-left"><th class="pb-2">When (UTC)</th><th>State</th><th class="text-right">Matched</th></tr></thead>
-      <tbody>
-      {% for r in recent %}
-        <tr class="border-t"><td class="py-1.5">{{ r.ts.replace('T',' ') }}</td><td>{{ r.state }}</td><td class="text-right font-semibold">{{ r.matched_count }}</td></tr>
-      {% endfor %}
-      </tbody>
-    </table>
-    {% else %}<p class="text-sm text-slate-400">No checks logged yet.</p>{% endif %}
+  <div class="glass glass-hover p-5">
+    <div class="micro">Total checks</div>
+    <div class="display text-4xl font-extrabold grad-violet mt-2" data-count="{{ stats.total_checks }}">0</div>
+    <div class="text-xs text-slate-400 mt-1">{{ stats.checks_today }} today</div>
+  </div>
+  <div class="glass glass-hover p-5">
+    <div class="micro">Avg schemes / citizen</div>
+    <div class="display text-4xl font-extrabold grad-cyan mt-2">{{ stats.avg_matched }}</div>
+    <div class="text-xs text-slate-400 mt-1">matched per check</div>
+  </div>
+  <div class="glass glass-hover p-5">
+    <div class="micro">Avg cash / citizen</div>
+    <div class="display text-4xl font-extrabold grad-violet mt-2" data-count="{{ stats.avg_cash }}" data-prefix="₹">₹0</div>
+    <div class="text-xs text-slate-400 mt-1">per year unlocked</div>
   </div>
 </div>
+
+<div class="grid lg:grid-cols-3 gap-4">
+  <!-- India footfall map -->
+  <div class="glass p-5 lg:col-span-2">
+    <div class="flex items-center justify-between mb-1">
+      <div><div class="display font-bold text-lg">Footfall across India</div><div class="micro mt-1">Eligibility checks by state · scroll to zoom, drag to pan</div></div>
+      <div class="text-xs text-slate-400">{{ stats.total_checks }} checks</div>
+    </div>
+    <div id="indiaMap" style="height:460px"></div>
+    <div id="mapFallback" class="hidden text-sm text-slate-400 p-4"></div>
+  </div>
+
+  <!-- side panels -->
+  <div class="space-y-4">
+    <div class="glass p-5">
+      <div class="display font-bold mb-3">🔥 Most-matched schemes</div>
+      {% if top %}
+      <ol class="space-y-2.5">
+        {% for t in top %}
+        <li class="flex items-center justify-between text-sm">
+          <a href="/schemes/{{ t.slug }}" target="_blank" class="text-slate-200 hover:text-cyan-300 truncate pr-2">{{ t.name }}</a>
+          <span class="display font-bold grad-cyan">{{ t.count }}×</span>
+        </li>
+        {% endfor %}
+      </ol>
+      {% else %}<p class="text-sm text-slate-500">No checks logged yet.</p>{% endif %}
+    </div>
+    <div class="glass p-5">
+      <div class="display font-bold mb-3">🕑 Recent activity</div>
+      {% if recent %}
+      <div class="space-y-2 text-sm">
+        {% for r in recent[:8] %}
+        <div class="flex items-center justify-between border-b border-white/5 pb-1.5">
+          <span class="text-slate-300">{{ r.state }}</span>
+          <span class="text-slate-500 text-xs">{{ r.ts[11:16] }} · <span class="text-cyan-300 font-semibold">{{ r.matched_count }}</span></span>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}<p class="text-sm text-slate-500">No checks logged yet.</p>{% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const STATE_COUNTS = {{ state_counts_json | safe }};
+  // Reliable, CDN-hosted India states GeoJSON (Highcharts mapdata); properties.name = state.
+  const GEO_URL = 'https://code.highcharts.com/mapdata/countries/in/in-all.geo.json';
+  const el = document.getElementById('indiaMap');
+  const chart = echarts.init(el, null, {renderer:'canvas'});
+  const data = Object.entries(STATE_COUNTS).map(([name,value])=>({name,value}));
+  const maxV = Math.max(1, ...Object.values(STATE_COUNTS));
+
+  fetch(GEO_URL).then(r=>r.json()).then(geo=>{
+    echarts.registerMap('india', geo);
+    chart.setOption({
+      backgroundColor:'transparent',
+      tooltip:{trigger:'item', backgroundColor:'#0b1220', borderColor:'rgba(34,211,238,.4)',
+        textStyle:{color:'#e2e8f0'}, formatter:p=>`<b>${p.name}</b><br/>Checks: ${p.value||0}`},
+      visualMap:{min:0,max:maxV,left:14,bottom:14,calculable:true,
+        text:['High','Low'], textStyle:{color:'#94a3b8'},
+        inRange:{color:['#0b2033','#0e7490','#22d3ee','#34d399']}},
+      series:[{
+        type:'map', map:'india', roam:true, nameProperty:'name',
+        scaleLimit:{min:1,max:8}, zoom:1.1,
+        label:{show:false}, select:{disabled:true},
+        itemStyle:{areaColor:'#0b1220', borderColor:'rgba(255,255,255,.10)'},
+        emphasis:{label:{show:true,color:'#fff'}, itemStyle:{areaColor:'#38bdf8', shadowColor:'#22d3ee', shadowBlur:14}},
+        data
+      }]
+    });
+  }).catch(()=>{
+    el.style.display='none';
+    const fb = document.getElementById('mapFallback');
+    fb.classList.remove('hidden');
+    const rows = data.sort((a,b)=>b.value-a.value);
+    fb.innerHTML = '<p class="mb-2 text-slate-300">Map data unavailable — footfall by state:</p>' +
+      (rows.length ? rows.map(r=>`<div class="flex justify-between border-b border-white/5 py-1"><span>${r.name}</span><b class="text-cyan-300">${r.value}</b></div>`).join('')
+                   : '<p class="text-slate-500">No checks logged yet.</p>');
+  });
+  addEventListener('resize',()=>chart.resize());
+</script>
 {% endblock %}

@@ -1,18 +1,14 @@
 {% extends "admin/base.html" %}
 {% block title %}Schemes{% endblock %}
-{% block heading %}Schemes{% endblock %}
+{% block heading %}Scheme manager{% endblock %}
 {% block head %}
 <script>
   function schemeTable(rows){
     return {
-      q: "", rows: rows,
-      filtered(){
-        const q = this.q.toLowerCase().trim();
-        if(!q) return this.rows;
-        return this.rows.filter(r =>
-          (r.name + " " + r.id + " " + r.category + " " + r.scope).toLowerCase().includes(q));
-      },
-      rupees(n){ return n ? "Rs " + n.toLocaleString("en-IN") : "—"; }
+      q:"", rows:rows,
+      filtered(){ const q=this.q.toLowerCase().trim(); if(!q) return this.rows;
+        return this.rows.filter(r=>(r.name+" "+r.id+" "+r.category+" "+r.scope).toLowerCase().includes(q)); },
+      rupees(n){ return n ? "₹"+n.toLocaleString("en-IN") : "—"; }
     };
   }
 </script>
@@ -20,27 +16,28 @@
 {% block content %}
 <div x-data="schemeTable({{ rows_json | safe }})">
   <div class="flex flex-wrap gap-3 items-center justify-between mb-4">
-    <input x-model="q" placeholder="Search schemes…" class="border rounded-lg px-3 py-2 w-64 focus:ring-2 focus:ring-[#14315c]">
-    <div class="text-sm text-slate-500"><span x-text="filtered().length"></span> of {{ rows|length }} schemes</div>
-    <a href="/admin/schemes/new" class="bg-[#0e7a3b] text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-[#0b5f2e]">+ New scheme</a>
+    <input x-model="q" placeholder="🔍 Search schemes…"
+      class="glass px-4 py-2.5 w-72 text-sm text-slate-100 placeholder-slate-500 outline-none focus:border-cyan-400/50">
+    <div class="text-sm text-slate-400"><span class="text-cyan-300 font-semibold" x-text="filtered().length"></span> / {{ rows|length }}</div>
+    <a href="/admin/schemes/new" class="text-sm font-semibold px-4 py-2.5 rounded-xl text-slate-900"
+       style="background:linear-gradient(135deg,#22d3ee,#34d399)">+ New scheme</a>
   </div>
-  <div class="bg-white rounded-xl shadow-sm border overflow-x-auto">
+  <div class="glass overflow-x-auto">
     <table class="w-full text-sm">
-      <thead class="bg-slate-50 text-slate-500 text-left">
-        <tr><th class="p-3">Name</th><th class="p-3">Category</th><th class="p-3">Scope</th><th class="p-3 text-right">Amount</th><th class="p-3"></th></tr>
-      </thead>
+      <thead><tr class="micro text-left border-b border-white/10">
+        <th class="p-4">Name</th><th class="p-4">Category</th><th class="p-4">Scope</th><th class="p-4 text-right">Amount</th><th class="p-4"></th></tr></thead>
       <tbody>
         <template x-for="r in filtered()" :key="r.id">
-          <tr class="border-t hover:bg-slate-50">
-            <td class="p-3"><div class="font-medium text-slate-800" x-text="r.name"></div><div class="text-xs text-slate-400" x-text="r.id"></div></td>
-            <td class="p-3" x-text="r.category"></td>
-            <td class="p-3" x-text="r.scope"></td>
-            <td class="p-3 text-right" x-text="rupees(r.amount)"></td>
-            <td class="p-3 text-right whitespace-nowrap">
-              <a :href="'/admin/schemes/'+r.id+'/edit'" class="text-[#14315c] hover:underline">Edit</a>
+          <tr class="border-b border-white/5 hover:bg-white/5 transition">
+            <td class="p-4"><div class="font-medium text-slate-100" x-text="r.name"></div><div class="text-xs text-slate-500" x-text="r.id"></div></td>
+            <td class="p-4 text-slate-300" x-text="r.category"></td>
+            <td class="p-4 text-slate-300" x-text="r.scope"></td>
+            <td class="p-4 text-right text-slate-200" x-text="rupees(r.amount)"></td>
+            <td class="p-4 text-right whitespace-nowrap">
+              <a :href="'/admin/schemes/'+r.id+'/edit'" class="text-cyan-300 hover:underline">Edit</a>
               <form :action="'/admin/schemes/'+r.id+'/delete'" method="post" class="inline"
-                    @submit="return confirm('Delete '+r.name+'? This edits the JSON source.')">
-                <button class="text-red-600 hover:underline ml-3">Delete</button>
+                    @submit="return confirm('Delete '+r.name+'?')">
+                <button class="text-rose-400 hover:underline ml-4">Delete</button>
               </form>
             </td>
           </tr>

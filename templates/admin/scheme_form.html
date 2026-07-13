@@ -2,15 +2,15 @@
 {% block title %}{{ 'Edit' if original_id else 'New' }} scheme{% endblock %}
 {% block heading %}{{ 'Edit scheme' if original_id else 'New scheme' }}{% endblock %}
 {% block content %}
-{% set inp = 'w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-[#14315c]' %}
-{% set lbl = 'block text-sm font-medium text-slate-600 mb-1' %}
+{% set inp = 'w-full bg-black/30 border border-white/12 rounded-xl p-2.5 text-slate-100 outline-none focus:border-cyan-400/50' %}
+{% set lbl = 'block text-xs uppercase tracking-wider text-slate-400 mb-1.5' %}
 {% if errors %}
-<div class="bg-red-50 border border-red-200 text-red-700 rounded-lg p-3 mb-4 text-sm">
+<div class="glass border border-rose-500/30 bg-rose-500/10 rounded-xl p-4 mb-4 text-sm text-rose-200">
   <p class="font-semibold mb-1">Could not save — please fix:</p>
   <ul class="list-disc pl-5">{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul>
 </div>
 {% endif %}
-<form method="post" action="/admin/schemes/save" class="bg-white rounded-xl shadow-sm border p-6 max-w-3xl space-y-5">
+<form method="post" action="/admin/schemes/save" class="glass p-7 max-w-3xl space-y-5">
   <input type="hidden" name="original_id" value="{{ original_id }}">
   <div class="grid sm:grid-cols-2 gap-4">
     <div><label class="{{ lbl }}">ID (slug, a–z_)</label><input class="{{ inp }}" name="id" value="{{ scheme.id }}" required pattern="[a-z0-9_]+"></div>
@@ -22,29 +22,29 @@
     <div>
       <label class="{{ lbl }}">Category</label>
       <select class="{{ inp }}" name="category">
-        {% for c in categories %}<option value="{{ c }}" {{ 'selected' if c==scheme.category }}>{{ c }}</option>{% endfor %}
+        {% for c in categories %}<option class="bg-slate-900" value="{{ c }}" {{ 'selected' if c==scheme.category }}>{{ c }}</option>{% endfor %}
       </select>
     </div>
     <div>
       <label class="{{ lbl }}">Benefit type</label>
       <select class="{{ inp }}" name="benefit_type">
-        {% for t in benefit_types %}<option value="{{ t }}" {{ 'selected' if t==scheme.benefit_type }}>{{ t }}</option>{% endfor %}
+        {% for t in benefit_types %}<option class="bg-slate-900" value="{{ t }}" {{ 'selected' if t==scheme.benefit_type }}>{{ t }}</option>{% endfor %}
       </select>
     </div>
-    <div><label class="{{ lbl }}">Benefit amount (Rs, 0 if none)</label><input class="{{ inp }}" type="number" min="0" name="benefit_amount" value="{{ scheme.benefit_amount }}"></div>
+    <div><label class="{{ lbl }}">Benefit amount (₹, 0 if none)</label><input class="{{ inp }}" type="number" min="0" name="benefit_amount" value="{{ scheme.benefit_amount }}"></div>
     <div><label class="{{ lbl }}">Processing time</label><input class="{{ inp }}" name="processing_days" value="{{ scheme.processing_days }}"></div>
   </div>
 
-  <div><label class="{{ lbl }}">Benefit (one line summary)</label><input class="{{ inp }}" name="benefit_en" value="{{ scheme.benefit_en }}"></div>
+  <div><label class="{{ lbl }}">Benefit (one-line summary)</label><input class="{{ inp }}" name="benefit_en" value="{{ scheme.benefit_en }}"></div>
 
-  <label class="flex items-center gap-2 text-sm text-slate-700">
-    <input type="checkbox" name="state_specific" {{ 'checked' if scheme.state_specific }}> State-specific scheme
+  <label class="flex items-center gap-2 text-sm text-slate-200">
+    <input type="checkbox" name="state_specific" class="accent-cyan-400" {{ 'checked' if scheme.state_specific }}> State-specific scheme
   </label>
 
   <div>
     <label class="{{ lbl }}">Eligibility (JSON)</label>
     <textarea class="{{ inp }} font-mono text-xs" name="eligibility" rows="6">{{ eligibility_json }}</textarea>
-    <p class="text-xs text-slate-400 mt-1">Keys: states ("all" or ["Gujarat"]), age_min, age_max, gender, caste, income_max, occupation, land_min_acres, requires_bpl, requires_disability, requires_widow</p>
+    <p class="text-xs text-slate-500 mt-1">Keys: states ("all" or ["Gujarat"]), age_min, age_max, gender, caste, income_max, occupation, land_min_acres, requires_bpl, requires_disability, requires_widow</p>
   </div>
 
   <div class="grid sm:grid-cols-2 gap-4">
@@ -56,9 +56,9 @@
 
   <div><label class="{{ lbl }}">Scam note</label><textarea class="{{ inp }}" name="scam_note" rows="2">{{ scheme.scam_note }}</textarea></div>
 
-  <div class="flex gap-3 pt-2">
-    <button class="bg-[#0e7a3b] text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-[#0b5f2e]">Save scheme</button>
-    <a href="/admin/schemes" class="px-6 py-2.5 rounded-lg border text-slate-600 hover:bg-slate-50">Cancel</a>
+  <div class="flex gap-3 pt-1">
+    <button class="font-bold px-6 py-2.5 rounded-xl text-slate-900" style="background:linear-gradient(135deg,#22d3ee,#34d399)">Save scheme</button>
+    <a href="/admin/schemes" class="px-6 py-2.5 rounded-xl border border-white/15 text-slate-300 hover:bg-white/5">Cancel</a>
   </div>
 </form>
 {% endblock %}

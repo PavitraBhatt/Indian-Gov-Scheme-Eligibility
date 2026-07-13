@@ -6,19 +6,27 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Admin login · {{ site_name }}</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;font-family:'Inter',sans-serif;background:#070b16;
+    background-image:radial-gradient(50rem 50rem at 80% -10%,rgba(34,211,238,.12),transparent 60%),radial-gradient(40rem 40rem at 0% 100%,rgba(167,139,250,.12),transparent 60%)}
+  .glass{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(16px)}
+  .display{font-family:'Space Grotesk',sans-serif}
+</style>
 </head>
-<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
-  <form method="post" action="/admin/login" class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-7">
-    <div class="flex items-center gap-2 mb-5">
-      <span class="w-9 h-9 rounded-md flex items-center justify-center" style="background:linear-gradient(135deg,#ff9933,#138808)">🇮🇳</span>
-      <span class="font-bold text-slate-800 text-lg">{{ site_name }} Admin</span>
+<body class="min-h-screen flex items-center justify-center p-4 text-slate-100">
+  <form method="post" action="/admin/login" class="glass rounded-2xl w-full max-w-sm p-8">
+    <div class="flex items-center gap-3 mb-6">
+      <span class="w-11 h-11 rounded-xl flex items-center justify-center text-xl shadow-lg" style="background:linear-gradient(135deg,#22d3ee,#34d399)">🇮🇳</span>
+      <div><div class="display font-bold text-lg leading-none">{{ site_name }}</div><div class="text-xs text-slate-400 mt-1 tracking-widest uppercase">Control centre</div></div>
     </div>
-    {% if error %}<p class="bg-red-50 text-red-700 text-sm rounded-lg px-3 py-2 mb-4">{{ error }}</p>{% endif %}
-    <label class="block text-sm font-medium text-slate-600 mb-1">Password</label>
+    {% if error %}<p class="bg-rose-500/15 border border-rose-500/30 text-rose-300 text-sm rounded-lg px-3 py-2 mb-4">{{ error }}</p>{% endif %}
+    <label class="block text-xs uppercase tracking-widest text-slate-400 mb-2">Password</label>
     <input type="password" name="password" autofocus required
-           class="w-full border rounded-lg p-2.5 mb-4 focus:ring-2 focus:ring-[#14315c]">
-    <button class="w-full bg-[#14315c] text-white font-semibold py-2.5 rounded-lg hover:bg-[#0e2444]">Log in</button>
-    <p class="text-xs text-slate-400 mt-4 text-center">Authorised access only.</p>
+           class="w-full bg-black/30 border border-white/15 rounded-xl p-3 mb-5 text-slate-100 outline-none focus:border-cyan-400/60">
+    <button class="w-full font-bold py-3 rounded-xl text-slate-900 transition hover:brightness-110"
+            style="background:linear-gradient(135deg,#22d3ee,#34d399)">Enter →</button>
+    <p class="text-xs text-slate-500 mt-5 text-center">Authorised access only</p>
   </form>
 </body>
 </html>

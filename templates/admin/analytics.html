@@ -3,21 +3,29 @@
 {% block heading %}Analytics{% endblock %}
 {% block head %}<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>{% endblock %}
 {% block content %}
-{% set card = 'bg-white rounded-xl shadow-sm border p-5' %}
-<p class="text-sm text-slate-500 mb-4">Privacy-safe aggregates — no personal data is stored. {{ stats.total_checks }} checks logged.</p>
+<p class="text-sm text-slate-400 mb-4">Privacy-safe aggregates — no personal data stored · <span class="text-cyan-300 font-semibold">{{ stats.total_checks }}</span> checks logged</p>
 <div class="grid lg:grid-cols-2 gap-4">
-  <div class="{{ card }}"><h2 class="font-bold text-slate-800 mb-3">Checks per day (14d)</h2><canvas id="perDay" height="140"></canvas></div>
-  <div class="{{ card }}"><h2 class="font-bold text-slate-800 mb-3">Checks by state</h2><canvas id="states" height="140"></canvas></div>
-  <div class="{{ card }}"><h2 class="font-bold text-slate-800 mb-3">Most-matched schemes</h2><canvas id="topSchemes" height="160"></canvas></div>
-  <div class="{{ card }}"><h2 class="font-bold text-slate-800 mb-3">Scheme catalogue by category</h2><canvas id="catalogue" height="160"></canvas></div>
+  <div class="glass p-5"><div class="display font-bold mb-3">Checks per day <span class="micro">14d</span></div><canvas id="perDay" height="150"></canvas></div>
+  <div class="glass p-5"><div class="display font-bold mb-3">Checks by state</div><canvas id="states" height="150"></canvas></div>
+  <div class="glass p-5"><div class="display font-bold mb-3">Most-matched schemes</div><canvas id="topSchemes" height="170"></canvas></div>
+  <div class="glass p-5"><div class="display font-bold mb-3">Catalogue by category</div><canvas id="catalogue" height="170"></canvas></div>
 </div>
+{% endblock %}
+{% block scripts %}
 <script>
   const C = {{ charts_json | safe }};
-  const NAVY='#14315c', GREEN='#0e7a3b';
-  const PAL=['#14315c','#0e7a3b','#ff9933','#2563eb','#db2777','#7c3aed','#0891b2','#ca8a04','#dc2626'];
-  new Chart(perDay,{type:'line',data:{labels:C.per_day.labels,datasets:[{label:'Checks',data:C.per_day.data,borderColor:GREEN,backgroundColor:'rgba(14,122,59,.1)',fill:true,tension:.3}]},options:{plugins:{legend:{display:false}}}});
-  new Chart(states,{type:'bar',data:{labels:C.states.labels,datasets:[{label:'Checks',data:C.states.data,backgroundColor:NAVY}]},options:{plugins:{legend:{display:false}}}});
-  new Chart(topSchemes,{type:'bar',data:{labels:C.top_schemes.labels,datasets:[{label:'Times matched',data:C.top_schemes.data,backgroundColor:GREEN}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}});
-  new Chart(catalogue,{type:'doughnut',data:{labels:C.catalogue.labels,datasets:[{data:C.catalogue.data,backgroundColor:PAL}]},options:{plugins:{legend:{position:'right'}}}});
+  Chart.defaults.color = '#94a3b8';
+  Chart.defaults.borderColor = 'rgba(255,255,255,.07)';
+  Chart.defaults.font.family = "Inter, system-ui, sans-serif";
+  const CYAN='#22d3ee', GREEN='#34d399', VIOLET='#a78bfa';
+  const PAL=['#22d3ee','#34d399','#a78bfa','#38bdf8','#f472b6','#fbbf24','#f87171','#2dd4bf','#c084fc'];
+  const gradient=(ctx,c1,c2)=>{const g=ctx.createLinearGradient(0,0,0,220);g.addColorStop(0,c1);g.addColorStop(1,c2);return g;};
+
+  new Chart(perDay,{type:'line',data:{labels:C.per_day.labels,datasets:[{label:'Checks',data:C.per_day.data,
+    borderColor:GREEN,backgroundColor:(x)=>gradient(x.chart.ctx,'rgba(52,211,153,.35)','rgba(52,211,153,0)'),
+    fill:true,tension:.35,pointRadius:0,borderWidth:2}]},options:{plugins:{legend:{display:false}},scales:{x:{grid:{display:false}}}}});
+  new Chart(states,{type:'bar',data:{labels:C.states.labels,datasets:[{data:C.states.data,backgroundColor:CYAN,borderRadius:6}]},options:{plugins:{legend:{display:false}},scales:{x:{grid:{display:false}}}}});
+  new Chart(topSchemes,{type:'bar',data:{labels:C.top_schemes.labels,datasets:[{data:C.top_schemes.data,backgroundColor:GREEN,borderRadius:6}]},options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{y:{grid:{display:false}}}}});
+  new Chart(catalogue,{type:'doughnut',data:{labels:C.catalogue.labels,datasets:[{data:C.catalogue.data,backgroundColor:PAL,borderColor:'#0b1220',borderWidth:2}]},options:{cutout:'62%',plugins:{legend:{position:'right',labels:{boxWidth:12,padding:10}}}}});
 </script>
 {% endblock %}
