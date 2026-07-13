@@ -87,6 +87,15 @@ def test_llms_txt():
     assert "/schemes/" in body
 
 
+def test_privacy_page():
+    r = client.get("/privacy")
+    assert r.status_code == 200
+    html = r.text
+    assert "Privacy Policy" in html
+    # states the key promises
+    assert "not" in html.lower() and "IP address" in html
+
+
 def test_every_scheme_has_reachable_page():
     """Acceptance: every scheme is reachable by a direct URL with 200."""
     from scheme_checker.schemes import load_schemes

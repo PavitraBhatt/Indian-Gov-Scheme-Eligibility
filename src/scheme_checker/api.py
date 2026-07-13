@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field
 from starlette.middleware.sessions import SessionMiddleware
 
 from .admin import router as admin_router
-from .analytics import log_check
+from .analytics import log_response
 from .core import UserProfile, benefit_totals, match_schemes, near_misses
 from .schemes import get_scheme_by_id, load_schemes
 from .web import router as web_router
@@ -83,8 +83,9 @@ async def check_eligibility(req: CheckRequest):
     schemes = load_schemes(states=[req.state])
     matched = match_schemes(profile, schemes)
     totals = benefit_totals(matched)
-    # privacy-safe aggregate logging for the admin dashboard (no personal data)
-    log_check(req.state, len(matched), totals["annual_cash"], [s["id"] for s in matched])
+    # Log the anonymised response for analytics — full answers under a random id,
+    # no name and no IP (see analytics.log_response).
+    log_response(req.model_dump(), len(matched), totals["annual_cash"], [s["id"] for s in matched])
     return {
         "count": len(matched),
         # honest, type-aware aggregates (the old single total_annual_benefit

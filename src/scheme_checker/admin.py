@@ -130,6 +130,12 @@ async def analytics_page(request: Request):
         "states": states,
         "top_schemes": top_schemes,
         "catalogue": catalogue,
+        # response dimensions (anonymised answers)
+        "gender": analytics.distribution("gender"),
+        "caste": analytics.distribution("caste"),
+        "occupation": analytics.distribution("occupation"),
+        "income": analytics.income_bands(),
+        "age": analytics.age_bands(),
     }
     return templates.TemplateResponse(
         request,

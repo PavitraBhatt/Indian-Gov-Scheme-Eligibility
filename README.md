@@ -93,7 +93,7 @@ docker run -p 8000:8000 scheme-checker
 A password-gated dashboard for the site owner (FastAPI + Jinja + Alpine.js + Chart.js):
 
 - **Overview** — scheme/category counts, total & today's checks, most-matched schemes, recent activity
-- **Analytics** — privacy-safe charts (checks/day, by state, most-matched schemes, catalogue by category). **No personal data is stored** — only aggregate rows (state + counts), logged to a separate `data/events.db`.
+- **Analytics** — charts of usage (checks/day, footfall by state on a **zoomable India map**, most-matched schemes) plus **who is using it** (anonymised caste/income/age/occupation/gender breakdowns). Each check logs the questionnaire answers under a **random ID — no name, no IP address** (see `/privacy`).
 - **Scheme manager** — search + add / edit / delete schemes via a form; writes to the JSON source and rebuilds SQLite live.
 
 Enable it by setting an env var (the dashboard is **disabled** until you do, so there's no default-password hole):
@@ -105,7 +105,15 @@ export SESSION_SECRET="any-long-random-string"   # optional; keeps you logged in
 
 Then visit `/admin`. On Render, set both in the service's **Environment** tab.
 
-> ⚠️ On an ephemeral host (Render free tier) logged analytics and dashboard edits reset on redeploy. For durable data, point `SCHEME_EVENTS_DB` / `SCHEME_DB_PATH` at a persistent disk or external DB. Scheme edits are best made in git (the source of truth) for production.
+### Durable analytics (Neon / Postgres)
+
+Analytics logging uses **SQLite by default** (`data/events.db`, zero-config) which resets on an ephemeral host. Set **`DATABASE_URL`** to a Postgres connection string (e.g. a free [Neon](https://neon.tech) database) and logs persist across redeploys automatically — the code detects `DATABASE_URL` and switches backend, no other change needed.
+
+```bash
+export DATABASE_URL="postgresql://user:pass@ep-xxx.neon.tech/dbname?sslmode=require"
+```
+
+> ⚠️ Dashboard **scheme edits** still write to the JSON source and reset on redeploy on an ephemeral host — make production scheme edits in git (the source of truth).
 
 ## Storage
 

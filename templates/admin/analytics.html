@@ -10,6 +10,15 @@
   <div class="glass p-5"><div class="display font-bold mb-3">Most-matched schemes</div><canvas id="topSchemes" height="170"></canvas></div>
   <div class="glass p-5"><div class="display font-bold mb-3">Catalogue by category</div><canvas id="catalogue" height="170"></canvas></div>
 </div>
+
+<h2 class="display font-bold text-lg mt-8 mb-3">Who is using SchemeSaathi <span class="micro">anonymised responses</span></h2>
+<div class="grid lg:grid-cols-3 sm:grid-cols-2 gap-4">
+  <div class="glass p-5"><div class="display font-bold mb-3">By caste category</div><canvas id="caste" height="180"></canvas></div>
+  <div class="glass p-5"><div class="display font-bold mb-3">By income band</div><canvas id="income" height="180"></canvas></div>
+  <div class="glass p-5"><div class="display font-bold mb-3">By age band</div><canvas id="age" height="180"></canvas></div>
+  <div class="glass p-5"><div class="display font-bold mb-3">By occupation</div><canvas id="occupation" height="180"></canvas></div>
+  <div class="glass p-5"><div class="display font-bold mb-3">By gender</div><canvas id="gender" height="180"></canvas></div>
+</div>
 {% endblock %}
 {% block scripts %}
 <script>
@@ -27,5 +36,13 @@
   new Chart(states,{type:'bar',data:{labels:C.states.labels,datasets:[{data:C.states.data,backgroundColor:CYAN,borderRadius:6}]},options:{plugins:{legend:{display:false}},scales:{x:{grid:{display:false}}}}});
   new Chart(topSchemes,{type:'bar',data:{labels:C.top_schemes.labels,datasets:[{data:C.top_schemes.data,backgroundColor:GREEN,borderRadius:6}]},options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{y:{grid:{display:false}}}}});
   new Chart(catalogue,{type:'doughnut',data:{labels:C.catalogue.labels,datasets:[{data:C.catalogue.data,backgroundColor:PAL,borderColor:'#0b1220',borderWidth:2}]},options:{cutout:'62%',plugins:{legend:{position:'right',labels:{boxWidth:12,padding:10}}}}});
+
+  const bar=(id,d,color)=>new Chart(document.getElementById(id),{type:'bar',data:{labels:d.labels,datasets:[{data:d.data,backgroundColor:color,borderRadius:6}]},options:{plugins:{legend:{display:false}},scales:{x:{grid:{display:false}}}}});
+  const doughnut=(id,d)=>new Chart(document.getElementById(id),{type:'doughnut',data:{labels:d.labels,datasets:[{data:d.data,backgroundColor:PAL,borderColor:'#0b1220',borderWidth:2}]},options:{cutout:'60%',plugins:{legend:{position:'right',labels:{boxWidth:12,padding:8}}}}});
+  doughnut('caste',C.caste);
+  bar('income',C.income,VIOLET);
+  bar('age',C.age,CYAN);
+  bar('occupation',C.occupation,GREEN);
+  doughnut('gender',C.gender);
 </script>
 {% endblock %}

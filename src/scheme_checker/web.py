@@ -286,6 +286,25 @@ async def scheme_page(request: Request, slug: str):
     )
 
 
+@router.get("/privacy", response_class=HTMLResponse)
+async def privacy(request: Request):
+    base = str(request.base_url).rstrip("/")
+    return templates.TemplateResponse(
+        request,
+        "privacy.html",
+        {
+            "request": request,
+            "site_name": SITE_NAME,
+            "base": base,
+            "page_title": f"Privacy Policy | {SITE_NAME}",
+            "meta_description": f"How {SITE_NAME} handles your information.",
+            "canonical": f"{base}/privacy",
+            "breadcrumbs": [("Home", base + "/"), ("Privacy", base + "/privacy")],
+            "jsonld_blocks": [_org_jsonld(base)],
+        },
+    )
+
+
 @router.get("/robots.txt", response_class=PlainTextResponse)
 async def robots(request: Request):
     base = str(request.base_url).rstrip("/")

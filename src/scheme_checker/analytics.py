@@ -1,20 +1,22 @@
-"""Privacy-safe usage analytics for the admin dashboard.
+"""Usage analytics store for the admin dashboard.
 
-Every eligibility check logs an aggregate row — state, how many schemes matched,
-the cash unlocked, and the matched scheme ids. It deliberately stores **no
-personal data** (no age, income, gender, caste, etc.).
+Persists one row per eligibility check for later analysis. It stores the full
+questionnaire answers (state, age, gender, caste, income, occupation, land,
+BPL, disability, widow) and the results — but under a random id, with **no
+name and no IP address**, so the data set stays useful for analysis without
+becoming a re-identifiable dossier on individuals.
 
-Events live in their own SQLite file, separate from schemes.db: build_db()
-deletes and rebuilds schemes.db from JSON, so co-locating events there would
-wipe them. Logging never raises — a failed insert must not break a user's check.
+Backend is chosen at runtime:
+- ``DATABASE_URL`` set  -> PostgreSQL (e.g. Neon) — durable, survives redeploys.
+- otherwise             -> local SQLite file (``SCHEME_EVENTS_DB``), zero-config.
 
-Note: on an ephemeral host (e.g. Render free tier) this file resets on redeploy;
-set SCHEME_EVENTS_DB to a persistent path/volume for durable analytics.
+Logging never raises — a failed write must not break a user's check.
 """
 
 import json
 import os
 import sqlite3
+import uuid
 from collections import Counter
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -23,37 +25,95 @@ from typing import Any
 _DATA_DIR = Path(__file__).parent.parent.parent / "data"
 EVENTS_DB = Path(os.environ.get("SCHEME_EVENTS_DB", _DATA_DIR / "events.db"))
 
+_schema_ready = False
 
-def _connect() -> sqlite3.Connection:
-    EVENTS_DB.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(EVENTS_DB)
-    conn.row_factory = sqlite3.Row
+
+def _database_url() -> str | None:
+    return os.environ.get("DATABASE_URL")
+
+
+def _open() -> tuple[Any, str]:
+    """Return (connection, placeholder). Placeholder is '%s' for PG, '?' for SQLite."""
+    if _database_url():
+        import psycopg  # imported only when Postgres is configured
+
+        conn = psycopg.connect(_database_url())
+        ph = "%s"
+    else:
+        EVENTS_DB.parent.mkdir(parents=True, exist_ok=True)
+        conn = sqlite3.connect(EVENTS_DB)
+        ph = "?"
+    _ensure_schema(conn, ph)
+    return conn, ph
+
+
+def _ensure_schema(conn: Any, ph: str) -> None:
+    global _schema_ready
+    if _schema_ready:
+        return
+    id_col = "SERIAL PRIMARY KEY" if ph == "%s" else "INTEGER PRIMARY KEY AUTOINCREMENT"
     conn.execute(
-        """
-        CREATE TABLE IF NOT EXISTS checks (
-            id            INTEGER PRIMARY KEY AUTOINCREMENT,
-            ts            TEXT NOT NULL,
-            state         TEXT,
-            matched_count INTEGER NOT NULL,
-            annual_cash   INTEGER NOT NULL,
-            scheme_ids    TEXT NOT NULL   -- JSON array
+        f"""
+        CREATE TABLE IF NOT EXISTS responses (
+            id             {id_col},
+            rid            TEXT NOT NULL,
+            ts             TEXT NOT NULL,
+            state          TEXT,
+            age            INTEGER,
+            gender         TEXT,
+            caste          TEXT,
+            annual_income  BIGINT,
+            occupation     TEXT,
+            land_acres     REAL,
+            has_bpl        INTEGER,
+            is_disabled    INTEGER,
+            is_widow       INTEGER,
+            matched_count  INTEGER NOT NULL,
+            annual_cash    BIGINT NOT NULL,
+            scheme_ids     TEXT NOT NULL
         )
         """
     )
-    return conn
+    conn.commit()
+    _schema_ready = True
 
 
-def log_check(state: str, matched_count: int, annual_cash: int, scheme_ids: list[str]) -> None:
-    """Record one eligibility check. Silently ignores any failure."""
+def _sql(query: str, ph: str) -> str:
+    return query.replace("?", "%s") if ph == "%s" else query
+
+
+def _q(conn: Any, ph: str, query: str, params: tuple = ()) -> list[tuple]:
+    return conn.execute(_sql(query, ph), params).fetchall()
+
+
+def log_response(
+    profile: dict[str, Any], matched_count: int, annual_cash: int, scheme_ids: list[str]
+) -> None:
+    """Record one check (anonymised full response). Silently ignores failures."""
     try:
-        conn = _connect()
+        conn, ph = _open()
         try:
             conn.execute(
-                "INSERT INTO checks (ts, state, matched_count, annual_cash, scheme_ids) "
-                "VALUES (?, ?, ?, ?, ?)",
+                _sql(
+                    "INSERT INTO responses (rid, ts, state, age, gender, caste, "
+                    "annual_income, occupation, land_acres, has_bpl, is_disabled, "
+                    "is_widow, matched_count, annual_cash, scheme_ids) "
+                    "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                    ph,
+                ),
                 (
+                    uuid.uuid4().hex,
                     datetime.now(timezone.utc).isoformat(timespec="seconds"),
-                    state,
+                    profile.get("state"),
+                    profile.get("age"),
+                    profile.get("gender"),
+                    profile.get("caste"),
+                    profile.get("annual_income"),
+                    profile.get("occupation"),
+                    profile.get("land_acres"),
+                    int(bool(profile.get("has_bpl_card"))),
+                    int(bool(profile.get("is_differently_abled"))),
+                    int(bool(profile.get("is_widow"))),
                     int(matched_count),
                     int(annual_cash),
                     json.dumps(scheme_ids),
@@ -66,44 +126,36 @@ def log_check(state: str, matched_count: int, annual_cash: int, scheme_ids: list
         pass
 
 
-def _all_rows() -> list[sqlite3.Row]:
-    conn = _connect()
-    try:
-        return conn.execute("SELECT * FROM checks").fetchall()
-    finally:
-        conn.close()
-
-
+# ── queries ────────────────────────────────────────────────
 def overview() -> dict[str, Any]:
-    conn = _connect()
+    conn, ph = _open()
     try:
-        total = conn.execute("SELECT COUNT(*) FROM checks").fetchone()[0]
+        total = _q(conn, ph, "SELECT COUNT(*) FROM responses")[0][0]
         today = datetime.now(timezone.utc).date().isoformat()
-        today_count = conn.execute(
-            "SELECT COUNT(*) FROM checks WHERE substr(ts,1,10)=?", (today,)
-        ).fetchone()[0]
-        avg_matched = conn.execute("SELECT AVG(matched_count) FROM checks").fetchone()[0] or 0
-        avg_cash = conn.execute("SELECT AVG(annual_cash) FROM checks").fetchone()[0] or 0
+        today_count = _q(
+            conn, ph, "SELECT COUNT(*) FROM responses WHERE substr(ts,1,10)=?", (today,)
+        )[0][0]
+        avg_matched = _q(conn, ph, "SELECT AVG(matched_count) FROM responses")[0][0] or 0
+        avg_cash = _q(conn, ph, "SELECT AVG(annual_cash) FROM responses")[0][0] or 0
     finally:
         conn.close()
     return {
         "total_checks": total,
         "checks_today": today_count,
-        "avg_matched": round(avg_matched, 1),
+        "avg_matched": round(float(avg_matched), 1),
         "avg_cash": int(avg_cash),
     }
 
 
 def checks_per_day(days: int = 14) -> dict[str, list]:
-    """Return {labels: [dates], data: [counts]} for the last `days` days."""
-    conn = _connect()
+    conn, ph = _open()
     try:
-        rows = conn.execute(
-            "SELECT substr(ts,1,10) d, COUNT(*) c FROM checks GROUP BY d"
-        ).fetchall()
+        rows = _q(
+            conn, ph, "SELECT substr(ts,1,10) d, COUNT(*) c FROM responses GROUP BY substr(ts,1,10)"
+        )
     finally:
         conn.close()
-    counts = {r["d"]: r["c"] for r in rows}
+    counts = {r[0]: r[1] for r in rows}
     today = datetime.now(timezone.utc).date()
     labels, data = [], []
     for i in range(days - 1, -1, -1):
@@ -114,48 +166,108 @@ def checks_per_day(days: int = 14) -> dict[str, list]:
 
 
 def top_states(limit: int = 8) -> dict[str, list]:
-    conn = _connect()
+    conn, ph = _open()
     try:
-        rows = conn.execute(
-            "SELECT COALESCE(state,'Unknown') s, COUNT(*) c FROM checks "
-            "GROUP BY s ORDER BY c DESC LIMIT ?",
+        rows = _q(
+            conn,
+            ph,
+            "SELECT COALESCE(state,'Unknown') s, COUNT(*) c FROM responses "
+            "GROUP BY state ORDER BY c DESC LIMIT ?",
             (limit,),
-        ).fetchall()
+        )
     finally:
         conn.close()
-    return {"labels": [r["s"] for r in rows], "data": [r["c"] for r in rows]}
+    return {"labels": [r[0] for r in rows], "data": [r[1] for r in rows]}
 
 
 def checks_by_state() -> dict[str, int]:
-    """All states with their check counts, for the choropleth footfall map."""
-    conn = _connect()
+    conn, ph = _open()
     try:
-        rows = conn.execute(
-            "SELECT state, COUNT(*) c FROM checks WHERE state IS NOT NULL GROUP BY state"
-        ).fetchall()
+        rows = _q(
+            conn,
+            ph,
+            "SELECT state, COUNT(*) c FROM responses WHERE state IS NOT NULL GROUP BY state",
+        )
     finally:
         conn.close()
-    return {r["state"]: r["c"] for r in rows}
+    return {r[0]: r[1] for r in rows}
+
+
+_DIM_COLUMNS = {"gender", "caste", "occupation", "state"}
+
+
+def distribution(field: str) -> dict[str, list]:
+    """Count of responses grouped by an answer column (whitelisted)."""
+    if field not in _DIM_COLUMNS:
+        return {"labels": [], "data": []}
+    conn, ph = _open()
+    try:
+        rows = _q(
+            conn,
+            ph,
+            f"SELECT COALESCE({field},'Unknown') k, COUNT(*) c FROM responses "
+            "GROUP BY k ORDER BY c DESC",
+        )
+    finally:
+        conn.close()
+    return {"labels": [str(r[0]).replace("_", " ") for r in rows], "data": [r[1] for r in rows]}
+
+
+def income_bands() -> dict[str, list]:
+    case = (
+        "CASE WHEN annual_income < 60000 THEN 'Below 60k' "
+        "WHEN annual_income < 250000 THEN '60k-2.5L' "
+        "WHEN annual_income < 800000 THEN '2.5L-8L' ELSE 'Above 8L' END"
+    )
+    conn, ph = _open()
+    try:
+        rows = _q(conn, ph, f"SELECT {case} b, COUNT(*) c FROM responses GROUP BY {case}")
+    finally:
+        conn.close()
+    order = ["Below 60k", "60k-2.5L", "2.5L-8L", "Above 8L"]
+    counts = {r[0]: r[1] for r in rows}
+    return {"labels": order, "data": [counts.get(b, 0) for b in order]}
+
+
+def age_bands() -> dict[str, list]:
+    case = (
+        "CASE WHEN age < 18 THEN 'Under 18' WHEN age < 30 THEN '18-29' "
+        "WHEN age < 45 THEN '30-44' WHEN age < 60 THEN '45-59' ELSE '60+' END"
+    )
+    conn, ph = _open()
+    try:
+        rows = _q(conn, ph, f"SELECT {case} b, COUNT(*) c FROM responses GROUP BY {case}")
+    finally:
+        conn.close()
+    order = ["Under 18", "18-29", "30-44", "45-59", "60+"]
+    counts = {r[0]: r[1] for r in rows}
+    return {"labels": order, "data": [counts.get(b, 0) for b in order]}
 
 
 def top_scheme_ids(limit: int = 10) -> list[tuple[str, int]]:
-    """Most-frequently-matched scheme ids across all checks."""
+    conn, ph = _open()
+    try:
+        rows = _q(conn, ph, "SELECT scheme_ids FROM responses")
+    finally:
+        conn.close()
     counter: Counter[str] = Counter()
-    for row in _all_rows():
+    for (raw,) in rows:
         try:
-            counter.update(json.loads(row["scheme_ids"]))
+            counter.update(json.loads(raw))
         except Exception:
             continue
     return counter.most_common(limit)
 
 
 def recent_checks(limit: int = 12) -> list[dict[str, Any]]:
-    conn = _connect()
+    conn, ph = _open()
     try:
-        rows = conn.execute(
-            "SELECT ts, state, matched_count, annual_cash FROM checks ORDER BY id DESC LIMIT ?",
+        rows = _q(
+            conn,
+            ph,
+            "SELECT ts, state, matched_count, annual_cash FROM responses ORDER BY id DESC LIMIT ?",
             (limit,),
-        ).fetchall()
+        )
     finally:
         conn.close()
-    return [dict(r) for r in rows]
+    return [{"ts": r[0], "state": r[1], "matched_count": r[2], "annual_cash": r[3]} for r in rows]

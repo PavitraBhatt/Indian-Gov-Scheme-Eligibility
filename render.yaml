@@ -21,6 +21,10 @@ services:
         sync: false
       - key: SESSION_SECRET
         sync: false
+      # Neon (or any Postgres) connection string for durable analytics/logs.
+      # Without it, logs use a local SQLite file that resets on free-tier redeploy.
+      - key: DATABASE_URL
+        sync: false
       # --- optional knobs: uncomment to use ---
       # Allow specific front-end origins to call the API (comma-separated):
       # - key: SCHEME_CORS_ORIGINS
