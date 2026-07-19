@@ -1,10 +1,15 @@
 """Usage analytics store for the admin dashboard.
 
-Persists one row per eligibility check for later analysis. It stores the full
-questionnaire answers (state, age, gender, caste, income, occupation, land,
-BPL, disability, widow) and the results — but under a random id, with **no
-name and no IP address**, so the data set stays useful for analysis without
-becoming a re-identifiable dossier on individuals.
+Two tables:
+
+- ``responses`` — one row per *completed* eligibility check: the full
+  questionnaire answers (state, age, gender, caste, income, occupation, land,
+  BPL, disability, widow), the results, plus the visitor's IP and session id.
+- ``events`` — the visit funnel: one row per stage a visitor reaches
+  (``visit`` → ``start`` → ``abandon`` / ``complete``), each with IP,
+  user-agent and the furthest question step. This captures people who only
+  landed on the page or dropped out mid-questionnaire, not just those who
+  finished — see :func:`funnel` and :func:`recent_visitors`.
 
 Backend is chosen at runtime:
 - ``DATABASE_URL`` set  -> PostgreSQL (e.g. Neon) — durable, survives redeploys.
@@ -70,11 +75,34 @@ def _ensure_schema(conn: Any, ph: str) -> None:
             is_widow       INTEGER,
             matched_count  INTEGER NOT NULL,
             annual_cash    BIGINT NOT NULL,
-            scheme_ids     TEXT NOT NULL
+            scheme_ids     TEXT NOT NULL,
+            ip             TEXT,
+            vid            TEXT
+        )
+        """
+    )
+    conn.execute(
+        f"""
+        CREATE TABLE IF NOT EXISTS events (
+            id          {id_col},
+            vid         TEXT,
+            ts          TEXT NOT NULL,
+            stage       TEXT NOT NULL,
+            last_step   INTEGER,
+            ip          TEXT,
+            user_agent  TEXT,
+            path        TEXT
         )
         """
     )
     conn.commit()
+    # Best-effort migration for databases created before ip/vid existed.
+    for col in ("ip TEXT", "vid TEXT"):
+        try:
+            conn.execute(f"ALTER TABLE responses ADD COLUMN {col}")
+            conn.commit()
+        except Exception:
+            conn.rollback()
     _schema_ready = True
 
 
@@ -87,9 +115,14 @@ def _q(conn: Any, ph: str, query: str, params: tuple = ()) -> list[tuple]:
 
 
 def log_response(
-    profile: dict[str, Any], matched_count: int, annual_cash: int, scheme_ids: list[str]
+    profile: dict[str, Any],
+    matched_count: int,
+    annual_cash: int,
+    scheme_ids: list[str],
+    ip: str | None = None,
+    vid: str | None = None,
 ) -> None:
-    """Record one check (anonymised full response). Silently ignores failures."""
+    """Record one completed check (answers + results + IP). Ignores failures."""
     try:
         conn, ph = _open()
         try:
@@ -97,8 +130,8 @@ def log_response(
                 _sql(
                     "INSERT INTO responses (rid, ts, state, age, gender, caste, "
                     "annual_income, occupation, land_acres, has_bpl, is_disabled, "
-                    "is_widow, matched_count, annual_cash, scheme_ids) "
-                    "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                    "is_widow, matched_count, annual_cash, scheme_ids, ip, vid) "
+                    "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                     ph,
                 ),
                 (
@@ -117,6 +150,49 @@ def log_response(
                     int(matched_count),
                     int(annual_cash),
                     json.dumps(scheme_ids),
+                    ip,
+                    vid,
+                ),
+            )
+            conn.commit()
+        finally:
+            conn.close()
+    except Exception:
+        pass
+
+
+# Valid funnel stages, in reach order. Anything else is ignored.
+_STAGE_RANK = {"visit": 1, "start": 2, "abandon": 3, "complete": 4}
+
+
+def log_event(
+    vid: str | None,
+    stage: str,
+    ip: str | None = None,
+    user_agent: str | None = None,
+    last_step: int | None = None,
+    path: str | None = None,
+) -> None:
+    """Record one funnel event (visit/start/abandon/complete). Ignores failures."""
+    if stage not in _STAGE_RANK:
+        return
+    try:
+        conn, ph = _open()
+        try:
+            conn.execute(
+                _sql(
+                    "INSERT INTO events (vid, ts, stage, last_step, ip, user_agent, path) "
+                    "VALUES (?,?,?,?,?,?,?)",
+                    ph,
+                ),
+                (
+                    (vid or "")[:64] or None,
+                    datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                    stage,
+                    int(last_step) if last_step is not None else None,
+                    ip,
+                    (user_agent or "")[:400] or None,
+                    (path or "")[:200] or None,
                 ),
             )
             conn.commit()
@@ -265,9 +341,90 @@ def recent_checks(limit: int = 12) -> list[dict[str, Any]]:
         rows = _q(
             conn,
             ph,
-            "SELECT ts, state, matched_count, annual_cash FROM responses ORDER BY id DESC LIMIT ?",
+            "SELECT ts, state, matched_count, annual_cash, ip "
+            "FROM responses ORDER BY id DESC LIMIT ?",
             (limit,),
         )
     finally:
         conn.close()
-    return [{"ts": r[0], "state": r[1], "matched_count": r[2], "annual_cash": r[3]} for r in rows]
+    return [
+        {"ts": r[0], "state": r[1], "matched_count": r[2], "annual_cash": r[3], "ip": r[4]}
+        for r in rows
+    ]
+
+
+# ── visitor funnel ─────────────────────────────────────────
+def funnel() -> dict[str, int]:
+    """Counts across the visit funnel, by distinct visitor session (vid).
+
+    - visited:   landed on the page
+    - started:   began the questionnaire
+    - completed: finished a check
+    - abandoned: started but never finished
+    - bounced:   visited but never started
+    """
+    conn, ph = _open()
+    try:
+        visited = _q(conn, ph, "SELECT COUNT(DISTINCT vid) FROM events")[0][0] or 0
+        started = _q(
+            conn,
+            ph,
+            "SELECT COUNT(DISTINCT vid) FROM events WHERE stage IN ('start','abandon','complete')",
+        )[0][0] or 0
+        completed = _q(
+            conn, ph, "SELECT COUNT(DISTINCT vid) FROM events WHERE stage='complete'"
+        )[0][0] or 0
+        today = datetime.now(timezone.utc).date().isoformat()
+        visitors_today = _q(
+            conn,
+            ph,
+            "SELECT COUNT(DISTINCT vid) FROM events WHERE substr(ts,1,10)=?",
+            (today,),
+        )[0][0] or 0
+    finally:
+        conn.close()
+    return {
+        "visited": visited,
+        "started": started,
+        "completed": completed,
+        "abandoned": max(started - completed, 0),
+        "bounced": max(visited - started, 0),
+        "visitors_today": visitors_today,
+    }
+
+
+_STAGE_LABEL = {4: "Completed", 3: "Abandoned", 2: "Abandoned", 1: "Only visited"}
+
+
+def recent_visitors(limit: int = 100) -> list[dict[str, Any]]:
+    """One row per visitor session: IP, user-agent, furthest stage/step, times."""
+    rank_case = (
+        "CASE stage WHEN 'complete' THEN 4 WHEN 'abandon' THEN 3 "
+        "WHEN 'start' THEN 2 ELSE 1 END"
+    )
+    conn, ph = _open()
+    try:
+        rows = _q(
+            conn,
+            ph,
+            f"SELECT vid, MIN(ts), MAX(ts), MAX(ip), MAX(user_agent), "
+            f"MAX(last_step), MAX({rank_case}) "
+            "FROM events GROUP BY vid ORDER BY MIN(ts) DESC LIMIT ?",
+            (limit,),
+        )
+    finally:
+        conn.close()
+    out = []
+    for vid, first_ts, last_ts, ip, ua, last_step, rank in rows:
+        out.append(
+            {
+                "vid": vid,
+                "first_ts": first_ts,
+                "last_ts": last_ts,
+                "ip": ip or "—",
+                "user_agent": ua or "—",
+                "last_step": last_step,
+                "stage": _STAGE_LABEL.get(rank, "Only visited"),
+            }
+        )
+    return out

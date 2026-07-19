@@ -51,18 +51,56 @@ def test_logs_full_anonymised_answer(fresh_db):
     assert a.top_scheme_ids(5)  # matched ids counted
 
 
-def test_stores_no_name_or_ip(fresh_db):
-    """The schema must not contain name/ip columns — anonymised by design."""
+def test_stores_ip_but_no_name(fresh_db):
+    """Responses capture the visitor's IP (for the admin) but never a name."""
     import sqlite3
 
     a = fresh_db
-    a.log_response(PROFILE, 1, 100, ["x"])
+    a.log_response(PROFILE, 1, 100, ["x"], ip="203.0.113.7", vid="sess1")
     conn = sqlite3.connect(a.EVENTS_DB)
     cols = {r[1] for r in conn.execute("PRAGMA table_info(responses)").fetchall()}
+    stored_ip = conn.execute("SELECT ip FROM responses").fetchone()[0]
     conn.close()
     assert "name" not in cols
-    assert "ip" not in cols and "ip_address" not in cols
+    assert "ip" in cols
+    assert stored_ip == "203.0.113.7"
     assert {"state", "age", "caste", "annual_income", "rid"} <= cols
+
+
+def test_funnel_and_recent_visitors(fresh_db):
+    """Funnel counts people who only visit, who abandon, and who complete."""
+    a = fresh_db
+    # visitor A: only visits
+    a.log_event("A", "visit", ip="10.0.0.1")
+    # visitor B: starts then abandons at step 4
+    a.log_event("B", "visit", ip="10.0.0.2")
+    a.log_event("B", "start", ip="10.0.0.2", last_step=1)
+    a.log_event("B", "abandon", ip="10.0.0.2", last_step=4)
+    # visitor C: completes
+    a.log_event("C", "visit", ip="10.0.0.3")
+    a.log_event("C", "start", ip="10.0.0.3", last_step=1)
+    a.log_event("C", "complete", ip="10.0.0.3", last_step=10)
+
+    f = a.funnel()
+    assert f["visited"] == 3
+    assert f["started"] == 2
+    assert f["completed"] == 1
+    assert f["abandoned"] == 1  # started - completed
+    assert f["bounced"] == 1  # visited - started
+
+    visitors = a.recent_visitors(10)
+    by_vid = {v["vid"]: v for v in visitors}
+    assert by_vid["A"]["stage"] == "Only visited"
+    assert by_vid["B"]["stage"] == "Abandoned"
+    assert by_vid["B"]["last_step"] == 4
+    assert by_vid["C"]["stage"] == "Completed"
+    assert by_vid["C"]["ip"] == "10.0.0.3"
+
+
+def test_invalid_stage_ignored(fresh_db):
+    a = fresh_db
+    a.log_event("Z", "hovered", ip="10.0.0.9")  # not a real stage
+    assert a.funnel()["visited"] == 0
 
 
 def test_logging_never_raises(fresh_db, monkeypatch):
