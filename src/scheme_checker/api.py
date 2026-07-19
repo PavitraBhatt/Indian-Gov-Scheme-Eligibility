@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field
 from starlette.middleware.sessions import SessionMiddleware
 
 from .admin import router as admin_router
-from .analytics import log_response
+from .analytics import log_event, log_response
 from .core import UserProfile, benefit_totals, match_schemes, near_misses
 from .schemes import get_scheme_by_id, load_schemes
 from .web import router as web_router
@@ -50,6 +50,30 @@ if _STATIC_DIR.exists():
     app.mount("/static", StaticFiles(directory=str(_STATIC_DIR)), name="static")
 
 
+def client_ip(request: Request) -> str | None:
+    """Best-effort real client IP.
+
+    On Render/Vercel/most PaaS the app sits behind a proxy, so the socket peer
+    is the proxy — the true client is the first hop in ``X-Forwarded-For``.
+    Falls back to the direct socket address for local/dev runs.
+    """
+    xff = request.headers.get("x-forwarded-for")
+    if xff:
+        return xff.split(",")[0].strip()[:64] or None
+    real = request.headers.get("x-real-ip")
+    if real:
+        return real.strip()[:64] or None
+    return request.client.host if request.client else None
+
+
+class VisitEvent(BaseModel):
+    """A funnel event fired by the frontend as the visitor moves through the flow."""
+
+    vid: str = Field(min_length=1, max_length=64)
+    stage: str = Field(min_length=1, max_length=20)  # visit | start | abandon | complete
+    last_step: int | None = Field(default=None, ge=0, le=20)
+
+
 class CheckRequest(BaseModel):
     """Validated applicant profile. Bad inputs (negative age, etc.) get a 422."""
 
@@ -77,15 +101,40 @@ async def serve_frontend(request: Request):
     return HTMLResponse(html)
 
 
+@app.post("/api/event")
+async def track_event(evt: VisitEvent, request: Request):
+    """Record a visit-funnel event (visited / started / abandoned)."""
+    log_event(
+        vid=evt.vid,
+        stage=evt.stage,
+        ip=client_ip(request),
+        user_agent=request.headers.get("user-agent"),
+        last_step=evt.last_step,
+        path=request.headers.get("referer"),
+    )
+    return {"ok": True}
+
+
 @app.post("/api/check", response_model=dict[str, Any])
-async def check_eligibility(req: CheckRequest):
+async def check_eligibility(req: CheckRequest, request: Request):
     profile = UserProfile.from_dict(req.model_dump())
     schemes = load_schemes(states=[req.state])
     matched = match_schemes(profile, schemes)
     totals = benefit_totals(matched)
-    # Log the anonymised response for analytics — full answers under a random id,
-    # no name and no IP (see analytics.log_response).
-    log_response(req.model_dump(), len(matched), totals["annual_cash"], [s["id"] for s in matched])
+    ip = client_ip(request)
+    vid = request.headers.get("x-visitor-id")
+    # Record the completed check (answers + results + IP) and close the funnel
+    # with a server-authoritative 'complete' event for this session.
+    log_response(
+        req.model_dump(), len(matched), totals["annual_cash"], [s["id"] for s in matched], ip, vid
+    )
+    log_event(
+        vid=vid,
+        stage="complete",
+        ip=ip,
+        user_agent=request.headers.get("user-agent"),
+        last_step=10,
+    )
     return {
         "count": len(matched),
         # honest, type-aware aggregates (the old single total_annual_benefit
