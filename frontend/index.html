@@ -531,6 +531,37 @@ const TOTAL_STEPS = 10;
 let lastResult = null;     // {count, annual_cash_benefit, one_time_benefit, loan_access, insurance_cover, schemes, almost}
 let lastState = '';        // user's selected state, for the share card
 
+// ─── Visit funnel tracking ────────────────────────────────
+// A per-session id lets the admin see who only visited, who started the
+// questionnaire, and who dropped out mid-way (not just completed checks).
+const VISITOR_ID = (function(){
+  try {
+    let v = sessionStorage.getItem('vid');
+    if(!v){ v = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())+Math.random()).replace(/-/g,'').slice(0,32);
+            sessionStorage.setItem('vid', v); }
+    return v;
+  } catch(e){ return String(Date.now()); }
+})();
+let hasStarted = false;    // began the questionnaire
+let hasCompleted = false;  // finished a check (suppresses the "abandon" beacon)
+
+function trackEvent(stage, useBeacon){
+  const body = JSON.stringify({vid: VISITOR_ID, stage, last_step: currentStep});
+  try {
+    if(useBeacon && navigator.sendBeacon){
+      navigator.sendBeacon('/api/event', new Blob([body], {type:'application/json'}));
+    } else {
+      fetch('/api/event', {method:'POST', headers:{'Content-Type':'application/json'}, body, keepalive:true});
+    }
+  } catch(e){ /* tracking must never break the page */ }
+}
+
+addEventListener('DOMContentLoaded', () => trackEvent('visit'));
+// Fire once when the visitor leaves after starting but before finishing.
+['pagehide','beforeunload'].forEach(ev => addEventListener(ev, () => {
+  if(hasStarted && !hasCompleted) trackEvent('abandon', true);
+}));
+
 function setLang(l, btn) {
   lang = l;
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
@@ -594,6 +625,7 @@ function showStep(n) {
 
 function nextStep() {
   if(!validateStep(currentStep)) return;
+  if(!hasStarted){ hasStarted = true; trackEvent('start'); }  // began the questionnaire
   if(currentStep < TOTAL_STEPS){ currentStep++; showStep(currentStep); }
 }
 function prevStep() {
@@ -660,9 +692,12 @@ async function submitForm() {
 
   try {
     const res = await fetch('/api/check', {
-      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)
+      method:'POST',
+      headers:{'Content-Type':'application/json', 'X-Visitor-Id': VISITOR_ID},
+      body:JSON.stringify(payload)
     });
     const data = await res.json();
+    hasCompleted = true;  // server logs the 'complete' event; suppress the abandon beacon
     renderResults(data);
   } catch(e) {
     alert('Error connecting to server. Make sure the FastAPI server is running.');
