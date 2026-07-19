@@ -15,6 +15,7 @@ htmlcov/
 
 # Claude / local config
 .claude/settings.local.json
+local.agent.md
 
 # Dev artifacts (not for the repo)
 blueprint_text.txt
