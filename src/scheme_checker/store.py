@@ -78,8 +78,19 @@ def save_scheme(scheme: dict[str, Any], original_id: str | None = None) -> dict[
     data = _load(target)
     data = [s for s in data if s["id"] != sid]
     data.append(scheme)
-    _write(target, data)
-    build_db(DB_PATH, force=True)
+    try:
+        _write(target, data)
+        build_db(DB_PATH, force=True)
+    except OSError:
+        # Read-only filesystem (e.g. Vercel) — scheme data can't be edited live.
+        return {
+            "ok": False,
+            "errors": [
+                "This host has a read-only filesystem, so scheme edits can't be "
+                "saved here. Edit the JSON in the git repo (the source of truth) "
+                "and redeploy."
+            ],
+        }
     return {"ok": True, "errors": []}
 
 
