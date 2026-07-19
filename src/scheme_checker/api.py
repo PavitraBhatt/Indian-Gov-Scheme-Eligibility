@@ -98,6 +98,14 @@ async def serve_frontend(request: Request):
     # regardless of the deploy host.
     base = str(request.base_url).rstrip("/")
     html = index.read_text(encoding="utf-8").replace("__SITE_URL__", base + "/")
+    # Search Console / Bing verification: set GSC_VERIFICATION (Google) and/or
+    # BING_VERIFICATION to the token from the provider's HTML-tag method.
+    verify_tags = ""
+    if gsc := os.environ.get("GSC_VERIFICATION"):
+        verify_tags += f'<meta name="google-site-verification" content="{gsc}"/>'
+    if bing := os.environ.get("BING_VERIFICATION"):
+        verify_tags += f'<meta name="msvalidate.01" content="{bing}"/>'
+    html = html.replace("__SEO_VERIFICATION__", verify_tags)
     return HTMLResponse(html)
 
 
