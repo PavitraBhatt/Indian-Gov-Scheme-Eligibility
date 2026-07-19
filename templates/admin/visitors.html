@@ -1,0 +1,84 @@
+{% extends "admin/base.html" %}
+{% block title %}Visitors{% endblock %}
+{% block heading %}Visitors & Funnel{% endblock %}
+{% block content %}
+
+<!-- Funnel KPI row -->
+<div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+  <div class="glass glass-hover p-5">
+    <div class="micro">Visited</div>
+    <div class="display text-4xl font-extrabold grad-cyan mt-2" data-count="{{ funnel.visited }}">0</div>
+    <div class="text-xs text-slate-400 mt-1">{{ funnel.visitors_today }} today</div>
+  </div>
+  <div class="glass glass-hover p-5">
+    <div class="micro">Started Q&amp;A</div>
+    <div class="display text-4xl font-extrabold grad-violet mt-2" data-count="{{ funnel.started }}">0</div>
+    <div class="text-xs text-slate-400 mt-1">began the questionnaire</div>
+  </div>
+  <div class="glass glass-hover p-5">
+    <div class="micro">Completed</div>
+    <div class="display text-4xl font-extrabold grad-cyan mt-2" data-count="{{ funnel.completed }}">0</div>
+    <div class="text-xs text-slate-400 mt-1">finished a check</div>
+  </div>
+  <div class="glass glass-hover p-5">
+    <div class="micro">Abandoned</div>
+    <div class="display text-4xl font-extrabold mt-2" style="color:#fbbf24" data-count="{{ funnel.abandoned }}">0</div>
+    <div class="text-xs text-slate-400 mt-1">started, never finished</div>
+  </div>
+  <div class="glass glass-hover p-5">
+    <div class="micro">Bounced</div>
+    <div class="display text-4xl font-extrabold mt-2" style="color:#f87171" data-count="{{ funnel.bounced }}">0</div>
+    <div class="text-xs text-slate-400 mt-1">visited, never started</div>
+  </div>
+</div>
+
+<!-- Visitor log -->
+<div class="glass p-5">
+  <div class="flex items-center justify-between mb-4">
+    <div>
+      <div class="display font-bold text-lg">Visitor log</div>
+      <div class="micro mt-1">Every session · including those who never started or dropped out</div>
+    </div>
+    <div class="text-xs text-slate-400">{{ visitors|length }} sessions</div>
+  </div>
+
+  {% if visitors %}
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="text-left micro border-b border-white/10">
+          <th class="py-2 pr-4">When (UTC)</th>
+          <th class="py-2 pr-4">IP address</th>
+          <th class="py-2 pr-4">Status</th>
+          <th class="py-2 pr-4">Reached</th>
+          <th class="py-2 pr-4">Device / browser</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in visitors %}
+        <tr class="border-b border-white/5 hover:bg-white/5">
+          <td class="py-2 pr-4 text-slate-400 whitespace-nowrap">{{ v.first_ts[:10] }} <span class="text-slate-500">{{ v.first_ts[11:16] }}</span></td>
+          <td class="py-2 pr-4 font-mono text-cyan-300 whitespace-nowrap">{{ v.ip }}</td>
+          <td class="py-2 pr-4">
+            {% if v.stage == 'Completed' %}
+              <span class="px-2 py-0.5 rounded-full text-xs font-semibold" style="background:rgba(52,211,153,.15);color:#34d399">✓ Completed</span>
+            {% elif v.stage == 'Abandoned' %}
+              <span class="px-2 py-0.5 rounded-full text-xs font-semibold" style="background:rgba(251,191,36,.15);color:#fbbf24">⤺ Abandoned</span>
+            {% else %}
+              <span class="px-2 py-0.5 rounded-full text-xs font-semibold" style="background:rgba(248,113,113,.15);color:#f87171">◔ Only visited</span>
+            {% endif %}
+          </td>
+          <td class="py-2 pr-4 text-slate-400 whitespace-nowrap">
+            {% if v.last_step %}Step {{ v.last_step }}/10{% else %}—{% endif %}
+          </td>
+          <td class="py-2 pr-4 text-slate-500 truncate" style="max-width:22rem" title="{{ v.user_agent }}">{{ v.user_agent }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="text-sm text-slate-500 py-6 text-center">No visitor data yet. It appears here as soon as people open the site.</p>
+  {% endif %}
+</div>
+{% endblock %}

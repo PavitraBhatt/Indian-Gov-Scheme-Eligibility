@@ -144,6 +144,23 @@ async def analytics_page(request: Request):
     )
 
 
+# ── visitors ───────────────────────────────────────────────
+@router.get("/visitors", response_class=HTMLResponse)
+async def visitors_page(request: Request):
+    if not _is_admin(request):
+        return RedirectResponse("/admin/login", status_code=303)
+    return templates.TemplateResponse(
+        request,
+        "admin/visitors.html",
+        _ctx(
+            request,
+            nav="visitors",
+            funnel=analytics.funnel(),
+            visitors=analytics.recent_visitors(200),
+        ),
+    )
+
+
 # ── scheme manager ─────────────────────────────────────────
 @router.get("/schemes", response_class=HTMLResponse)
 async def schemes_admin(request: Request):
