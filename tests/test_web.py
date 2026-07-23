@@ -42,6 +42,34 @@ def test_scheme_page_jsonld_is_valid():
     assert {"Organization", "GovernmentService", "BreadcrumbList"} <= types
 
 
+def test_scheme_page_has_faq_and_faqpage_schema():
+    """Per-scheme FAQ: visible Q&A plus matching FAQPage structured data."""
+    html = client.get("/schemes/pm-kisan").text
+    # visible FAQ block
+    assert "Frequently asked questions" in html
+    assert "Who is eligible for" in html
+    # FAQPage JSON-LD present and valid, with at least one question
+    blocks = re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
+    faq = next((json.loads(b) for b in blocks if json.loads(b).get("@type") == "FAQPage"), None)
+    assert faq is not None, "no FAQPage JSON-LD"
+    assert len(faq["mainEntity"]) >= 3
+    assert faq["mainEntity"][0]["acceptedAnswer"]["text"]
+
+
+def test_scheme_service_schema_has_datemodified():
+    html = client.get("/schemes/pm-kisan").text
+    blocks = re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
+    svc = next(json.loads(b) for b in blocks if json.loads(b).get("@type") == "GovernmentService")
+    # valid ISO date, not a bare year
+    assert re.match(r"^\d{4}-\d{2}-\d{2}$", svc["dateModified"])
+
+
+def test_sitemap_every_url_has_lastmod():
+    body = client.get("/sitemap.xml").text
+    # scheme URLs must carry a lastmod for crawl prioritisation
+    assert "<lastmod>" in body
+
+
 def test_slug_uses_hyphens_not_underscores():
     # canonical URL must be the hyphen form
     html = client.get("/schemes/pm-kisan").text
