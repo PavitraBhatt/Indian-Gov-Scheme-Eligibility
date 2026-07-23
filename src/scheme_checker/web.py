@@ -99,6 +99,79 @@ def last_verified(s: dict) -> str:
     return s.get("last_verified") or "2026"
 
 
+def iso_date(s: dict) -> str:
+    """A schema.org-valid ISO date for dateModified/datePublished.
+
+    Data currently carries only a year (or nothing); normalise a bare year to
+    Jan 1 so the value is valid ISO 8601 rather than a stray ``"2026"``.
+    """
+    v = str(last_verified(s))
+    return f"{v}-01-01" if v.isdigit() and len(v) == 4 else v
+
+
+def scheme_faqs(s: dict) -> list[tuple[str, str]]:
+    """Human FAQ (question, answer) pairs built from a scheme's own data.
+
+    These target the exact long-tail queries people search — "who is eligible
+    for X", "what documents for X", "how to apply for X" — and feed both the
+    on-page FAQ and the FAQPage structured data (rich results + AI citations).
+    """
+    name = s["name_en"]
+    faqs: list[tuple[str, str]] = []
+
+    faqs.append((f"Who is eligible for {name}?", "; ".join(eligibility_prose(s)) + "."))
+
+    if s.get("benefit_en"):
+        faqs.append((f"What is the benefit of {name}?", s["benefit_en"] + "."))
+
+    if s.get("documents"):
+        faqs.append(
+            (
+                f"What documents are required for {name}?",
+                "You typically need: " + ", ".join(s["documents"]) + ".",
+            )
+        )
+
+    steps = s.get("steps_en") or []
+    if steps:
+        apply = " ".join(f"{i}. {step}" for i, step in enumerate(steps, 1))
+        if s.get("apply_link"):
+            apply += f" Apply on the official portal: {s['apply_link']}."
+        faqs.append((f"How do I apply for {name}?", apply))
+
+    if s.get("processing_days"):
+        faqs.append(
+            (
+                f"How long does {name} take to process?",
+                f"Applications are typically processed in about {s['processing_days']}.",
+            )
+        )
+
+    faqs.append(
+        (
+            f"Is {name} free to apply for?",
+            "Yes. It is completely free to apply. Never pay an agent or middleman — "
+            "if anyone asks for money, report it by calling 1930.",
+        )
+    )
+    return faqs
+
+
+def _faq_jsonld(faqs: list[tuple[str, str]]) -> dict:
+    return {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": q,
+                "acceptedAnswer": {"@type": "Answer", "text": a},
+            }
+            for q, a in faqs
+        ],
+    }
+
+
 def _org_jsonld(base: str) -> dict:
     return {
         "@context": "https://schema.org",
@@ -249,6 +322,7 @@ async def scheme_page(request: Request, slug: str):
         "areaServed": {"@type": "Country", "name": "India"},
         "audience": {"@type": "Audience", "audienceType": "; ".join(eligibility_prose(s))},
         "url": canonical,
+        "dateModified": iso_date(s),
     }
     breadcrumb_ld = {
         "@context": "https://schema.org",
@@ -259,6 +333,8 @@ async def scheme_page(request: Request, slug: str):
             {"@type": "ListItem", "position": 3, "name": s["name_en"], "item": canonical},
         ],
     }
+
+    faqs = scheme_faqs(s)
 
     return templates.TemplateResponse(
         request,
@@ -276,12 +352,13 @@ async def scheme_page(request: Request, slug: str):
             "summary": summary,
             "eligibility": eligibility_prose(s),
             "last_verified": last_verified(s),
+            "faqs": faqs,
             "breadcrumbs": [
                 ("Home", base + "/"),
                 ("Schemes", base + "/schemes/"),
                 (s["name_en"], canonical),
             ],
-            "jsonld_blocks": [_org_jsonld(base), service_ld, breadcrumb_ld],
+            "jsonld_blocks": [_org_jsonld(base), service_ld, breadcrumb_ld, _faq_jsonld(faqs)],
         },
     )
 
@@ -329,7 +406,7 @@ async def sitemap(request: Request):
     for st in STATES:
         urls.append((f"{base}/schemes/state/{st.lower().replace(' ', '-')}", None))
     for s in _all_schemes():
-        urls.append((f"{base}/schemes/{slug_for(s['id'])}", s.get("last_verified")))
+        urls.append((f"{base}/schemes/{slug_for(s['id'])}", iso_date(s)))
 
     parts = [
         '<?xml version="1.0" encoding="UTF-8"?>',
