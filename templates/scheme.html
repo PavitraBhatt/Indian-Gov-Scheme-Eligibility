@@ -42,6 +42,18 @@
 <p class="scam">{{ scheme.scam_note }}</p>
 {% endif %}
 
+{% if faqs %}
+<h2>Frequently asked questions</h2>
+<div class="card">
+  {% for q, a in faqs %}
+  <details{% if loop.first %} open{% endif %} style="padding:8px 0;border-bottom:1px solid var(--line)">
+    <summary style="font-weight:600;color:var(--navy);cursor:pointer">{{ q }}</summary>
+    <p style="margin:.5em 0 0">{{ a }}</p>
+  </details>
+  {% endfor %}
+</div>
+{% endif %}
+
 <h2>Not sure if you qualify?</h2>
 <p>Answer 10 quick questions and {{ site_name }} will tell you every scheme you are eligible for — free, in English, Hindi or Gujarati.</p>
 <a class="cta" href="{{ base }}/#check">Check my eligibility →</a>
